@@ -1,3 +1,6 @@
+// -----------------------------------
+// Vertically aligned shapes
+// -----------------------------------
 
 function setup() {
   // createCanvas(55, 91, SVG);
