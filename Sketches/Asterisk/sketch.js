@@ -1,3 +1,8 @@
+// -----------------------------------
+// lines artound a center point
+// -----------------------------------
+
+
 // Basics
 function setup() {
   createCanvas(1000, 1000, SVG);
@@ -39,6 +44,8 @@ function randomLines() {
   let angleDivergence = random(1, 12); // make the angle diverge more
   let noiseOffset = 0;
 
+  let colors = ['red', 'green', 'blue']; // Define the colors for the lines
+
   for (let i = 0; i < 3; i++) {
     let noiseValue = noise(noiseOffset);
     let x1 = cx - length * cos(angle) + noiseValue * 10;
@@ -51,6 +58,8 @@ function randomLines() {
     let cp1y = y1 + random(-60, 60);
     let cp2x = x2 + random(-80, 20);
     let cp2y = y2 + random(-80, 20);
+
+    stroke(colors[i]); // Set the color for the current line
 
     // Draw the bezier curve
     bezier(x1, y1, cp1x, cp1y, cp2x, cp2y, x2, y2);
@@ -67,10 +76,7 @@ function mousePressed(){
   print("saved svg");
 }
 
-// Puts it all together so it doesn't run every time
-var myFunctions = [randomLines, mousePressed];
-var index = 0;
-// Puts it all together so it doesn't run every time
+
 function draw(){
   background("antiquewhite");
 
