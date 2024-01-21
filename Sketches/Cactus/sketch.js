@@ -5,6 +5,7 @@ let numPoints;
 let curveFactor;
 let xOffset;
 let ctrlPoints = [];
+let lengthFactor;
 
 // Basics
 function setup() {
@@ -16,8 +17,9 @@ function setup() {
   // Control points for the cactus curve
   numPoints = Math.floor(random(2, 8));
   pointDistance = random(30, 60);
-  curveFactor = Math.floor(random(20, 20)); // The factor by which the curve bends to the left
+  curveFactor = random(20, 20); // The factor by which the curve bends to the left
   xOffset = random(5, 25); // Distance from center
+  lengthFactor = random(0.4, 1); // Increase the length of the control point by 50%
 
   console.log(numPoints, pointDistance, curveFactor);
 }
@@ -45,7 +47,7 @@ function drawCurvedLine() {
   strokeWeight(1); // Change the stroke weight to 1
   noFill(); // Ensure the shape is not filled
 
-  let numRepeats = 7; // Number of times the line is drawn
+  let numRepeats = 6; // Number of times the line is drawn
   let curveDecreaseFactor = 0.95; // Amount to decrease curveFactor each time
 
   let currentCurveFactor = curveFactor;
@@ -76,11 +78,11 @@ function drawCurvedLine() {
     for (let i = 2; i < numPoints; i++) {
       let y = height / 2 + i * pointDistance;
       let yPrev = height / 2 + (i - 1) * pointDistance;
-      let ctrlY = (y + yPrev) / 2; // Calculate the y-coordinate of the control point as the average of the y-coordinates of the two anchor points
-      let currentXOffset = xOffset - repeat * (xOffset / (numRepeats - 1)); // Decrease xOffset for each repeat
-      let ctrlX = width / 2 - currentXOffset - Math.max(currentCurveFactor, 10) / Math.pow(i, 1 + 0.2 * repeat) * (i - 0.5); // Use the maximum of currentCurveFactor and 10
-      let endX = width / 2 - currentXOffset; // Use the point with a negative offset on the x-axis as the end point
-      bezierVertex(ctrlX, ctrlY, ctrlX, ctrlY, endX, y); // Use the same control point for the second control point, and use the next point as the anchor point
+      let ctrlY = (y + yPrev) / 2;
+      let currentXOffset = xOffset - repeat * (xOffset / (numRepeats - 1));
+      let ctrlX = width / 2 - currentXOffset - lengthFactor * Math.max(currentCurveFactor, 10) / Math.pow(i, 1 + 0.2 * repeat) * (i - 0.5); // Multiply with lengthFactor
+      let endX = width / 2 - currentXOffset;
+      bezierVertex(ctrlX, ctrlY, ctrlX, ctrlY, endX, y);
     }
 
     endShape();
@@ -126,7 +128,7 @@ function drawCurvedLine() {
       let yPrev = height / 2 + (i - 1) * pointDistance;
       let ctrlY = (y + yPrev) / 2;
       let currentXOffset = xOffset - repeat * (xOffset / (numRepeats - 1)); // Decrease xOffset for each repeat
-      let ctrlX = width - (width / 2 + currentXOffset + Math.max(currentCurveFactor, 10) / Math.pow(i, 1 + 0.2 * repeat) * (i - 0.5));
+      let ctrlX = width - (width / 2 + currentXOffset + lengthFactor * Math.max(currentCurveFactor, 10) / Math.pow(i, 1 + 0.2 * repeat) * (i - 0.5));
       let endX = width - (width / 2 + currentXOffset);
       bezierVertex(ctrlX, ctrlY, ctrlX, ctrlY, endX, y);
     }
