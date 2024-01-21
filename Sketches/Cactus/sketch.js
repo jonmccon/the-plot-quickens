@@ -64,7 +64,7 @@ function drawCurvedLine() {
     beginShape();
 
     // Set the first vertex to be the center of the canvas
-    vertex(width / 2, (height / 2) - (pointDistance * 0.5));
+    vertex(width / 2, height / 2);
 
     // Curves 
     for (let i = 0; i < numPoints; i++) {
@@ -90,7 +90,7 @@ function drawCurvedLine() {
 
   // Draw a vertical line from the top point to the bottom point
   stroke('black'); // Change the color to black for the vertical line
-  line(width / 2, ((height / 2) - (pointDistance * 0.5)), width / 2, height / 2 + (numPoints - 1) * pointDistance);
+  line(width / 2, height / 2, width / 2, height / 2 + (numPoints - 1) * pointDistance);
 
   // Mirror the lines across the y-axis
   push(); // Save the current transformation matrix
@@ -111,7 +111,7 @@ function drawCurvedLine() {
     beginShape();
 
     // Set the first vertex to be the center of the canvas
-    vertex(width / 2, (height / 2) - (pointDistance * 0.5));
+    vertex(width / 2, height / 2);
 
     // Curves 
     for (let i = 0; i < numPoints; i++) {
