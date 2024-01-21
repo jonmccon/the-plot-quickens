@@ -15,7 +15,7 @@ function setup() {
   background("antiquewhite");
 
   // Control points for the cactus curve
-  numPoints = Math.floor(random(2, 8));
+  numPoints = Math.floor(random(3, 8));
   pointDistance = random(30, 60);
   curveFactor = random(20, 20); // The factor by which the curve bends to the left
   xOffset = random(5, 25); // Distance from center
@@ -63,26 +63,24 @@ function drawCurvedLine() {
     // LEFT SIDE
     beginShape();
 
-    // First point
-    let x0 = width / 2;
-    let y0 = height / 2;
-    vertex(x0, y0); // Use the center point as the first 
-
-    // Second point
-    let y1 = height / 2 + pointDistance;
-    let ctrlX1 = width / 2 - xOffset - curveFactor * 0.5; // Calculate a separate control point for the second point
-    let ctrlX2 = width / 2 - xOffset - curveFactor * 0.5; // Calculate a separate control point for the second point
-    bezierVertex(ctrlX1, y0, ctrlX2, y1, ctrlX1, y1); // Use bezierVertex instead of vertex
+    // Set the first vertex to be the center of the top edge of the canvas
+    vertex(width / 2, height / 2);
 
     // Curves 
-    for (let i = 2; i < numPoints; i++) {
+    for (let i = 0; i < numPoints; i++) {
       let y = height / 2 + i * pointDistance;
-      let yPrev = height / 2 + (i - 1) * pointDistance;
+      let yPrev = height / 2 + (i > 0 ? (i - 1) * pointDistance : 0); // Adjust yPrev for i = 0
       let ctrlY = (y + yPrev) / 2;
       let currentXOffset = xOffset - repeat * (xOffset / (numRepeats - 1));
-      let ctrlX = width / 2 - currentXOffset - lengthFactor * Math.max(currentCurveFactor, 10) / Math.pow(i, 1 + 0.2 * repeat) * (i - 0.5); // Multiply with lengthFactor
+      let ctrlX = width / 2 - currentXOffset - lengthFactor * Math.max(currentCurveFactor, 10) / Math.pow(i + 1, 1 + 0.2 * repeat) * (i + 0.5); // Adjust power for i = 0
       let endX = width / 2 - currentXOffset;
-      bezierVertex(ctrlX, ctrlY, ctrlX, ctrlY, endX, y);
+
+      if (i == 0) {
+        // First point
+        bezierVertex(width / 2, height / 2 - pointDistance, ctrlX, y, endX, y);
+      } else {
+        bezierVertex(ctrlX, ctrlY, ctrlX, ctrlY, endX, y);
+      }
     }
 
     endShape();
@@ -112,28 +110,28 @@ function drawCurvedLine() {
     // RIGHT SIDE
     beginShape();
 
-    // First point
-    let x0 = width / 2;
-    let y0 = height / 2;
-    vertex(x0, y0); // Use the center point as the first 
-    
-    // Second point
-    y1 = height / 2 + pointDistance;
-    ctrlX1 = width / 2 - xOffset - curveFactor * 0.5; // Subtract the offset and curveFactor from the center x-coordinate
-    ctrlX2 = width / 2 - xOffset - curveFactor * 0.5; // Subtract the offset and curveFactor from the center x-coordinate
-    bezierVertex(ctrlX1, y0, ctrlX2, y1, ctrlX1, y1); // Use bezierVertex instead of vertex
-    
-    for (let i = 2; i < numPoints; i++) {
+    // Set the first vertex to be the center of the top edge of the canvas
+    vertex(width / 2, height / 2);
+
+    // Curves 
+    for (let i = 0; i < numPoints; i++) {
       let y = height / 2 + i * pointDistance;
-      let yPrev = height / 2 + (i - 1) * pointDistance;
+      let yPrev = height / 2 + (i > 0 ? (i - 1) * pointDistance : 0); // Adjust yPrev for i = 0
       let ctrlY = (y + yPrev) / 2;
-      let currentXOffset = xOffset - repeat * (xOffset / (numRepeats - 1)); // Decrease xOffset for each repeat
-      let ctrlX = width - (width / 2 + currentXOffset + lengthFactor * Math.max(currentCurveFactor, 10) / Math.pow(i, 1 + 0.2 * repeat) * (i - 0.5));
-      let endX = width - (width / 2 + currentXOffset);
-      bezierVertex(ctrlX, ctrlY, ctrlX, ctrlY, endX, y);
+      let currentXOffset = xOffset - repeat * (xOffset / (numRepeats - 1));
+      let ctrlX = width / 2 - currentXOffset - lengthFactor * Math.max(currentCurveFactor, 10) / Math.pow(i + 1, 1 + 0.2 * repeat) * (i + 0.5); // Adjust power for i = 0
+      let endX = width / 2 - currentXOffset;
+
+      if (i == 0) {
+        // First point
+        bezierVertex(width / 2, height / 2 - pointDistance, ctrlX, y, endX, y);
+      } else {
+        bezierVertex(ctrlX, ctrlY, ctrlX, ctrlY, endX, y);
+      }
     }
 
     endShape();
+
     console.log('curveFactor:', currentCurveFactor); // Print the value of currentCurveFactor
     currentCurveFactor = Math.max(currentCurveFactor * curveDecreaseFactor, 10); // Decrease currentCurveFactor for the next line, but ensure it doesn't go below 10
   }
