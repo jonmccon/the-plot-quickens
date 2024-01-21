@@ -108,7 +108,6 @@ function drawCurvedLine() {
     beginShape();
 
     // First point
-    stroke('green'); // Change the color to blue
     let x0 = width / 2;
     let y0 = height / 2;
     vertex(x0, y0); // Use the center point as the first 
@@ -122,9 +121,10 @@ function drawCurvedLine() {
     for (let i = 2; i < numPoints; i++) {
       let y = height / 2 + i * pointDistance;
       let yPrev = height / 2 + (i - 1) * pointDistance;
+      let ctrlY = (y + yPrev) / 2; // Calculate the y-coordinate of the control point as the average of the y-coordinates of the two anchor points
       let ctrlX = width - (width / 2 + xOffset + Math.max(currentCurveFactor, 10) / Math.pow(i, 1 + 0.2 * repeat) * (i - 0.5)); // Use the maximum of currentCurveFactor and 10
       let endX = width - (width / 2 + xOffset); // Subtract the x-coordinate from the width of the canvas
-      bezierVertex(ctrlX, yPrev, ctrlX, yPrev, endX, y); // Use the same control point for the second control point, and use the next point as the anchor point
+      bezierVertex(ctrlX, ctrlY, ctrlX, ctrlY, endX, y); // Use the same control point for the second control point, and use the next point as the anchor point
     }
 
     endShape();
