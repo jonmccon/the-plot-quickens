@@ -35,7 +35,7 @@ function setup() {
   }
 
   // Determine how many times you want the logic to run
-  let iterations = 800;
+  let iterations = 300;
   for (let i = 0; i < iterations; i++) {
     diffLine.run();
   }
