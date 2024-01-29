@@ -16,7 +16,7 @@ let diffLine;
 //   https://inconvergent.net/2016/shepherding-random-growth/
 
 function setup() {
-  createCanvas(800, 800, SVG);
+  createCanvas(600, 600, SVG);
   
   // maxForce, maxSpeed, desiredSeparation, separationCohesionRatio, maxEdgeLen
   diffLine = new DifferentialLine(0.9, 1, 25, 0.9, 5);
@@ -26,12 +26,16 @@ function setup() {
     let ang = map(i, 0, count, 0, TWO_PI);
 
     // Horizontal and Vertical distribution of seed points
-    let pos = createVector(0.5 * width + 20 * cos(ang), 0.5 * height + 20 * sin(ang));
+    // let pos = createVector(0.5 * width + 20 * cos(ang), 0.5 * height + 20 * sin(ang));
+    // Horizontal and Vertical distribution of seed points
+    let a = width / 9;  // semi-major axis
+    let b = height / 7;  // semi-minor axis
+    let pos = createVector(0.5 * width + a * cos(ang), 0.5 * height + b * sin(ang));
     diffLine.addNode(pos);
   }
 
   // Determine how many times you want the logic to run
-  let iterations = 1000;
+  let iterations = 800;
   for (let i = 0; i < iterations; i++) {
     diffLine.run();
   }
@@ -209,6 +213,21 @@ class Node {
   applyForce(force) {
     this.acceleration.add(force);
   }
+
+  applyEdgeForce() {
+
+    // distance from edge at which the force starts
+    let edgeBuffer = 50;  
+    let edgeForce = createVector(0, 0);
+
+    if (this.position.x < edgeBuffer) edgeForce.x = this.maxForce;
+    else if (this.position.x > width - edgeBuffer) edgeForce.x = -this.maxForce;
+
+    if (this.position.y < edgeBuffer) edgeForce.y = this.maxForce;
+    else if (this.position.y > height - edgeBuffer) edgeForce.y = -this.maxForce;
+
+    this.applyForce(edgeForce);
+  }
   
   differentiate(nodes, left, right) {
     let separation = this.separate(nodes);
@@ -223,6 +242,9 @@ class Node {
     this.velocity.limit(this.maxSpeed);
     this.position.add(this.velocity);
     this.acceleration.mult(0);
+
+    // Apply edge force after updating position
+    this.applyEdgeForce();
   }
   
   seek(target) {
@@ -267,8 +289,9 @@ class Node {
     return this.seek(sum);
   }
   
+  
 }
 
 function mousePressed() {
-  save("mySketch.svg"); // give file name
+  save("wiggles.svg"); // give file name
 }
