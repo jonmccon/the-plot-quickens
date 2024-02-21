@@ -10,8 +10,8 @@ let gridSize = 2; // Define the size of the grid squares
 let inset = 200; // Define the inset from the canvas
 
 let centerPoints = [
-  { x: 0, y: 0, numCircles: 10 },
-  { x: 50, y: 50, numCircles: 15 },
+  { x: 0, y: -50, numCircles: 10 },
+  { x: 0, y: 50, numCircles: 15 },
   { x: -50, y: 50, numCircles: 20 },
   // Add more points as needed
 ];
@@ -30,8 +30,6 @@ for (let centerPoint of centerPoints) {
 function createGrid() {
   background("antiquewhite");
   noFill();
-
-
 
   // Calculate the number of rows and columns based on the canvas size, grid size and inset
   let rows = (height - 2 * inset) / gridSize;
@@ -72,10 +70,16 @@ function createGrid() {
 
   // Draw the circles
   stroke(0, 0, 0); // Set the color as you want
-  noFill();
+  noFill();  
+
+  // Sort the circlePoints in descending order of radius
+  circlePoints.sort((a, b) => b.radius - a.radius);
+
+  
   for (let point of circlePoints) {
     circle(point.x, point.y, point.radius * 2);
   }
+
   pop(); // Restore the transformation matrix
 }
 
