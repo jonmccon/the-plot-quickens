@@ -5,7 +5,7 @@ function setup() {
   colorMode(HSL)
 }
 
-let gridSize = 200; // Define the size of the grid squares
+let gridSize = 100; // Define the size of the grid squares
 let inset = 200; // Define the inset from the canvas
 let rows, cols; // Declare rows and cols variables
 
@@ -16,10 +16,10 @@ function blankPattern(x, y, size) {
 // Define pattern functions
 function pattern1(x, y, size) {
   // Draw vertical lines
-  let linesPerSquare = 6;
+  let linesPerSquare = 20;
   let lineSpacing = size / linesPerSquare;
   let arcHeight = size / (2 * linesPerSquare); // Calculate the height of the arcs
-  stroke(0); // Set the color of the lines
+  stroke("green"); // Set the color of the lines
   strokeWeight(1); // Set the thickness of the lines
   let prevLine = null; // Keep track of the previous line's points
   for (let k = 0; k < linesPerSquare; k++) {
@@ -46,32 +46,33 @@ function pattern1(x, y, size) {
 // Define pattern functions
 function pattern2(x, y, size) {
   // Draw horizontal lines
-  let linesPerSquare = 6;
+  let linesPerSquare = 20;
   let lineSpacing = size / linesPerSquare;
   let arcWidth = size / (2 * linesPerSquare); // Calculate the width of the arcs
-  stroke(0); // Set the color of the lines
+  stroke("blue"); // Set the color of the lines
   strokeWeight(1); // Set the thickness of the lines
   let prevLine = null; // Keep track of the previous line's points
   for (let k = 0; k < linesPerSquare; k++) {
     let lineY = y + k * lineSpacing;
     let lineLength = size - 2 * arcWidth; // Shorten the line length by twice the width of the arc
-    if (k === linesPerSquare - 1) { // If this is the last line
+    if (k === 0 || k === linesPerSquare - 1) { // If this is the first or last line
       lineLength = size - arcWidth; // Shorten the line length by the width of the arc at the left only
     }
     line(x + arcWidth, lineY, x + arcWidth + lineLength, lineY);
     if (prevLine) {
       // Draw an arc from the previous line's end point to the current line's start point
-      let startAngle = k % 2 === 0 ? HALF_PI : -HALF_PI;
-      let arcX = k % 2 === 0 ? x + arcWidth : x + size - arcWidth;
+      let startAngle = k % 2 === 0 ? -HALF_PI : HALF_PI;
+      let arcX = k % 2 === 0 ? x + size - arcWidth : x + arcWidth;
       if (k === linesPerSquare - 1) { // If this is the last line
-        arcX = x + size - arcWidth; // Set the arcX to the end of the grid minus the arc width
-        startAngle = - HALF_PI; // Set the start angle to -HALF_PI to draw the arc at the right
+        arcX = x + size - lineLength; // Set the arcX to the end of the grid minus the line length
+        startAngle = HALF_PI; // Set the start angle to HALF_PI to draw the arc at the right
       }
       arc(arcX, (prevLine.y + lineY) / 2, arcWidth * 2, abs(prevLine.y - lineY), startAngle, startAngle + PI);
     }
     prevLine = {x: x + arcWidth + lineLength, y: lineY}; // Update the previous line's points
   }
 }
+
 
 function createGrid() {
   background("antiquewhite");
@@ -96,8 +97,8 @@ function createGrid() {
 
 // Define pattern array
 let patterns = [
-  [pattern1, pattern2, blankPattern, pattern2, pattern1],
-  [pattern2, pattern1, pattern2, pattern1, blankPattern],
+  [pattern1, pattern2, pattern2, pattern2, pattern1],
+  [pattern1, pattern1, pattern2, pattern1, blankPattern],
   // Add more rows as needed
 ];
 
