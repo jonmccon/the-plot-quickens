@@ -97,8 +97,8 @@ function createGrid() {
 
 // Define pattern array
 let patterns = [
-  [pattern1, pattern2, pattern2, pattern2, pattern1],
-  [pattern1, pattern1, pattern2, pattern1, blankPattern],
+  [pattern1, pattern1, pattern2, pattern2, pattern1],
+  [pattern1, pattern2, pattern2, pattern1, pattern1],
   // Add more rows as needed
 ];
 
