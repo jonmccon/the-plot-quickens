@@ -1,41 +1,51 @@
 let diffLine;
+let svg;
 
-// what's happening?
-//   1) Each node wants to be close to it’s connected neighbor nodes and will experience a mutual attraction force to them.
-//   2) Each node wants to maintain a minimum distance from all nearby nodes, connected or not, and will experience a mutual repulsion force from them.
-//   3) Each node wants to rest exactly halfway between it’s connected neighbor nodes on as straight of a line as possible and will experience an alignment force towards the midpoint.
-//   4) subdivision: nodes that are far from their neighbors will "split" to fill fill the gap in between
-
-// some things to play with:
-//   1) change the settings of the differential growth process
-//   2) change the initial positions of the nodes
-//   3) change how the shape is vizualized - maybe try to show how the shape grows over time?
-
-// more reading:
-//   https://medium.com/@jason.webb/2d-differential-growth-in-js-1843fd51b0ce
-//   https://inconvergent.net/2016/shepherding-random-growth/
+function preload() {
+  svg = loadSVG('../../svg/H.svg'); // replace with your SVG file path
+};
 
 function setup() {
   createCanvas(600, 600, SVG);
-  
-  // maxForce, maxSpeed, desiredSeparation, separationCohesionRatio, maxEdgeLen
-  diffLine = new DifferentialLine(0.9, 1, 25, 0.9, 5);
-  
-  let count = 500;
-  for (let i = 0; i < count; i++) {
-    let ang = map(i, 0, count, 0, TWO_PI);
 
-    // Horizontal and Vertical distribution of seed points
-    // let pos = createVector(0.5 * width + 20 * cos(ang), 0.5 * height + 20 * sin(ang));
-    // Horizontal and Vertical distribution of seed points
-    let a = width / 4;  // semi-major axis
-    let b = height / 10;  // semi-minor axis
-    let pos = createVector(0.5 * width + a * cos(ang), 0.5 * height + b * sin(ang));
+  // Extract the path data from the SVG
+  let pathData = svg.elt.getElementsByTagName('path')[0].getAttribute('d');
+
+  // Parse the path data
+  let viewBox = svg.elt.getAttribute('viewBox').split(' ');
+  let svgWidth = Number(viewBox[2]);
+  let svgHeight = Number(viewBox[3]);
+  let points = parsePathData(pathData, svgWidth, svgHeight);
+
+
+  // Use the points to create the seed nodes
+  diffLine = new DifferentialLine(0.9, 1, 25, 0.9, 5);
+  for (let point of points) {
+    let pos = createVector(point[0], point[1]);
     diffLine.addNode(pos);
   }
+  
+  console.log(points)
+  
+  
+  // maxForce, maxSpeed, desiredSeparation, separationCohesionRatio, maxEdgeLen
+  // diffLine = new DifferentialLine(0.9, 1, 25, 0.9, 5);
+  
+  // let count = 50;
+  // for (let i = 0; i < count; i++) {
+  //   let ang = map(i, 0, count, 0, TWO_PI);
+
+  //   // Horizontal and Vertical distribution of seed points
+  //   // let pos = createVector(0.5 * width + 20 * cos(ang), 0.5 * height + 20 * sin(ang));
+  //   // Horizontal and Vertical distribution of seed points
+  //   let a = width / 9;  // semi-major axis
+  //   let b = height / 7;  // semi-minor axis
+  //   let pos = createVector(0.5 * width + a * cos(ang), 0.5 * height + b * sin(ang));
+  //   diffLine.addNode(pos);
+  // }
 
   // Determine how many times you want the logic to run
-  let iterations = 500;
+  let iterations = 10;
   for (let i = 0; i < iterations; i++) {
     diffLine.run();
   }
@@ -46,7 +56,73 @@ function setup() {
 }
 
 function draw() {
+    // beginShape();
+    // for (let point of points) {
+    //   vertex(point[0], point[1]);
+    // }
+    // endShape();
 
+}
+
+
+
+// Function to parse the path data
+function parsePathData(data, svgWidth, svgHeight) {
+  let commands = data.split(/(?=[a-z])/i);
+  let points = [];
+  let currentPoint = [0, 0];
+  for (let command of commands) {
+    let type = command[0];
+    let coords = command.slice(1).trim().split(/[\s,]+/).map(Number);
+    // console.log(`Current point: ${currentPoint}`);
+    // console.log(`Parsed coordinates: ${coords}`);
+    switch (type) {
+      case 'M':
+      case 'L':
+        currentPoint = [coords[0], coords[1]];
+        break;
+      case 'm':
+      case 'l':
+        currentPoint = [currentPoint[0] + coords[0], currentPoint[1] + coords[1]];
+        break;
+      case 'H':
+        currentPoint = [coords[0], currentPoint[1]];
+        break;
+      case 'h':
+        currentPoint = [currentPoint[0] + coords[0], currentPoint[1]];
+        break;
+      case 'V':
+        currentPoint = [currentPoint[0], coords[0]];
+        break;
+      case 'v':
+        currentPoint = [currentPoint[0], currentPoint[1] + coords[0]];
+        break;
+      case 'C':
+        points.push(scaleAndTranslatePoint([coords[0], coords[1]], svgWidth, svgHeight));
+        points.push(scaleAndTranslatePoint([coords[2], coords[3]], svgWidth, svgHeight));
+        currentPoint = [coords[4], coords[5]];
+        break;
+      case 'c':
+        points.push(scaleAndTranslatePoint([currentPoint[0] + coords[0], currentPoint[1] + coords[1]], svgWidth, svgHeight));
+        points.push(scaleAndTranslatePoint([currentPoint[0] + coords[2], currentPoint[1] + coords[3]], svgWidth, svgHeight));
+        currentPoint = [currentPoint[0] + coords[4], currentPoint[1] + coords[5]];
+        break;
+      case 'Z':
+      case 'z':
+        break;
+      default:
+        console.log(`Unhandled command: ${type} with coordinates: ${coords}`);
+        break;
+    }
+    points.push(scaleAndTranslatePoint(currentPoint, svgWidth, svgHeight));
+  }
+  return points;
+}
+
+function scaleAndTranslatePoint(point, svgWidth, svgHeight) {
+  let x = point[0] / svgWidth * width;
+  let y = point[1] / svgHeight * height;
+  return [x, y];
 }
 
 
