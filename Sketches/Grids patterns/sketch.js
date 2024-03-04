@@ -5,7 +5,7 @@ function setup() {
   colorMode(HSL)
 }
 
-let gridSize = 100; // Define the size of the grid squares
+let gridSize = 200; // Define the size of the grid squares
 let inset = 200; // Define the inset from the canvas
 let rows, cols; // Declare rows and cols variables
 
@@ -13,65 +13,85 @@ function blankPattern(x, y, size) {
   // Do nothing
 }
 
-// Define pattern functions
+// Squiggle, one line plus first and last
 function pattern1(x, y, size) {
-  // Draw vertical lines
   let linesPerSquare = 20;
   let lineSpacing = size / linesPerSquare;
-  let arcHeight = size / (2 * linesPerSquare); // Calculate the height of the arcs
-  stroke("green"); // Set the color of the lines
-  strokeWeight(1); // Set the thickness of the lines
-  let prevLine = null; // Keep track of the previous line's points
-  for (let k = 0; k < linesPerSquare; k++) {
+  let arcHeight = size / (1.5 * linesPerSquare);
+  stroke("red");
+  strokeWeight(1);
+
+  // Draw the first line
+  line(x, y + arcHeight, x, y + size);
+
+  // Draw the Bezier curves
+  beginShape();
+  for (let k = 0; k < linesPerSquare - 1; k++) {
     let lineX = x + k * lineSpacing;
-    let lineLength = size - 2 * arcHeight; // Shorten the line length by twice the height of the arc
-    if (k === 0 || k === linesPerSquare - 1) { // If this is the first or last line
-      lineLength = size - arcHeight; // Shorten the line length by the height of the arc at the top only
-    }
-    line(lineX, y + arcHeight, lineX, y + arcHeight + lineLength);
-    if (prevLine) {
-      // Draw an arc from the previous line's end point to the current line's start point
-      let startAngle = k % 2 === 0 ? 0 : PI;
-      let arcY = k % 2 === 0 ? y + size - arcHeight : y + arcHeight;
-      if (k === linesPerSquare - 1) { // If this is the last line
-        arcY = y + size - lineLength; // Set the arcY to the end of the grid minus the arc height
-        startAngle = PI; // Set the start angle to PI to draw the arc at the bottom
-      }
-      arc((prevLine.x + lineX) / 2, arcY, abs(prevLine.x - lineX), arcHeight * 2, startAngle, startAngle + PI);
-    }
-    prevLine = {x: lineX, y: y + arcHeight + lineLength}; // Update the previous line's points
+    let nextLineX = x + (k + 1) * lineSpacing;
+
+    // Calculate the control points for the Bezier curve
+    let cp1x = lineX;
+    let cp1y = k % 2 === 0 ? y : y + size;
+    let cp2x = nextLineX;
+    let cp2y = k % 2 === 0 ? y : y + size;
+
+    // Calculate the arcY based on the current line's y-coordinate and the arcHeight
+    let arcY = k % 2 === 0 ? y + arcHeight : y + size - arcHeight;
+
+    // Add a new vertex point at the start of each curve
+    vertex(lineX, arcY);
+
+    // Add the Bezier curve
+    bezierVertex(cp1x, cp1y, cp2x, cp2y, nextLineX, arcY);
   }
+  endShape();
+
+  // Draw the second last line
+  line(x + (linesPerSquare - 1) * lineSpacing, y + arcHeight, x + (linesPerSquare - 1) * lineSpacing, y + size);
 }
 
-// Define pattern functions
+// Squiggle, one line plus first and last
 function pattern2(x, y, size) {
-  // Draw horizontal lines
-  let linesPerSquare = 20;
+  let linesPerSquare = 10;
   let lineSpacing = size / linesPerSquare;
-  let arcWidth = size / (2 * linesPerSquare); // Calculate the width of the arcs
-  stroke("blue"); // Set the color of the lines
-  strokeWeight(1); // Set the thickness of the lines
-  let prevLine = null; // Keep track of the previous line's points
-  for (let k = 0; k < linesPerSquare; k++) {
+  let arcHeight = size / (1.5 * linesPerSquare);
+  stroke("green");
+  strokeWeight(1);
+
+  // Draw the first line
+  line(x + arcHeight, y, x + size, y);
+
+  // Draw the Bezier curves
+  beginShape();
+  for (let k = 0; k < linesPerSquare - 1; k++) {
     let lineY = y + k * lineSpacing;
-    let lineLength = size - 2 * arcWidth; // Shorten the line length by twice the width of the arc
-    if (k === 0 || k === linesPerSquare - 1) { // If this is the first or last line
-      lineLength = size - arcWidth; // Shorten the line length by the width of the arc at the left only
-    }
-    line(x + arcWidth, lineY, x + arcWidth + lineLength, lineY);
-    if (prevLine) {
-      // Draw an arc from the previous line's end point to the current line's start point
-      let startAngle = k % 2 === 0 ? -HALF_PI : HALF_PI;
-      let arcX = k % 2 === 0 ? x + size - arcWidth : x + arcWidth;
-      if (k === linesPerSquare - 1) { // If this is the last line
-        arcX = x + size - lineLength; // Set the arcX to the end of the grid minus the line length
-        startAngle = HALF_PI; // Set the start angle to HALF_PI to draw the arc at the right
-      }
-      arc(arcX, (prevLine.y + lineY) / 2, arcWidth * 2, abs(prevLine.y - lineY), startAngle, startAngle + PI);
-    }
-    prevLine = {x: x + arcWidth + lineLength, y: lineY}; // Update the previous line's points
+    let nextLineY = y + (k + 1) * lineSpacing;
+
+    // Calculate the control points for the Bezier curve
+    let cp1y = lineY;
+    let cp1x = k % 2 === 0 ? x : x + size;
+    let cp2y = nextLineY;
+    let cp2x = k % 2 === 0 ? x : x + size;
+
+    // Calculate the arcX based on the current line's x-coordinate and the arcHeight
+    let arcX = k % 2 === 0 ? x + arcHeight : x + size - arcHeight;
+
+    // Add a new vertex point at the start of each curve
+    vertex(arcX, lineY);
+
+    // Add the Bezier curve
+    bezierVertex(cp1x, cp1y, cp2x, cp2y, arcX, nextLineY);
   }
+  endShape();
+
+  // Draw the second last line
+  line(x + arcHeight, y + (linesPerSquare - 1) * lineSpacing, x + size, y + (linesPerSquare - 1) * lineSpacing);
 }
+
+
+
+
 
 
 function createGrid() {
@@ -98,7 +118,7 @@ function createGrid() {
 // Define pattern array
 let patterns = [
   [pattern1, pattern1, pattern2, pattern2, pattern1],
-  [pattern1, pattern2, pattern2, pattern1, pattern1],
+  [pattern2, pattern2, pattern2, pattern1, pattern1],
   // Add more rows as needed
 ];
 
