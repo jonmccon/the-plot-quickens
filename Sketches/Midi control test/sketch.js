@@ -5,6 +5,9 @@ let env;
 
 let x = 100;
 let y = 100;
+let h = 100;
+let w = 100;
+let aH = 1.5;
 let size = 100;
 let r = 0;
 let g = 0;
@@ -22,6 +25,21 @@ function setup() {
   // colorMode(HSL)
 }
 
+function touchStarted() {
+  console.log('Before touchStarted:', getAudioContext().state);
+  if (getAudioContext().state === 'suspended') {
+    getAudioContext().resume();
+  }
+  // console.log('After touchStarted:', getAudioContext().state);
+}
+
+function mousePressed() {
+  console.log('Before mousePressed:', getAudioContext().state);
+  if (getAudioContext().state === 'suspended') {
+    getAudioContext().resume();
+  }
+  // console.log('After mousePressed:', getAudioContext().state);
+}
 
 function createGrid() {
   background("antiquewhite");
@@ -44,21 +62,45 @@ function createGrid() {
   }
 }
 
-function touchStarted() {
-  console.log('Before touchStarted:', getAudioContext().state);
-  if (getAudioContext().state === 'suspended') {
-    getAudioContext().resume();
+
+
+function letterN1(x, y, height, width, aH) {
+  let linesPerSquare = 3;
+  let lineSpacing = width / linesPerSquare;
+  let arcHeight = height / (aH * linesPerSquare);
+  stroke("red");
+  strokeWeight(1);
+
+  // Draw the first line
+  line(x, y + arcHeight, x, y + height);
+
+  // Draw the Bezier curves
+  beginShape();
+  for (let k = 0; k < linesPerSquare - 1; k++) {
+    let lineX = x + k * lineSpacing;
+    let nextLineX = x + (k + 1) * lineSpacing;
+
+    // Calculate the control points for the Bezier curve
+    let cp1x = lineX;
+    let cp1y = k % 2 === 0 ? y : y + height;
+    let cp2x = nextLineX;
+    let cp2y = k % 2 === 0 ? y : y + height;
+
+    // Calculate the arcY based on the current line's y-coordinate and the arcHeight
+    let arcY = k % 2 === 0 ? y + arcHeight : y + height - arcHeight;
+
+    // Add a new vertex point at the start of each curve
+    vertex(lineX, arcY);
+
+    // Add the Bezier curve
+    bezierVertex(cp1x, cp1y, cp2x, cp2y, nextLineX, arcY);
   }
-  // console.log('After touchStarted:', getAudioContext().state);
+  endShape();
+
+  // Draw the second last line
+  line(x + (linesPerSquare - 1) * lineSpacing, y, x + (linesPerSquare - 1) * lineSpacing, y + height - arcHeight);
 }
 
-function mousePressed() {
-  console.log('Before mousePressed:', getAudioContext().state);
-  if (getAudioContext().state === 'suspended') {
-    getAudioContext().resume();
-  }
-  // console.log('After mousePressed:', getAudioContext().state);
-}
 
 
 
@@ -91,17 +133,19 @@ function saveSvg(){
 function draw() {
   createGrid();
   mousePressed();
+
+  letterN1(x, y, h, w, aH);
     
   if(channel == 74) {
       x = map(value, 0, 127, 0, 200)   
     } else if(channel == 75) {
-      y = map(value, 0, 127, 0, height)  
+      y = map(value, 0, 127, 0, 200)  
     } else if(channel == 76) {
-      size = map(value, 0, 127, 20, 300);  
+      h = map(value, 0, 127, 20, 300);  
     } else if(channel == 70) {
-      r = map(value, 0, 127, 0, 255)  
+      w = map(value, 0, 127, 0, 255)  
     } else if(channel == 71) {
-      g = map(value, 0, 127, 0, 255)  
+      aH = map(value, 0, 127, 0, 2)  
     } else if(channel == 72) {
       b = map(value, 0, 127, 0, 255)  
     }
