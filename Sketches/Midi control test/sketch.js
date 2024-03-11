@@ -8,6 +8,8 @@ let y = 100;
 let h = 100;
 let w = 100;
 let aH = 1.5;
+let mL = 0;
+
 let size = 100;
 let r = 0;
 let g = 0;
@@ -64,7 +66,7 @@ function createGrid() {
 
 
 
-function letterN1(x, y, height, width, aH) {
+function letterN1(x, y, height, width, aH, middleLineShift) {
   let linesPerSquare = 3;
   let lineSpacing = width / linesPerSquare;
   let arcHeight = height / (aH * linesPerSquare);
@@ -77,8 +79,8 @@ function letterN1(x, y, height, width, aH) {
   // Draw the Bezier curves
   beginShape();
   for (let k = 0; k < linesPerSquare - 1; k++) {
-    let lineX = x + k * lineSpacing;
-    let nextLineX = x + (k + 1) * lineSpacing;
+    let lineX = x + k * lineSpacing + (k == 1 ? middleLineShift : 0);
+    let nextLineX = x + (k + 1) * lineSpacing + (k == 0 ? middleLineShift : 0);
 
     // Calculate the control points for the Bezier curve
     let cp1x = lineX;
@@ -134,7 +136,7 @@ function draw() {
   createGrid();
   mousePressed();
 
-  letterN1(x, y, h, w, aH);
+  letterN1(x, y, h, w, aH, mL);
     
   if(channel == 74) {
       x = map(value, 0, 127, 0, 200)   
@@ -147,6 +149,6 @@ function draw() {
     } else if(channel == 71) {
       aH = map(value, 0, 127, 0, 2)  
     } else if(channel == 72) {
-      b = map(value, 0, 127, 0, 255)  
+      mL = map(value, 0, 127, -100, 100)  
     }
 }
