@@ -83,17 +83,32 @@ function createGrid() {
   pop(); // Restore the transformation matrix
 }
 
+/// ---------------------
 // Download SVG when clicked
-function mousePressed(){
-  save("mySVG.svg"); // give file name
-  print("saved svg");
+var spacebarWasPressed = false;
+
+function keyPressed() {
+  if (key === ' ' && !spacebarWasPressed) {
+    saveSvg();
+    spacebarWasPressed = true;
+  }
+}
+
+function keyReleased() {
+  if (key === ' ') {
+    spacebarWasPressed = false;
+  }
+}
+
+function saveSvg(){
+  if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
+    save("gridCircleOcclusion.svg"); // give file name
+    print("saved svg");
+  }
 }
 
 // Puts it all together so it doesn't run every time
-var myFunctions = [createGrid, mousePressed];
-var index = 0;
-function draw(){
-  if (index < myFunctions.length) {
-    myFunctions[index]();
-  }
-}
+function draw() {
+  createGrid();
+  mousePressed();
+};
