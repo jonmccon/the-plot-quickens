@@ -1,31 +1,19 @@
-
 let diffLine;
 
-paper.install(window);
-window.onload = function() {
-  paper.setup('myCanvas');
+// what's happening?
+//   1) Each node wants to be close to it’s connected neighbor nodes and will experience a mutual attraction force to them.
+//   2) Each node wants to maintain a minimum distance from all nearby nodes, connected or not, and will experience a mutual repulsion force from them.
+//   3) Each node wants to rest exactly halfway between it’s connected neighbor nodes on as straight of a line as possible and will experience an alignment force towards the midpoint.
+//   4) subdivision: nodes that are far from their neighbors will "split" to fill fill the gap in between
 
-  project.importSVG('./fonts/BRLNSR.TTF', function(item) {
-    let path = item.children[0].children[0];
-    let points = path.segments.map(segment => {
-      return {x: segment.point.x, y: segment.point.y};
-    });
+// some things to play with:
+//   1) change the settings of the differential growth process
+//   2) change the initial positions of the nodes
+//   3) change how the shape is vizualized - maybe try to show how the shape grows over time?
 
-    // Seed points from a font
-  for (let point of points) {
-    let pos = createVector(point.x, point.y);
-    diffLine.addNode(pos);
-  }
-
-  // Determine how many times the logic runs
-  let iterations = 300;
-  for (let i = 0; i < iterations; i++) {
-    diffLine.run();
-  }
-    // Now you can use the points with your diffLine function
-    // ...
-  });
-}
+// more reading:
+//   https://medium.com/@jason.webb/2d-differential-growth-in-js-1843fd51b0ce
+//   https://inconvergent.net/2016/shepherding-random-growth/
 
 function setup() {
   createCanvas(600, 600, SVG);
@@ -33,9 +21,24 @@ function setup() {
   // maxForce, maxSpeed, desiredSeparation, separationCohesionRatio, maxEdgeLen
   diffLine = new DifferentialLine(0.9, 1, 25, 0.9, 5);
   
- 
+  let count = 50;
+  for (let i = 0; i < count; i++) {
+    let ang = map(i, 0, count, 0, TWO_PI);
 
-  
+    // Horizontal and Vertical distribution of seed points
+    // let pos = createVector(0.5 * width + 20 * cos(ang), 0.5 * height + 20 * sin(ang));
+    // Horizontal and Vertical distribution of seed points
+    let a = width / 9;  // semi-major axis
+    let b = height / 7;  // semi-minor axis
+    let pos = createVector(0.5 * width + a * cos(ang), 0.5 * height + b * sin(ang));
+    diffLine.addNode(pos);
+  }
+
+  // Determine how many times you want the logic to run
+  let iterations = 300;
+  for (let i = 0; i < iterations; i++) {
+    diffLine.run();
+  }
   
   background(220);
   diffLine.render();
