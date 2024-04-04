@@ -31,10 +31,10 @@ function setup() {
 
 function draw() {
     // Determine how many times you want the logic to run
-    if (iterations < 800) {
+    if (iterations < 1000) {
         diffLine.run();
         // Render only on every other iteration
-        if (iterations % 5 === 0) {
+        if (iterations % 14 === 0) {
             diffLine.render();
         }
         iterations++;

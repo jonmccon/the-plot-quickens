@@ -111,7 +111,7 @@ function letterO(x, y, height, width, aH) {
 }
 
 function letterN1(x, y, height, width, aH, middleLineShift) {
-  let linesPerSquare = 3;
+  let linesPerSquare = 2;
   let lineSpacing = width / linesPerSquare;
   let arcHeight = height / (aH * linesPerSquare);
   stroke("red");
@@ -122,7 +122,7 @@ function letterN1(x, y, height, width, aH, middleLineShift) {
 
   // Draw the Bezier curves
   beginShape();
-  for (let k = 0; k < linesPerSquare - 1; k++) {
+  for (let k = 0; k < linesPerSquare; k++) {
     let lineX = x + k * lineSpacing + (k == 1 ? middleLineShift : 0);
     let nextLineX = x + (k + 1) * lineSpacing + (k == 0 ? middleLineShift : 0);
 
@@ -144,11 +144,11 @@ function letterN1(x, y, height, width, aH, middleLineShift) {
   endShape();
 
   // Draw the second last line
-  line(x + (linesPerSquare - 1) * lineSpacing, y, x + (linesPerSquare - 1) * lineSpacing, y + height - arcHeight);
+  line(x + (linesPerSquare) * lineSpacing, y, x + (linesPerSquare) * lineSpacing, y + height - arcHeight);
 }
 
 function letterN2(x, y, height, width, aH, middleLineShift) {
-  let linesPerSquare = 3;
+  let linesPerSquare = 2;
   let lineSpacing = width / linesPerSquare;
   let arcHeight = height / (aH * linesPerSquare);
   stroke("red");
@@ -159,7 +159,7 @@ function letterN2(x, y, height, width, aH, middleLineShift) {
 
   // Draw the Bezier curves
   beginShape();
-  for (let k = 0; k < linesPerSquare - 1; k++) {
+  for (let k = 0; k < linesPerSquare; k++) {
     let lineX = x + k * lineSpacing + (k == 1 ? middleLineShift : 0);
     let nextLineX = x + (k + 1) * lineSpacing + (k == 0 ? middleLineShift : 0);
 
@@ -181,7 +181,7 @@ function letterN2(x, y, height, width, aH, middleLineShift) {
   endShape();
 
   // Draw the second last line
-  line(x + (linesPerSquare - 1) * lineSpacing, y, x + (linesPerSquare - 1) * lineSpacing, y + height - arcHeight);
+  line(x + (linesPerSquare) * lineSpacing, y, x + (linesPerSquare) * lineSpacing, y + height - arcHeight);
 }
 
 
@@ -253,7 +253,7 @@ function draw() {
     }
 
       // Draw 6 letters
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 5; i++) {
     letter(i, x, y, h, w, aH, mL);
   }
 }
