@@ -9,10 +9,23 @@ function setup() {
 function randomLines() {
   background("antiquewhite");
 
-  let loops = 5;
-  while (loops--) {
-    line(random(50,350),random(50,350),random(50,350),random(50,350));   
+  // random single lines
+  // let loops = 5;
+  // while (loops--) {
+  //   line(random(50,350),random(50,350),random(50,350),random(50,350));   
+  // }
+
+  // random parallel lines
+  for (let i = 0; i < 6; i++) {
+    let y1 = random(100, 300);
+    let y2 = random(50, 350);
+    for (let j = 0; j < 10; j++) {
+      let x1 = 150 + j * 2
+      let x2 = 200 + j * 2
+      line(x1, y1, x2, y2);
+    }
   }
+
   circle(random(50,350), random(50,350), random(20,60));
 }
 
