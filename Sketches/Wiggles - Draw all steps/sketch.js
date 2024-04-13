@@ -8,21 +8,21 @@ function setup() {
   // maxForce, maxSpeed, desiredSeparation, separationCohesionRatio, maxEdgeLen
   diffLine = new DifferentialLine(0.9, 1, 30, 0.8, 5);
   
-  let count = 20;
+  let count = 40;
   for (let i = 0; i < count; i++) {
     let ang = map(i, 0, count, 0, TWO_PI);
 
     // Horizontal and Vertical distribution of seed points
     // let pos = createVector(0.5 * width + 20 * cos(ang), 0.5 * height + 20 * sin(ang));
     // Horizontal and Vertical distribution of seed points
-    let a = width / 7;  // semi-major axis
-    let b = height / 11;  // semi-minor axis
+    let a = width / 50;  // semi-major axis
+    let b = height / 15;  // semi-minor axis
     let pos = createVector(0.5 * width + a * cos(ang), 0.5 * height + b * sin(ang));
     diffLine.addNode(pos);
   }
 
   
-  background(220);
+  // background(220);
   noFill();
   stroke(0);
   diffLine.render();
@@ -34,7 +34,7 @@ function draw() {
     if (iterations < 1000) {
         diffLine.run();
         // Render only on every other iteration
-        if (iterations % 14 === 0) {
+        if (iterations % 7 === 0) {
             diffLine.render();
         }
         iterations++;
