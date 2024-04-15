@@ -2,8 +2,10 @@ let diffLine;
 
 let iterations = 0;
 
+let edgeBuffer = 20;  
+
 function setup() {
-  createCanvas(700, 700, SVG);
+  createCanvas(200, 200, SVG);
   
   // maxForce, maxSpeed, desiredSeparation, separationCohesionRatio, maxEdgeLen
   diffLine = new DifferentialLine(0.9, 1, 30, 0.8, 5);
@@ -15,14 +17,14 @@ function setup() {
     // Horizontal and Vertical distribution of seed points
     // let pos = createVector(0.5 * width + 20 * cos(ang), 0.5 * height + 20 * sin(ang));
     // Horizontal and Vertical distribution of seed points
-    let a = width / 50;  // semi-major axis
+    let a = width / 5;  // semi-major axis
     let b = height / 15;  // semi-minor axis
     let pos = createVector(0.5 * width + a * cos(ang), 0.5 * height + b * sin(ang));
     diffLine.addNode(pos);
   }
 
   
-  // background(220);
+  background(220);
   noFill();
   stroke(0);
   diffLine.render();
@@ -31,10 +33,10 @@ function setup() {
 
 function draw() {
     // Determine how many times you want the logic to run
-    if (iterations < 1000) {
+    if (iterations < 500) {
         diffLine.run();
         // Render only on every other iteration
-        if (iterations % 7 === 0) {
+        if (iterations % 14 === 0) {
             diffLine.render();
         }
         iterations++;
@@ -209,7 +211,7 @@ class Node {
   applyEdgeForce() {
 
     // distance from edge at which the force starts
-    let edgeBuffer = 50;  
+
     let edgeForce = createVector(0, 0);
 
     if (this.position.x < edgeBuffer) edgeForce.x = this.maxForce;
