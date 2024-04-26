@@ -2,10 +2,14 @@ let diffLine;
 
 let iterations = 0;
 
-let edgeBuffer = 20;  
+let edgeBuffer = 40;
 
 function setup() {
-  createCanvas(200, 200, SVG);
+  createCanvas(300, 300, SVG);
+
+  let randomHeight = random(2, 50);
+  let randomWidth = random(2, 50);  
+
   
   // maxForce, maxSpeed, desiredSeparation, separationCohesionRatio, maxEdgeLen
   diffLine = new DifferentialLine(0.9, 1, 30, 0.8, 5);
@@ -17,8 +21,8 @@ function setup() {
     // Horizontal and Vertical distribution of seed points
     // let pos = createVector(0.5 * width + 20 * cos(ang), 0.5 * height + 20 * sin(ang));
     // Horizontal and Vertical distribution of seed points
-    let a = width / 5;  // semi-major axis
-    let b = height / 15;  // semi-minor axis
+    let a = width / randomWidth;  // semi-major axis
+    let b = height / randomHeight;  // semi-minor axis
     let pos = createVector(0.5 * width + a * cos(ang), 0.5 * height + b * sin(ang));
     diffLine.addNode(pos);
   }
