@@ -1,23 +1,27 @@
 // Environment
 let osc;
 let env;
+let capture;
 
 
 // Basics
 function setup() {
     createCanvas(800, 800, SVG);
-    colorMode(HSL)
+    // colorMode(HSL)
+
+    createCapture(VIDEO);
 }
 
-// Mouse watcher
+// Midi watcher
 function touchStarted() {
     console.log('Before touchStarted:', getAudioContext().state);
     if (getAudioContext().state === 'suspended') {
       getAudioContext().resume();
     }
-    console.log('After touchStarted:', getAudioContext().state);
+    // console.log('After touchStarted:', getAudioContext().state);
 }
-  
+
+// Mouse watcher
 function mousePressed() {
     console.log('Before mousePressed:', getAudioContext().state);
     if (getAudioContext().state === 'suspended') {
@@ -25,6 +29,13 @@ function mousePressed() {
     }
     // console.log('After mousePressed:', getAudioContext().state);
 }
+
+
+// for a custom usb camera, use the location device1 etc
+//  deviceId: {myPreferredCameraDeviceId}, 
+
+
+
   
 let gridSize = 150; // Define the size of the grid squares
 let inset = 200; // Define the inset from the canvas
@@ -238,7 +249,7 @@ for (let i = 0; i < numShapes; i++) {
   
   
 function createGrid() {
-background(55);
+// background(55);
 noFill();
 
 // Calculate the number of rows and columns based on the canvas size, grid size and inset
@@ -308,7 +319,8 @@ function saveSvg(){
 // Puts it all together so it doesn't run every time
 function draw() {
     createGrid();
-    // drawPatterns();
+    // this needs to be rethought thru to update based on midi values not the loop
+    drawPatterns();
     mousePressed();
 
     if(channel == 74) {
