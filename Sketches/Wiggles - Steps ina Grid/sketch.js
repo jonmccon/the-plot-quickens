@@ -1,28 +1,33 @@
 let diffLine;
 let iterations = 0;
-let edgeBuffer = 40;
+
+let edgeBuffer = 20;  
+let gridRows = 3;
+let gridCols = 3;
+let cellWidth, cellHeight;
+let diffLines = [];
 
 function setup() {
-  createCanvas(300, 300, SVG);
+  createCanvas(1200, 1200, SVG);
+  cellWidth = width / gridCols;
+  cellHeight = height / gridRows;
 
-  let randomHeight = random(2, 50);
-  let randomWidth = random(2, 50);  
-
-  
-  // maxForce, maxSpeed, desiredSeparation, separationCohesionRatio, maxEdgeLen
-  diffLine = new DifferentialLine(0.9, 1, 30, 0.8, 5);
-  
-  let count = 40;
-  for (let i = 0; i < count; i++) {
-    let ang = map(i, 0, count, 0, TWO_PI);
-
-    // Horizontal and Vertical distribution of seed points
-    // let pos = createVector(0.5 * width + 20 * cos(ang), 0.5 * height + 20 * sin(ang));
-    // Horizontal and Vertical distribution of seed points
-    let a = width / randomWidth;  // semi-major axis
-    let b = height / randomHeight;  // semi-minor axis
-    let pos = createVector(0.5 * width + a * cos(ang), 0.5 * height + b * sin(ang));
-    diffLine.addNode(pos);
+  for (let i = 0; i < gridRows; i++) {
+    diffLines[i] = [];
+    for (let j = 0; j < gridCols; j++) {
+      let randomHeight = random(20, cellHeight);
+      let randomWidth = random(20, cellWidth);
+      diffLine = new DifferentialLine(0.9, 1, 30, 0.8, 5);
+      let count = 50;
+      for (let k = 0; k < count; k++) {
+        let ang = map(k, 0, count, 0, TWO_PI);
+        let a = cellWidth / randomWidth;
+        let b = cellHeight / randomHeight;
+        let pos = createVector(j * cellWidth + 0.5 * cellWidth + a * cos(ang), i * cellHeight + 0.5 * cellHeight + b * sin(ang));
+        diffLine.addNode(pos);
+      }
+      diffLines[i][j] = diffLine;
+    }
   }
   
   background(220);
@@ -36,11 +41,11 @@ function setup() {
 }
 
 function draw() {
-  if (iterations < 500) {
+  if (iterations < 600) {
     for (let i = 0; i < gridRows; i++) {
       for (let j = 0; j < gridCols; j++) {
         diffLines[i][j].run();
-        if (iterations % 14 === 0) {
+        if (iterations % 21 === 0 ) {
           diffLines[i][j].render();
         }
       }
