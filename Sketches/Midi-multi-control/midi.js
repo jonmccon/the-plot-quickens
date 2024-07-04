@@ -33,6 +33,9 @@ function getMIDIMessage(midiMessage) {
     channel = midiMessage.data[1];
     on = midiMessage.data[0];
 
+    // Get the midi data and redraw the sketch
+    redraw();
+
     // Log all midi data
-    // console.log(`MIDI Message received. Value: ${value}, Channel: ${channel}, On: ${on}`);
+    console.log(`MIDI Message received. Value: ${value}, Channel: ${channel}, On: ${on}`);
 }

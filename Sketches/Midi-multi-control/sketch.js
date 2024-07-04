@@ -3,13 +3,19 @@ let osc;
 let env;
 let capture;
 
+let G1 = 0;
+let G2 = 0;
+let G3 = 0;
+
 
 // Basics
 function setup() {
     createCanvas(800, 800, SVG);
+    noLoop();
     // colorMode(HSL)
 
-    createCapture(VIDEO);
+    // open video capture
+    // createCapture(VIDEO);
 }
 
 // Midi watcher
@@ -23,7 +29,7 @@ function touchStarted() {
 
 // Mouse watcher
 function mousePressed() {
-    console.log('Before mousePressed:', getAudioContext().state);
+    // console.log('Before mousePressed:', getAudioContext().state);
     if (getAudioContext().state === 'suspended') {
       getAudioContext().resume();
     }
@@ -246,6 +252,32 @@ for (let i = 0; i < numShapes; i++) {
 }
 }
 
+function midiBars() {
+    let barWidth = gridSize / cols;
+    let maxHeight = gridSize;
+    
+    // Calculate the height of each bar based on the G midi variables
+    let barHeight1 = map(G1, 0, 200, 0, maxHeight);
+    let barHeight2 = map(G2, 0, 200, 0, maxHeight);
+    let barHeight3 = map(G3, 20, 300, 0, maxHeight);
+    
+    // Set the color and stroke weight for the bars
+    stroke("blue");
+    strokeWeight(barWidth);
+    
+    // Draw the vertical bars
+    for (let i = 0; i < cols; i++) {
+        let x = i * gridSize + inset + barWidth / 2;
+        let y1 = height - inset - barHeight1;
+        let y2 = height - inset - barHeight2;
+        let y3 = height - inset - barHeight3;
+        
+        line(x, height - inset, x, y1);
+        line(x, height - inset, x, y2);
+        line(x, height - inset, x, y3);
+    }
+}
+
   
   
 function createGrid() {
@@ -292,6 +324,8 @@ function drawPatterns() {
     }
 }
 
+
+
 // ---------------------
 // Download SVG when clicked
 var spacebarWasPressed = false;
@@ -322,22 +356,24 @@ function draw() {
     // this needs to be rethought thru to update based on midi values not the loop
     drawPatterns();
     mousePressed();
+    midiBars();
 
     if(channel == 74) {
-        x = map(value, 0, 127, 0, 200)   
+        G1 = map(value, 0, 127, 0, 200)   
     } else if(channel == 75) {
-        y = map(value, 0, 127, 0, 200)  
+        G2 = map(value, 0, 127, 0, 200)  
     } else if(channel == 76) {
-        h = map(value, 0, 127, 20, 300);  
-    } else if(channel == 70) {
-        w = map(value, 0, 127, 0, 255)  
-    } else if(channel == 71) {
-        aH = map(value, 0, 127, 0.5, 10)  
-    } else if(channel == 72) {
-        mL = map(value, 0, 127, -100, 100)  
-    } else if (channel == 77) {
-        rows = map(value, 0, 127, 1, 10)
-    } else if (channel == 78) {
-        cols = map(value, 0, 127, 1, 10)
+        G3 = map(value, 0, 127, 20, 300);  
     }
+    // } else if(channel == 70) {
+    //     w = map(value, 0, 127, 0, 255)  
+    // } else if(channel == 71) {
+    //     aH = map(value, 0, 127, 0.5, 10)  
+    // } else if(channel == 72) {
+    //     mL = map(value, 0, 127, -100, 100)  
+    // } else if (channel == 77) {
+    //     rows = map(value, 0, 127, 1, 10)
+    // } else if (channel == 78) {
+    //     cols = map(value, 0, 127, 1, 10)
+    // }
 }
