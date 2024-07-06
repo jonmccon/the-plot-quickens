@@ -3,9 +3,21 @@ let osc;
 let env;
 let capture;
 
-let G1 = 0; // Number of grid units
+
+// Grid Starts
+  
+let gridSize = 100; // Define the size of the grid squares
+let inset = 100; // Define the inset from the canvas
+let rows, cols; // Declare rows and cols variables
+
+
+// each var is going to need a min and max that's propotional to the grid size
+// each var may need to increment by a certain amount, like 3 
+
+
+let G1 = 3; // Number of grid units
 let G2 = 0; // Proportion of grid distribution
-let G3 = 0; // Equality of per square breakdown ---------------------
+let G3 = 100; // Equality of per square breakdown ---------------------
 
 let S1 = 0; // Seed A - random input for pattern gen
 let S2 = 0; // Seed B - 
@@ -37,26 +49,21 @@ function setup() {
     // createCapture(VIDEO);
 }
 
-
-
-
 // for a custom usb camera, use the location device1 etc
 //  deviceId: {myPreferredCameraDeviceId}, 
 
 
 
-  
-let gridSize = 150; // Define the size of the grid squares
-let inset = 200; // Define the inset from the canvas
-let rows, cols; // Declare rows and cols variables
+
   
 function blankPattern(x, y, size) {
 // Do nothing
 }
+
   
 // Squiggle, one line plus first and last
 function wigVertA(x, y, size) {
-let linesPerSquare = 30;
+let linesPerSquare = G2; 
 let lineSpacing = size / linesPerSquare;
 let arcHeight = size / (1.5 * linesPerSquare);
 stroke("red");
@@ -93,10 +100,10 @@ line(x + (linesPerSquare - 1) * lineSpacing, y + arcHeight, x + (linesPerSquare 
 }
 
 function wigVertB(x, y, size) {
-let linesPerSquare = G1;
+let linesPerSquare = 6;
 let lineSpacing = size / linesPerSquare;
 let arcHeight = size / (1.5 * linesPerSquare);
-stroke("red");
+stroke("blue");
 strokeWeight(1);
 
 // Draw the first line
@@ -130,7 +137,7 @@ line(x + (linesPerSquare - 1) * lineSpacing, y + arcHeight, x + (linesPerSquare 
 }
 
 function wigHorzA(x, y, size) {
-let linesPerSquare = 6;
+let linesPerSquare = G1;
 let lineSpacing = size / linesPerSquare;
 let arcHeight = size / (1.5 * linesPerSquare);
 stroke("green");
@@ -302,31 +309,6 @@ function drawPatterns() {
 }
 
 
-
-// ---------------------
-// Download SVG when clicked
-var spacebarWasPressed = false;
-
-function keyPressed() {
-  if (key === ' ' && !spacebarWasPressed) {
-    saveSvg();
-    spacebarWasPressed = true;
-  }
-}
-
-function keyReleased() {
-  if (key === ' ') {
-    spacebarWasPressed = false;
-  }
-}
-
-function saveSvg(){
-  if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
-    save("midiTest.svg"); // give file name
-    print("saved svg");
-  }
-}
-
 // Puts it all together so it doesn't run every time
 function draw() {
     createGrid();
@@ -334,6 +316,8 @@ function draw() {
     drawPatterns();
     mousePressed();
 
+
+    // MIDI Channle Mappings
     if(channel == 74) {
         G1 = map(value, 0, 127, 0, 200)   
     } else if(channel == 75) {
