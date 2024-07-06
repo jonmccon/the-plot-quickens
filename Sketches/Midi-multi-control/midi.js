@@ -34,6 +34,7 @@ function getMIDIMessage(midiMessage) {
     on = midiMessage.data[0];
 
     // Get the midi data and redraw the sketch
+    clear();
     redraw();
 
     // Log all midi data

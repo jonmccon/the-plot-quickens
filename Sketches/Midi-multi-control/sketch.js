@@ -3,9 +3,28 @@ let osc;
 let env;
 let capture;
 
-let G1 = 0;
-let G2 = 0;
-let G3 = 0;
+let G1 = 0; // Number of grid units
+let G2 = 0; // Proportion of grid distribution
+let G3 = 0; // Equality of per square breakdown ---------------------
+
+let S1 = 0; // Seed A - random input for pattern gen
+let S2 = 0; // Seed B - 
+
+let A1 = 0; // Proportion of Wiggle Units
+let A2 = 0; // Wiggle Frequency
+let A3 = 0; // Wiggle Angle
+
+let B1 = 0; // Proportion of Pattern Units
+let B2 = 0; // Pattern Frequency / Density
+let B3 = 0; // Pattern Size
+
+let C1 = 0; // Proportion of Line Units
+let C2 = 0; // Line Frequency / Density
+let C3 = 0; // Line Noise
+let C4 = 0; // Line Angle
+
+let D1 = 0 // proportion of Cone Units
+let D2 = 0 // number of concentric circles
 
 
 // Basics
@@ -18,23 +37,7 @@ function setup() {
     // createCapture(VIDEO);
 }
 
-// Midi watcher
-function touchStarted() {
-    console.log('Before touchStarted:', getAudioContext().state);
-    if (getAudioContext().state === 'suspended') {
-      getAudioContext().resume();
-    }
-    // console.log('After touchStarted:', getAudioContext().state);
-}
 
-// Mouse watcher
-function mousePressed() {
-    // console.log('Before mousePressed:', getAudioContext().state);
-    if (getAudioContext().state === 'suspended') {
-      getAudioContext().resume();
-    }
-    // console.log('After mousePressed:', getAudioContext().state);
-}
 
 
 // for a custom usb camera, use the location device1 etc
@@ -90,7 +93,7 @@ line(x + (linesPerSquare - 1) * lineSpacing, y + arcHeight, x + (linesPerSquare 
 }
 
 function wigVertB(x, y, size) {
-let linesPerSquare = 10;
+let linesPerSquare = G1;
 let lineSpacing = size / linesPerSquare;
 let arcHeight = size / (1.5 * linesPerSquare);
 stroke("red");
@@ -252,32 +255,6 @@ for (let i = 0; i < numShapes; i++) {
 }
 }
 
-function midiBars() {
-    let barWidth = gridSize / cols;
-    let maxHeight = gridSize;
-    
-    // Calculate the height of each bar based on the G midi variables
-    let barHeight1 = map(G1, 0, 200, 0, maxHeight);
-    let barHeight2 = map(G2, 0, 200, 0, maxHeight);
-    let barHeight3 = map(G3, 20, 300, 0, maxHeight);
-    
-    // Set the color and stroke weight for the bars
-    stroke("blue");
-    strokeWeight(barWidth);
-    
-    // Draw the vertical bars
-    for (let i = 0; i < cols; i++) {
-        let x = i * gridSize + inset + barWidth / 2;
-        let y1 = height - inset - barHeight1;
-        let y2 = height - inset - barHeight2;
-        let y3 = height - inset - barHeight3;
-        
-        line(x, height - inset, x, y1);
-        line(x, height - inset, x, y2);
-        line(x, height - inset, x, y3);
-    }
-}
-
   
   
 function createGrid() {
@@ -356,7 +333,6 @@ function draw() {
     // this needs to be rethought thru to update based on midi values not the loop
     drawPatterns();
     mousePressed();
-    midiBars();
 
     if(channel == 74) {
         G1 = map(value, 0, 127, 0, 200)   
