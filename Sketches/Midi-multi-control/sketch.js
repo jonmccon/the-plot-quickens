@@ -17,7 +17,7 @@ let rows, cols; // Declare rows and cols variables
 
 let G1 = 3; // Number of grid units
 let G2 = 0; // Proportion of grid distribution
-let G3 = 100; // Equality of per square breakdown ---------------------
+let G3 = 4; // Equality of per square breakdown ---------------------
 
 let S1 = 0; // Seed A - random input for pattern gen
 let S2 = 0; // Seed B - 
@@ -266,24 +266,19 @@ for (let i = 0; i < numShapes; i++) {
   
 function createGrid() {
 noFill();
+stroke("none"); // Set the color of the grid lines
 
-
-// this approach kinda works in that it does recount the number of rows and cols based on g3
-// but it needs to be incremented better to only fit in mutitples of 4
-// and next the drawings inside also need to be based on this
-// and it needs to not fuck up with waaaay too many grids. like it needs to be a max of 16
-//
-// Assuming G3 is the desired number of rows and columns
 // Calculate the size of each grid cell to fill the canvas based on G3
-var gridSize = Math.min((width - 2 * inset) / G3, (height - 2 * inset) / G3);
+gridSize = Math.min((width - 2 * inset) / G3, (height - 2 * inset) / G3);
 
 // Calculate the number of rows and columns based on the gridSize
 rows = Math.floor((height - 2 * inset) / gridSize);
 cols = Math.floor((width - 2 * inset) / gridSize);
+//console.log(gridSize)
 
 
 
-stroke(0, 50, 100); // Set the color of the grid lines
+
 
 // Draw the grid lines
 for (let i = 0; i <= rows; i++) {
@@ -334,7 +329,7 @@ function draw() {
     } else if(channel == 75) {
         G2 = map(value, 0, 127, 0, 200)  
     } else if(channel == 76) {
-        G3 = map(value, 0, 127, 1, 4);  
+        G3 = map(value, 0, 127, 1, 8)  
     }
     // } else if(channel == 70) {
     //     w = map(value, 0, 127, 0, 255)  
