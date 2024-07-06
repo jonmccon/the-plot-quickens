@@ -62,9 +62,9 @@ function blankPattern(x, y, size) {
 
   
 // Squiggle, one line plus first and last
+// This one is fixed!
 function wigVertA(x, y, size) {
     let linesPerSquare = G2; 
-    console.log(linesPerSquare)
     let lineSpacing = size / linesPerSquare;
     let arcHeight = size / (1.5 * linesPerSquare);
     stroke("red");
@@ -101,116 +101,42 @@ function wigVertA(x, y, size) {
     endShape();
 }
 
-function wigVertB(x, y, size) {
-let linesPerSquare = 6;
-let lineSpacing = size / linesPerSquare;
-let arcHeight = size / (1.5 * linesPerSquare);
-stroke("blue");
-strokeWeight(1);
-
-// Draw the first line
-line(x, y + arcHeight, x, y + size);
-
-// Draw the Bezier curves
-beginShape();
-for (let k = 0; k < linesPerSquare - 1; k++) {
-    let lineX = x + k * lineSpacing;
-    let nextLineX = x + (k + 1) * lineSpacing;
-
-    // Calculate the control points for the Bezier curve
-    let cp1x = lineX;
-    let cp1y = k % 2 === 0 ? y : y + size;
-    let cp2x = nextLineX;
-    let cp2y = k % 2 === 0 ? y : y + size;
-
-    // Calculate the arcY based on the current line's y-coordinate and the arcHeight
-    let arcY = k % 2 === 0 ? y + arcHeight : y + size - arcHeight;
-
-    // Add a new vertex point at the start of each curve
-    vertex(lineX, arcY);
-
-    // Add the Bezier curve
-    bezierVertex(cp1x, cp1y, cp2x, cp2y, nextLineX, arcY);
-}
-endShape();
-
-// Draw the second last line
-line(x + (linesPerSquare - 1) * lineSpacing, y + arcHeight, x + (linesPerSquare - 1) * lineSpacing, y + size);
-}
-
 function wigHorzA(x, y, size) {
-let linesPerSquare = G1;
-let lineSpacing = size / linesPerSquare;
-let arcHeight = size / (1.5 * linesPerSquare);
-stroke("green");
-strokeWeight(1);
+    let linesPerSquare = G1;
+    let lineSpacing = size / linesPerSquare;
+    let arcHeight = size / (1.5 * linesPerSquare);
+    stroke("blue");
+    strokeWeight(1);
 
-// Draw the first line
-line(x + arcHeight, y, x + size, y);
-
-// Draw the Bezier curves
-beginShape();
-for (let k = 0; k < linesPerSquare - 1; k++) {
-    let lineY = y + k * lineSpacing;
-    let nextLineY = y + (k + 1) * lineSpacing;
-
-    // Calculate the control points for the Bezier curve
-    let cp1y = lineY;
-    let cp1x = k % 2 === 0 ? x : x + size;
-    let cp2y = nextLineY;
-    let cp2x = k % 2 === 0 ? x : x + size;
-
-    // Calculate the arcX based on the current line's x-coordinate and the arcHeight
-    let arcX = k % 2 === 0 ? x + arcHeight : x + size - arcHeight;
-
-    // Add a new vertex point at the start of each curve
-    vertex(arcX, lineY);
-
-    // Add the Bezier curve
-    bezierVertex(cp1x, cp1y, cp2x, cp2y, arcX, nextLineY);
-}
-endShape();
-
-// Draw the second last line
-line(x + arcHeight, y + (linesPerSquare - 1) * lineSpacing, x + size, y + (linesPerSquare - 1) * lineSpacing);
-}
-
-// Squiggle, one line plus first and last
-function wigHorzB(x, y, size) {
-let linesPerSquare = 20;
-let lineSpacing = size / linesPerSquare;
-let arcHeight = size / (1.5 * linesPerSquare);
-stroke("green");
-strokeWeight(1);
-
-// Draw the first line
-line(x + arcHeight, y, x + size, y);
-
-// Draw the Bezier curves
-beginShape();
-for (let k = 0; k < linesPerSquare - 1; k++) {
-    let lineY = y + k * lineSpacing;
-    let nextLineY = y + (k + 1) * lineSpacing;
-
-    // Calculate the control points for the Bezier curve
-    let cp1y = lineY;
-    let cp1x = k % 2 === 0 ? x : x + size;
-    let cp2y = nextLineY;
-    let cp2x = k % 2 === 0 ? x : x + size;
-
-    // Calculate the arcX based on the current line's x-coordinate and the arcHeight
-    let arcX = k % 2 === 0 ? x + arcHeight : x + size - arcHeight;
-
-    // Add a new vertex point at the start of each curve
-    vertex(arcX, lineY);
-
-    // Add the Bezier curve
-    bezierVertex(cp1x, cp1y, cp2x, cp2y, arcX, nextLineY);
-}
-endShape();
-
-// Draw the second last line
-line(x + arcHeight, y + (linesPerSquare - 1) * lineSpacing, x + size, y + (linesPerSquare - 1) * lineSpacing);
+    beginShape();
+    // Draw the first line as part of the shape, rotated by swapping x and y
+    vertex(x + arcHeight, y);
+    
+    for (let k = 0; k <= linesPerSquare; k++) {
+        let lineY = y + k * lineSpacing;
+        let nextLineY = y + (k + 1) * lineSpacing;
+    
+        if (k < linesPerSquare) {
+            // Calculate the control points for the Bezier curve for all but the last iteration, with swapped and adjusted coordinates
+            let cp1y = lineY;
+            let cp1x = k % 2 === 0 ? x : x + size;
+            let cp2y = nextLineY;
+            let cp2x = k % 2 === 0 ? x : x + size;
+    
+            // Calculate the arcX based on the current line's x-coordinate and the arcHeight, adjusted for rotation
+            let arcX = k % 2 === 0 ? x + arcHeight : x + size - arcHeight;
+    
+            // Add a new vertex point at the start of each curve, with swapped coordinates
+            vertex(arcX, lineY);
+    
+            // Add the Bezier curve with adjusted control points
+            bezierVertex(cp1x, cp1y, cp2x, cp2y, arcX, nextLineY);
+        } 
+    }
+    vertex(x + arcHeight, y + linesPerSquare * lineSpacing);
+    
+    // Complete the shape
+    endShape();
 }
 
 // X's by grid, random
@@ -291,10 +217,10 @@ for (let i = 0; i <= rows; i++) {
 
 // Define pattern array
 let patterns = [
-    [fillX, fillCircles, wigVertB, wigVertB, wigVertA, wigHorzB],
-    [wigVertB, wigHorzB, wigHorzB, wigVertA, wigVertB, wigHorzB],
-    [wigHorzA, wigVertA, wigVertA, wigVertA , wigVertB, wigHorzB],
-    [wigHorzA, wigHorzA, wigVertA, wigHorzB, fillX, wigVertB],
+    [fillX, fillCircles, wigVertA, wigVertA, wigVertA, wigHorzA],
+    [wigVertA, wigHorzA, wigHorzA, wigVertA, wigVertA, wigHorzA],
+    [wigHorzA, wigVertA, wigVertA, wigVertA , wigVertA, wigHorzA],
+    [wigHorzA, wigHorzA, wigVertA, wigHorzA, fillX, wigVertA],
     // Add more rows as needed
 ];
 
@@ -323,11 +249,11 @@ function draw() {
 
     // MIDI Channel Mappings
     if(channel == 74) {
-        G1 = map(value, 0, 127, 3, 40)   
+        G1 = Math.ceil(map(value, 0, 127, 1, 20)) * 2;    
     } else if(channel == 75) {
         G2 = Math.ceil(map(value, 0, 127, 1, 20)) * 2;  
     } else if(channel == 76) {
-        G3 = map(value, 0, 127, 1, 8)  
+        G3 = map(value, 0, 127, 1, 4)  
     }
     // } else if(channel == 70) {
     //     w = map(value, 0, 127, 0, 255)  
