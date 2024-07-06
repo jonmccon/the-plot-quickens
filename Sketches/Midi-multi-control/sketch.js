@@ -15,8 +15,8 @@ let rows, cols; // Declare rows and cols variables
 // each var may need to increment by a certain amount, like 3 
 
 
-let G1 = 3; // Number of grid units
-let G2 = 0; // Proportion of grid distribution
+let G1 = 4; // Number of grid units
+let G2 = 4; // Proportion of grid distribution
 let G3 = 4; // Equality of per square breakdown ---------------------
 
 let S1 = 0; // Seed A - random input for pattern gen
@@ -63,40 +63,42 @@ function blankPattern(x, y, size) {
   
 // Squiggle, one line plus first and last
 function wigVertA(x, y, size) {
-let linesPerSquare = G2; 
-let lineSpacing = size / linesPerSquare;
-let arcHeight = size / (1.5 * linesPerSquare);
-stroke("red");
-strokeWeight(1);
+    let linesPerSquare = G2; 
+    console.log(linesPerSquare)
+    let lineSpacing = size / linesPerSquare;
+    let arcHeight = size / (1.5 * linesPerSquare);
+    stroke("red");
+    strokeWeight(1);
 
-// Draw the first line
-line(x, y + arcHeight, x, y + size);
-
-// Draw the Bezier curves
-beginShape();
-for (let k = 0; k < linesPerSquare - 1; k++) {
-    let lineX = x + k * lineSpacing;
-    let nextLineX = x + (k + 1) * lineSpacing;
-
-    // Calculate the control points for the Bezier curve
-    let cp1x = lineX;
-    let cp1y = k % 2 === 0 ? y : y + size;
-    let cp2x = nextLineX;
-    let cp2y = k % 2 === 0 ? y : y + size;
-
-    // Calculate the arcY based on the current line's y-coordinate and the arcHeight
-    let arcY = k % 2 === 0 ? y + arcHeight : y + size - arcHeight;
-
-    // Add a new vertex point at the start of each curve
-    vertex(lineX, arcY);
-
-    // Add the Bezier curve
-    bezierVertex(cp1x, cp1y, cp2x, cp2y, nextLineX, arcY);
-}
-endShape();
-
-// Draw the second last line
-line(x + (linesPerSquare - 1) * lineSpacing, y + arcHeight, x + (linesPerSquare - 1) * lineSpacing, y + size);
+    beginShape();
+    // Draw the first line as part of the shape
+    vertex(x, y + arcHeight);
+    
+    for (let k = 0; k <= linesPerSquare; k++) {
+        let lineX = x + k * lineSpacing;
+        let nextLineX = x + (k + 1) * lineSpacing;
+    
+        if (k < linesPerSquare) {
+            // Calculate the control points for the Bezier curve for all but the last iteration
+            let cp1x = lineX;
+            let cp1y = k % 2 === 0 ? y : y + size;
+            let cp2x = nextLineX;
+            let cp2y = k % 2 === 0 ? y : y + size;
+    
+            // Calculate the arcY based on the current line's y-coordinate and the arcHeight
+            let arcY = k % 2 === 0 ? y + arcHeight : y + size - arcHeight;
+    
+            // Add a new vertex point at the start of each curve
+            vertex(lineX, arcY);
+    
+            // Add the Bezier curve
+            bezierVertex(cp1x, cp1y, cp2x, cp2y, nextLineX, arcY);
+        } 
+    }
+    vertex(x + linesPerSquare * lineSpacing, y + arcHeight);
+    
+    // Complete the shape
+    endShape();
 }
 
 function wigVertB(x, y, size) {
@@ -274,11 +276,7 @@ gridSize = Math.min((width - 2 * inset) / G3, (height - 2 * inset) / G3);
 // Calculate the number of rows and columns based on the gridSize
 rows = Math.floor((height - 2 * inset) / gridSize);
 cols = Math.floor((width - 2 * inset) / gridSize);
-//console.log(gridSize)
-
-
-
-
+// console.log(G3, gridSize)
 
 // Draw the grid lines
 for (let i = 0; i <= rows; i++) {
@@ -325,9 +323,9 @@ function draw() {
 
     // MIDI Channel Mappings
     if(channel == 74) {
-        G1 = map(value, 0, 127, 0, 200)   
+        G1 = map(value, 0, 127, 3, 40)   
     } else if(channel == 75) {
-        G2 = map(value, 0, 127, 0, 200)  
+        G2 = Math.ceil(map(value, 0, 127, 1, 20)) * 2;  
     } else if(channel == 76) {
         G3 = map(value, 0, 127, 1, 8)  
     }
