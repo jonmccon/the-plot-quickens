@@ -60,6 +60,7 @@ stroke("black"); // Set the color of the grid lines
 
 // Calculate the size of each grid cell to fill the canvas based on G3
 gridSize = Math.min((width - 2 * inset) / G3, (height - 2 * inset) / G3);
+console.log(gridSize, G3)
 
 // Calculate the number of rows and columns based on the gridSize
 rows = Math.floor((height - 2 * inset) / gridSize);
@@ -68,7 +69,7 @@ cols = Math.floor((width - 2 * inset) / gridSize);
 
 // Draw the grid lines
 // Draw vertical lines
-stroke("none"); // Set the color of the grid lines
+stroke("green"); // Set the color of the grid lines
 
 for (let j = 0; j <= cols; j++) {
     let x = j * gridSize + inset;
@@ -122,7 +123,7 @@ function draw() {
     } else if(channel == 75) {
         G2 = Math.ceil(map(value, 0, 127, 1, 20)) * 2;  
     } else if(channel == 76) {
-        G3 = map(value, 0, 127, 1, 4)  
+        G3 = Math.floor(map(value, 0, 127, 1, 5)); 
     } else if(channel == 77) {
         C1 = Math.ceil(map(value, 0, 127, 1, 30));
     } else if(channel == 73) {
