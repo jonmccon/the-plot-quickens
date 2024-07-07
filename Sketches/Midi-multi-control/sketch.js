@@ -7,7 +7,7 @@ let capture;
 // Grid Starts
   
 let gridSize = 100; // Define the size of the grid squares
-let inset = 50; // Define the inset from the canvas
+let inset = 150; // Define the inset from the canvas
 let rows, cols; // Declare rows and cols variables
 
 
@@ -41,7 +41,7 @@ let D2 = 0 // number of concentric circles
 
 // Basics
 function setup() {
-    createCanvas(400, 400, SVG);
+    createCanvas(600, 600, SVG);
     noLoop();
     background("antiquewhite");
     // colorMode(HSL)
