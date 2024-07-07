@@ -7,7 +7,7 @@ let capture;
 // Grid Starts
   
 let gridSize = 100; // Define the size of the grid squares
-let inset = 100; // Define the inset from the canvas
+let inset = 50; // Define the inset from the canvas
 let rows, cols; // Declare rows and cols variables
 
 
@@ -41,8 +41,9 @@ let D2 = 0 // number of concentric circles
 
 // Basics
 function setup() {
-    createCanvas(800, 800, SVG);
+    createCanvas(400, 400, SVG);
     noLoop();
+    background("antiquewhite");
     // colorMode(HSL)
 
     // open video capture
@@ -56,7 +57,7 @@ function setup() {
   
 function createGrid() {
 noFill();
-stroke("none"); // Set the color of the grid lines
+stroke("black"); // Set the color of the grid lines
 
 // Calculate the size of each grid cell to fill the canvas based on G3
 gridSize = Math.min((width - 2 * inset) / G3, (height - 2 * inset) / G3);
@@ -67,13 +68,20 @@ cols = Math.floor((width - 2 * inset) / gridSize);
 // console.log(G3, gridSize)
 
 // Draw the grid lines
-for (let i = 0; i <= rows; i++) {
-    for (let j = 0; j <= cols; j++) {
+// Draw vertical lines
+stroke("green"); // Set the color of the grid lines
+
+for (let j = 0; j <= cols; j++) {
     let x = j * gridSize + inset;
-    let y = i * gridSize + inset;
     line(x, inset, x, height - inset); // Draw vertical line
+}
+
+stroke("purple"); // Set the color of the grid lines
+
+// Draw horizontal lines
+for (let i = 0; i <= rows; i++) {
+    let y = i * gridSize + inset;
     line(inset, y, width - inset, y); // Draw horizontal line
-    }
 }
 }
 
