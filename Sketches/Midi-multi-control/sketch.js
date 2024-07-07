@@ -30,7 +30,7 @@ let B1 = 0; // Proportion of Pattern Units
 let B2 = 0; // Pattern Frequency / Density
 let B3 = 0; // Pattern Size
 
-let C1 = 0; // Proportion of Line Units
+let C1 = 2; // Proportion of Line Units
 let C2 = 0; // Line Frequency / Density
 let C3 = 0; // Line Noise
 let C4 = 0; // Line Angle
@@ -43,7 +43,6 @@ let D2 = 0 // number of concentric circles
 function setup() {
     createCanvas(600, 600, SVG);
     noLoop();
-    background("antiquewhite");
     // colorMode(HSL)
 
     // open video capture
@@ -69,7 +68,7 @@ cols = Math.floor((width - 2 * inset) / gridSize);
 
 // Draw the grid lines
 // Draw vertical lines
-stroke("green"); // Set the color of the grid lines
+stroke("none"); // Set the color of the grid lines
 
 for (let j = 0; j <= cols; j++) {
     let x = j * gridSize + inset;
@@ -87,8 +86,8 @@ for (let i = 0; i <= rows; i++) {
 
 // Define pattern array
 let patterns = [
-    [fillX, fillCircles, wigVertA, wigVertA, wigVertA, wigHorzA],
-    [wigVertA, wigHorzA, wigHorzA, wigVertA, wigVertA, wigHorzA],
+    [fillX, fillCircles, linesNoise, wigVertA, wigVertA, wigHorzA],
+    [linesNoise, wigHorzA, wigHorzA, wigVertA, wigVertA, wigHorzA],
     [wigHorzA, wigVertA, wigVertA, wigVertA , wigVertA, wigHorzA],
     [wigHorzA, wigHorzA, wigVertA, wigHorzA, fillX, wigVertA],
     // Add more rows as needed
@@ -124,16 +123,11 @@ function draw() {
         G2 = Math.ceil(map(value, 0, 127, 1, 20)) * 2;  
     } else if(channel == 76) {
         G3 = map(value, 0, 127, 1, 4)  
+    } else if(channel == 77) {
+        C1 = Math.ceil(map(value, 0, 127, 1, 30));
+    } else if(channel == 73) {
+        C2 = map(value, 0, 127, 0, 0.05)
+    } else if(channel == 72) {
+        C3 = map(value, 0, 127, 1, 50) 
     }
-    // } else if(channel == 70) {
-    //     w = map(value, 0, 127, 0, 255)  
-    // } else if(channel == 71) {
-    //     aH = map(value, 0, 127, 0.5, 10)  
-    // } else if(channel == 72) {
-    //     mL = map(value, 0, 127, -100, 100)  
-    // } else if (channel == 77) {
-    //     rows = map(value, 0, 127, 1, 10)
-    // } else if (channel == 78) {
-    //     cols = map(value, 0, 127, 1, 10)
-    // }
 }

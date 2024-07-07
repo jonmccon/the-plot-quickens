@@ -2,6 +2,57 @@
 function blankPattern(x, y, size) {
     // Do nothing
 }
+
+
+//
+// Lines with Noise
+//
+function linesNoise(x, y, size) {
+    let linesPerSquare = C1; // Number of parallel lines
+    let lineSpacing = size / linesPerSquare; // Calculate spacing based on the square size and number of lines
+    let noiseScale = C2; // Adjust this value to change the "zoom" level of the noise
+    stroke("purple");
+
+    push(); // Save the current drawing style settings and transformations
+    translate(x, y); // Move the origin to x, y
+
+    for (let i = 0; i < linesPerSquare; i++) {
+        // Determine the starting edge: 0 = top, 1 = bottom, 2 = left, 3 = right
+        let edge = i % 4;
+        let startX, startY;
+        if (edge === 0) { // Top
+            startX = i * lineSpacing % size;
+            startY = 0;
+        } else if (edge === 1) { // Bottom
+            startX = i * lineSpacing % size;
+            startY = size;
+        } else if (edge === 2) { // Left
+            startX = 0;
+            startY = i * lineSpacing % size;
+        } else { // Right
+            startX = size;
+            startY = i * lineSpacing % size;
+        }
+
+        beginShape();
+        vertex(startX, startY);
+        let xOff = startX;
+        let yOff = startY;
+        for (let step = 0; step <= size; step += 5) {
+            let noiseVal = noise(xOff * noiseScale, yOff * noiseScale, C3);
+            let angle = noiseVal * TWO_PI;
+            xOff += cos(angle) * 5;
+            yOff += sin(angle) * 5;
+            // Keep within bounds
+            xOff = constrain(xOff, 0, size);
+            yOff = constrain(yOff, 0, size);
+            vertex(xOff, yOff);
+        }
+        endShape();
+    }
+
+    pop(); // Restore the previous drawing style settings and transformations
+}
     
 
 

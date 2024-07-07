@@ -38,5 +38,5 @@ function getMIDIMessage(midiMessage) {
     redraw();
 
     // Log all midi data
-    // console.log(`MIDI Message received. Value: ${value}, Channel: ${channel}, On: ${on}`);
+    console.log(`MIDI Message received. Value: ${value}, Channel: ${channel}, On: ${on}`);
 }
