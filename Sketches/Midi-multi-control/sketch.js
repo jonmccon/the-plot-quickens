@@ -5,10 +5,48 @@ let capture;
 
 
 // Grid Starts
-  
 let gridSize = 100; // Define the size of the grid squares
 let inset = 150; // Define the inset from the canvas
 let rows, cols; // Declare rows and cols variables
+
+// Initialize an array to store mouse positions
+let mousePositions = [];
+
+// Define pattern weights
+const patternWeights = {
+    fillX: 1,
+    cones: 2,
+    linesNoise: 3,
+    wigVertA: 4,
+    wigHorzA: 5
+};
+
+function selectPatternWithWeight(weights) {
+    let totalWeight = Object.values(weights).reduce((acc, weight) => acc + weight, 0);
+    let random = Math.random() * totalWeight;
+    let sum = 0;
+
+    for (let pattern in weights) {
+        sum += weights[pattern];
+        if (random <= sum) {
+            return window[pattern];
+        }
+    }
+}
+
+function initializePatterns(rows, cols) {
+    let patterns = [];
+    for (let i = 0; i < rows; i++) {
+        let row = [];
+        for (let j = 0; j < cols; j++) {
+            row.push(selectPatternWithWeight(patternWeights));
+        }
+        patterns.push(row);
+    }
+    return patterns;
+}
+
+let patterns;
 
 
 // ideally each var is going to need a min and max that's propotional to the grid size
@@ -38,12 +76,15 @@ let D1 = 1.5 // proportion of Cone Units
 let D2 = 0 // number of concentric circles
 let D3 = 0 // number of concentric circles
 
+let P1 = 1 // proportion of Wiggle Units
+let P2 = 1 // proportion of Pattern Units
+
 
 // Basics
 function setup() {
     createCanvas(600, 600, SVG);
     noLoop();
-    // colorMode(HSL)
+    patterns = initializePatterns(5, 5); // Adjust rows and cols as needed
 
     // open video capture
     // createCapture(VIDEO);
@@ -84,14 +125,6 @@ for (let i = 0; i <= rows; i++) {
 }
 }
 
-// Define pattern array
-let patterns = [
-    [fillX, cones, linesNoise, wigVertA, wigVertA, wigHorzA],
-    [linesNoise, wigHorzA, wigHorzA, wigVertA, wigVertA, wigHorzA],
-    [wigHorzA, wigVertA, wigVertA, wigVertA , wigVertA, wigHorzA],
-    [wigHorzA, wigHorzA, wigVertA, wigHorzA, fillX, wigVertA],
-    // Add more rows as needed
-];
 
 function drawPatterns() {
 // Iterate over each grid square
@@ -114,6 +147,7 @@ function draw() {
     // this needs to be rethought thru to update based on midi values not the loop
     drawPatterns();
     mousePressed();
+    mouseReleased();
 
 
     // MIDI Channel Mappings
@@ -134,6 +168,10 @@ function draw() {
     } else if(channel == 34) {
         D2 = map(value, 0, 127, -100, 100)
     } else if(channel == 78) {
-        D3 = map(value, 0, 127, -100, 100) 
+        D3 = map(value, 0, 127, -100, 100)
+    } else if(channel == 77) {
+        P1 = map(value, 0, 127, 1, 10) 
+    } else if(channel == 37) {
+        P2 = map(value, 0, 127, 1, 10) 
     }
 }
