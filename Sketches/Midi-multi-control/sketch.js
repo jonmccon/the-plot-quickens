@@ -11,10 +11,9 @@ let inset = 150; // Define the inset from the canvas
 let rows, cols; // Declare rows and cols variables
 
 
-// each var is going to need a min and max that's propotional to the grid size
-// each var may need to increment by a certain amount, like 3 
+// ideally each var is going to need a min and max that's propotional to the grid size
 
-
+// UPDATE- these variable defintions
 let G1 = 4; // Number of grid units
 let G2 = 4; // Proportion of grid distribution
 let G3 = 4; // Equality of per square breakdown ---------------------
@@ -30,13 +29,14 @@ let B1 = 0; // Proportion of Pattern Units
 let B2 = 0; // Pattern Frequency / Density
 let B3 = 0; // Pattern Size
 
-let C1 = 2; // Proportion of Line Units
-let C2 = 0; // Line Frequency / Density
-let C3 = 0; // Line Noise
-let C4 = 0; // Line Angle
+let C1 = 6; // Number of Lines
+let C2 = 0; // Amount of Noise
+let C3 = 0; // Noise variation
+let C4 = 0; // 
 
-let D1 = 0 // proportion of Cone Units
+let D1 = 1.5 // proportion of Cone Units
 let D2 = 0 // number of concentric circles
+let D3 = 0 // number of concentric circles
 
 
 // Basics
@@ -60,7 +60,6 @@ stroke("black"); // Set the color of the grid lines
 
 // Calculate the size of each grid cell to fill the canvas based on G3
 gridSize = Math.min((width - 2 * inset) / G3, (height - 2 * inset) / G3);
-console.log(gridSize, G3)
 
 // Calculate the number of rows and columns based on the gridSize
 rows = Math.floor((height - 2 * inset) / gridSize);
@@ -87,7 +86,7 @@ for (let i = 0; i <= rows; i++) {
 
 // Define pattern array
 let patterns = [
-    [fillX, fillCircles, linesNoise, wigVertA, wigVertA, wigHorzA],
+    [fillX, cones, linesNoise, wigVertA, wigVertA, wigHorzA],
     [linesNoise, wigHorzA, wigHorzA, wigVertA, wigVertA, wigHorzA],
     [wigHorzA, wigVertA, wigVertA, wigVertA , wigVertA, wigHorzA],
     [wigHorzA, wigHorzA, wigVertA, wigHorzA, fillX, wigVertA],
@@ -130,5 +129,11 @@ function draw() {
         C2 = map(value, 0, 127, 0, 0.05)
     } else if(channel == 72) {
         C3 = map(value, 0, 127, 1, 50) 
+    } else if(channel == 35) {
+        D1 = map(value, 0, 127, 1, 30);
+    } else if(channel == 34) {
+        D2 = map(value, 0, 127, -100, 100)
+    } else if(channel == 78) {
+        D3 = map(value, 0, 127, -100, 100) 
     }
 }

@@ -53,6 +53,35 @@ function linesNoise(x, y, size) {
 
     pop(); // Restore the previous drawing style settings and transformations
 }
+
+
+
+//    
+// Cones
+//
+function cones(x, y, size) {
+    let numberOfCircles = D1; // Use D1 to determine the number of rings
+    let interval = size / numberOfCircles; // Calculate the size decrement for each circle
+
+    // Adjust the center point based on D2 and D3
+    let centerY = y; // Initially, the center point is not adjusted for perspective
+    let centerX = x; // Initially, the center point is not moved left or right
+
+    for (let i = 0; i < numberOfCircles; i++) {
+        let diameter = size - i * interval;
+        stroke(0, 0, 0); // Set stroke color to black
+        noFill(); // No fill for the circles
+
+        // Adjust the ellipse to be flatter based on D2
+        let flattenFactor = map(D2 + i * (size / numberOfCircles), 0, size / 2, 1, 0.5); // Adjust this mapping as needed
+
+        push(); // Save the current drawing style settings and transformations
+        translate(centerX + (size/2), centerY + (size/2)); // Move the origin to the center of the ellipse
+        rotate(radians(D3)); // Rotate the canvas by D3 radians
+        ellipse(0, 0, diameter, diameter * flattenFactor); // Draw the ellipse at the new origin
+        pop(); // Restore the previous drawing style settings and transformations
+    }
+}
     
 
 
