@@ -39,18 +39,16 @@ function mousePressed() {
 function mouseDragged() {
   mousePositions.push(createVector(mouseX, mouseY));
   // Optionally, draw the line in real-time as well
-  if (mousePositions.length > 1) {
-    let len = mousePositions.length;
-    line(mousePositions[len - 2].x, mousePositions[len - 2].y, mousePositions[len - 1].x, mousePositions[len - 1].y);
-  }
-  console.log(mousePositions)
 }
 
 
 
 function mouseReleased() {
-  // Optionally, handle mouseReleased logic here
-  // For example, you could draw the entire path again for any reason, or handle end of drawing logic
+  beginShape();
+  for (let i = 0; i < mousePositions.length; i++) {
+    vertex(mousePositions[i].x, mousePositions[i].y);
+  }
+  endShape(); // Use CLOSE to close the shape by drawing a line from the last point to the first
 }
 
 

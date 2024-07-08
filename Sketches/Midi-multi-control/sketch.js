@@ -1,6 +1,7 @@
 // Environment
 let osc;
 let env;
+let offscreen;
 let capture;
 
 
@@ -84,6 +85,7 @@ let P2 = 1 // proportion of Pattern Units
 function setup() {
     createCanvas(600, 600, SVG);
     noLoop();
+    offscreen = createGraphics(600, 600)
     patterns = initializePatterns(5, 5); // Adjust rows and cols as needed
 
     // open video capture
@@ -144,10 +146,11 @@ function drawPatterns() {
 // Puts it all together so it doesn't run every time
 function draw() {
     createGrid();
-    // this needs to be rethought thru to update based on midi values not the loop
     drawPatterns();
+    drawMousePositions();
     mousePressed();
     mouseReleased();
+
 
 
     // MIDI Channel Mappings
