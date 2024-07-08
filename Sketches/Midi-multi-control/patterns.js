@@ -175,7 +175,7 @@ function wigHorzA(x, y, size) {
 // X's by grid, random
 //
 function fillX(x, y, size) {
-    let numShapes = 20;
+    let numShapes = 6;
     let shapeSize = size / numShapes;
 
     // Set stroke properties
@@ -185,16 +185,46 @@ function fillX(x, y, size) {
     // Loop over the grid
     for (let i = 0; i < numShapes; i++) {
         for (let j = 0; j < numShapes; j++) {
-        // Calculate the top left corner of the current grid square
-        let topLeftX = x + i * shapeSize;
-        let topLeftY = y + j * shapeSize;
-
-        // Randomly decide whether to draw an 'X' in the current grid square
-        if (random() < 0.5) {
-            // Draw an 'X'
-            line(topLeftX, topLeftY, topLeftX + shapeSize, topLeftY + shapeSize);
-            line(topLeftX, topLeftY + shapeSize, topLeftX + shapeSize, topLeftY);
-        }
+            // Calculate the top left corner of the current grid square
+            let topLeftX = x + i * shapeSize;
+            let topLeftY = y + j * shapeSize;
+    
+            // Randomly decide which shape to draw
+            let shapeType = Math.floor(random() * 10); // Generates a random number between 0 and 4
+    
+            switch (shapeType) {
+                case 0: // Draw an 'X'
+                    line(topLeftX, topLeftY, topLeftX + shapeSize, topLeftY + shapeSize);
+                    line(topLeftX, topLeftY + shapeSize, topLeftX + shapeSize, topLeftY);
+                    break;
+                case 1: // Draw a triangle
+                    triangle(topLeftX + shapeSize / 2, topLeftY + 2, topLeftX, topLeftY + shapeSize, topLeftX + shapeSize, topLeftY + shapeSize);
+                    break;
+                case 2: // Draw a square
+                    rect(topLeftX, topLeftY, shapeSize / 2, shapeSize / 2);
+                    break;
+                case 3: // Draw a circle
+                    ellipse(topLeftX + shapeSize / 2, topLeftY + shapeSize / 2, shapeSize / 2, shapeSize / 2);
+                    break;
+                case 4: // Leave a blank space
+                    // Do nothing
+                    break;
+                case 5: // Leave a blank space
+                    // Do nothing
+                    break;
+                case 6: // Leave a blank space
+                    // Do nothing
+                    break;
+                case 7: // Leave a blank space
+                    // Do nothing
+                    break;
+                case 8: // Leave a blank space
+                    // Do nothing
+                    break;  
+                case 9: // Leave a blank space
+                    // Do nothing
+                    break;                
+            }
         }
     }
 }
