@@ -9,6 +9,7 @@ let capture;
 let gridSize = 100; // Define the size of the grid squares
 let inset = 150; // Define the inset from the canvas
 let rows, cols; // Declare rows and cols variables
+let seed;
 
 // Initialize an array to store mouse positions
 let mousePositions = [];
@@ -16,7 +17,7 @@ let mousePositions = [];
 // Define pattern weights
 const patternWeights = {
     fillX: 1,
-    cones: 2,
+    sine: 2,
     linesNoise: 3,
     wigVertA: 4,
     wigHorzA: 5
@@ -79,6 +80,7 @@ let D3 = 0 // number of concentric circles
 
 let P1 = 1 // proportion of Wiggle Units
 let P2 = 1 // proportion of Pattern Units
+
 
 
 // Basics

@@ -16,6 +16,9 @@ function linesNoise(x, y, size) {
     push(); // Save the current drawing style settings and transformations
     translate(x, y); // Move the origin to x, y
 
+    let randomSeed = Math.floor(Math.random() * 10000); // Generates a random number between 0 and 9999
+    noiseSeed(randomSeed);  
+
     for (let i = 0; i < linesPerSquare; i++) {
         // Determine the starting edge: 0 = top, 1 = bottom, 2 = left, 3 = right
         let edge = i % 4;
@@ -59,27 +62,68 @@ function linesNoise(x, y, size) {
 //    
 // Cones
 //
-function cones(x, y, size) {
-    let numberOfCircles = D1; // Use D1 to determine the number of rings
-    let interval = size / numberOfCircles; // Calculate the size decrement for each circle
+// function cones(x, y, size) {
+//     let numberOfCircles = D1; // Use D1 to determine the number of rings
+//     let interval = size / numberOfCircles; // Calculate the size decrement for each circle
 
-    // Adjust the center point based on D2 and D3
-    let centerY = y; // Initially, the center point is not adjusted for perspective
-    let centerX = x; // Initially, the center point is not moved left or right
+//     let randomSeed = Math.floor(Math.random() * size); // Generates a random number between 0 and 9999
+//     noiseSeed(randomSeed); 
+    
+//     // Center
+//     let centerY = y; // Initially, the center point is not adjusted for perspective
+//     let centerX = x; // Initially, the center point is not moved left or right
 
-    for (let i = 0; i < numberOfCircles; i++) {
-        let diameter = size - i * interval;
-        stroke(0, 0, 0); // Set stroke color to black
-        noFill(); // No fill for the circles
+ 
 
-        // Adjust the ellipse to be flatter based on D2
-        let flattenFactor = map(D2 + i * (size / numberOfCircles), 0, size / 2, 1, 0.5); // Adjust this mapping as needed
+//     for (let i = 0; i < numberOfCircles; i++) {
+//         let diameter = size - i * interval;
+//         stroke(0, 0, 0); // Set stroke color to black
+//         noFill(); // No fill for the circles
 
-        push(); // Save the current drawing style settings and transformations
-        translate(centerX + (size/2), centerY + (size/2)); // Move the origin to the center of the ellipse
-        rotate(radians(D3)); // Rotate the canvas by D3 radians
-        ellipse(0, 0, diameter, diameter * flattenFactor); // Draw the ellipse at the new origin
-        pop(); // Restore the previous drawing style settings and transformations
+//         // Adjust the ellipse to be flatter based on D2
+//         let flattenFactor = map(D2 + i * (size / numberOfCircles), 0, size / 2, 1, 2); // Adjust this mapping as needed
+
+//         push(); // Save the current drawing style settings and transformations
+//         translate(centerX + (size/2), centerY + (size/2)); // Move the origin to the center of the ellipse
+//         rotate(radians(D3)); // Rotate the canvas by D3 radians
+//         ellipse(0, 0, diameter, diameter * flattenFactor); // Draw the ellipse at the new origin
+//         pop(); // Restore the previous drawing style settings and transformations
+//     }
+// }
+
+//
+// sine
+//
+function sine(x, y, size) {
+    let scale = 50;
+    let resolution = 0.008;
+    let radius = size / 2; // Use the size parameter to control the radius
+    let numPoints = 30;
+    let numRings = 10;
+    // var startAngle = C1 / size; // random start angle
+
+    noiseSeed(D2); 
+
+    // Calculate the center of the grid
+    let centerX = size / 2;
+    let centerY = size / 2;
+
+    // Adjust x and y to start from the center of the grid
+    x += centerX;
+    y += centerY;
+
+    for (let r = 0; r < radius; r += radius / numRings) {
+        beginShape();
+        for (let a = C1; a < TAU + C1; a += TAU / numPoints) {
+            var offsetX = x + r * cos(a);
+            var offsetY = y + r * sin(a);
+
+            var n = map(noise(offsetX * resolution, offsetY * resolution), 0, 1, -scale, scale);
+
+            curveVertex(offsetX + n, offsetY + n);
+            stroke('#EB220E');
+        }
+        endShape(CLOSE);
     }
 }
     
