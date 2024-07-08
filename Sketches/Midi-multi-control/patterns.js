@@ -16,8 +16,7 @@ function linesNoise(x, y, size) {
     push(); // Save the current drawing style settings and transformations
     translate(x, y); // Move the origin to x, y
 
-    let randomSeed = Math.floor(Math.random() * 10000); // Generates a random number between 0 and 9999
-    noiseSeed(randomSeed);  
+    noiseSeed(C3);  
 
     for (let i = 0; i < linesPerSquare; i++) {
         // Determine the starting edge: 0 = top, 1 = bottom, 2 = left, 3 = right
@@ -42,7 +41,7 @@ function linesNoise(x, y, size) {
         let xOff = startX;
         let yOff = startY;
         for (let step = 0; step <= size; step += 5) {
-            let noiseVal = noise(xOff * noiseScale, yOff * noiseScale, C3);
+            let noiseVal = noise(xOff * noiseScale, yOff * noiseScale, 100);
             let angle = noiseVal * TWO_PI;
             xOff += cos(angle) * 5;
             yOff += sin(angle) * 5;
@@ -59,38 +58,6 @@ function linesNoise(x, y, size) {
 
 
 
-//    
-// Cones
-//
-// function cones(x, y, size) {
-//     let numberOfCircles = D1; // Use D1 to determine the number of rings
-//     let interval = size / numberOfCircles; // Calculate the size decrement for each circle
-
-//     let randomSeed = Math.floor(Math.random() * size); // Generates a random number between 0 and 9999
-//     noiseSeed(randomSeed); 
-    
-//     // Center
-//     let centerY = y; // Initially, the center point is not adjusted for perspective
-//     let centerX = x; // Initially, the center point is not moved left or right
-
- 
-
-//     for (let i = 0; i < numberOfCircles; i++) {
-//         let diameter = size - i * interval;
-//         stroke(0, 0, 0); // Set stroke color to black
-//         noFill(); // No fill for the circles
-
-//         // Adjust the ellipse to be flatter based on D2
-//         let flattenFactor = map(D2 + i * (size / numberOfCircles), 0, size / 2, 1, 2); // Adjust this mapping as needed
-
-//         push(); // Save the current drawing style settings and transformations
-//         translate(centerX + (size/2), centerY + (size/2)); // Move the origin to the center of the ellipse
-//         rotate(radians(D3)); // Rotate the canvas by D3 radians
-//         ellipse(0, 0, diameter, diameter * flattenFactor); // Draw the ellipse at the new origin
-//         pop(); // Restore the previous drawing style settings and transformations
-//     }
-// }
-
 //
 // sine
 //
@@ -99,7 +66,7 @@ function sine(x, y, size) {
     let resolution = 0.008;
     let radius = size / 2; // Use the size parameter to control the radius
     let numPoints = 30;
-    let numRings = 10;
+    let numRings = D1;
     // var startAngle = C1 / size; // random start angle
 
     noiseSeed(D2); 

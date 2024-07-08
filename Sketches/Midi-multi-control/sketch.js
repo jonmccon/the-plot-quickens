@@ -74,7 +74,7 @@ let C2 = 0; // Amount of Noise
 let C3 = 0; // Noise variation
 let C4 = 0; // 
 
-let D1 = 1.5 // proportion of Cone Units
+let D1 = 6 // proportion of Cone Units
 let D2 = 0 // number of concentric circles
 let D3 = 0 // number of concentric circles
 
@@ -169,7 +169,7 @@ function draw() {
     } else if(channel == 72) {
         C3 = map(value, 0, 127, 1, 50) 
     } else if(channel == 35) {
-        D1 = map(value, 0, 127, 1, 30);
+        D1 = map(value, 0, 127, 1, 15);
     } else if(channel == 34) {
         D2 = map(value, 0, 127, -100, 100)
     } else if(channel == 78) {

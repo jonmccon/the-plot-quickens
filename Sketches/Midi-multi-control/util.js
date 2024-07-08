@@ -45,10 +45,13 @@ function mouseDragged() {
 
 function mouseReleased() {
   beginShape();
+  stroke("black");
+  strokeWeight(3);
   for (let i = 0; i < mousePositions.length; i++) {
     vertex(mousePositions[i].x, mousePositions[i].y);
   }
-  endShape(); // Use CLOSE to close the shape by drawing a line from the last point to the first
+  endShape(); 
+  strokeWeight(1);
 }
 
 
