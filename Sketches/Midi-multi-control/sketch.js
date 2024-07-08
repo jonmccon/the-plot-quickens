@@ -88,7 +88,12 @@ function setup() {
     createCanvas(600, 600, SVG);
     noLoop();
     offscreen = createGraphics(600, 600)
-    patterns = initializePatterns(5, 5); // Adjust rows and cols as needed
+    patterns = initializePatterns(5, 5); // Max rows and columns
+
+    let button = createButton('Gimme New Ones!');
+    button.position(19, 19); // Adjust position as needed
+    button.mousePressed(redrawSketch);
+
 
     // open video capture
     // createCapture(VIDEO);
@@ -100,33 +105,29 @@ function setup() {
   
   
 function createGrid() {
-noFill();
-stroke("black"); // Set the color of the grid lines
+    noFill();
+    stroke("black"); // Set the color of the grid lines
 
-// Calculate the size of each grid cell to fill the canvas based on G3
-gridSize = Math.min((width - 2 * inset) / G3, (height - 2 * inset) / G3);
+    // Calculate the size of each grid cell to fill the canvas based on G3
+    gridSize = Math.min((width - 2 * inset) / G3, (height - 2 * inset) / G3);
 
-// Calculate the number of rows and columns based on the gridSize
-rows = Math.floor((height - 2 * inset) / gridSize);
-cols = Math.floor((width - 2 * inset) / gridSize);
-// console.log(G3, gridSize)
+    // Calculate the number of rows and columns based on the gridSize
+    rows = Math.floor((height - 2 * inset) / gridSize);
+    cols = Math.floor((width - 2 * inset) / gridSize);
 
-// Draw the grid lines
-// Draw vertical lines
-stroke("green"); // Set the color of the grid lines
+    // Draw vertical lines
+    stroke("green"); // Set the color of the grid lines
+    for (let j = 0; j <= cols; j++) {
+        let x = j * gridSize + inset;
+        line(x, inset, x, height - inset); // Draw vertical line
+    }
 
-for (let j = 0; j <= cols; j++) {
-    let x = j * gridSize + inset;
-    line(x, inset, x, height - inset); // Draw vertical line
-}
-
-stroke("purple"); // Set the color of the grid lines
-
-// Draw horizontal lines
-for (let i = 0; i <= rows; i++) {
-    let y = i * gridSize + inset;
-    line(inset, y, width - inset, y); // Draw horizontal line
-}
+    // Draw horizontal lines
+    stroke("purple"); // Set the color of the grid lines
+    for (let i = 0; i <= rows; i++) {
+        let y = i * gridSize + inset;
+        line(inset, y, width - inset, y); // Draw horizontal line
+    }
 }
 
 

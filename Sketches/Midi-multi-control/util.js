@@ -55,6 +55,18 @@ function mouseReleased() {
 }
 
 
+
+//
+// Button refresh
+//
+function redrawSketch() {
+  // Update any variables or states as needed before redrawing
+  patterns = initializePatterns(rows, cols); // Re-initialize patterns for new drawing
+  clear(); // Clear the canvas
+  redraw(); // Redraw the canvas
+}
+
+
 //
 // Download SVG spacebar
 //
