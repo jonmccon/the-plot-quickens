@@ -16,14 +16,15 @@ function linesNoise(x, y, size) {
     push(); // Save the current drawing style settings and transformations
     translate(x, y); // Move the origin to x, y
 
-    noiseSeed(C3);  
+    let randomSeed = Math.floor(random() * C3); 
+    noiseSeed(randomSeed);  
 
     for (let i = 0; i < linesPerSquare; i++) {
         // Determine the starting edge: 0 = top, 1 = bottom, 2 = left, 3 = right
         let edge = i % 4;
         let startX, startY;
         if (edge === 0) { // Top
-            startX = i * lineSpacing % size;
+            startX = i * lineSpacing;
             startY = 0;
         } else if (edge === 1) { // Bottom
             startX = i * lineSpacing % size;
@@ -41,7 +42,7 @@ function linesNoise(x, y, size) {
         let xOff = startX;
         let yOff = startY;
         for (let step = 0; step <= size; step += 5) {
-            let noiseVal = noise(xOff * noiseScale, yOff * noiseScale, 100);
+            let noiseVal = noise(xOff * noiseScale, yOff * noiseScale);
             let angle = noiseVal * TWO_PI;
             xOff += cos(angle) * 5;
             yOff += sin(angle) * 5;

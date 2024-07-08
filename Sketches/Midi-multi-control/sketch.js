@@ -18,7 +18,7 @@ let mousePositions = [];
 const patternWeights = {
     fillX: 1,
     sine: 2,
-    linesNoise: 3,
+    linesNoise: 2,
     wigVertA: 4,
     wigHorzA: 5
 };
@@ -55,8 +55,8 @@ let patterns;
 
 // UPDATE- these variable defintions
 let G1 = 4; // Number of grid units
-let G2 = 4; // Proportion of grid distribution
-let G3 = 4; // Equality of per square breakdown ---------------------
+let G2 = 8; // Proportion of grid distribution
+let G3 = 3; // Equality of per square breakdown ---------------------
 
 let S1 = 0; // Seed A - random input for pattern gen
 let S2 = 0; // Seed B - 
@@ -69,9 +69,9 @@ let B1 = 0; // Proportion of Pattern Units
 let B2 = 0; // Pattern Frequency / Density
 let B3 = 0; // Pattern Size
 
-let C1 = 6; // Number of Lines
-let C2 = 0; // Amount of Noise
-let C3 = 0; // Noise variation
+let C1 = 20; // Number of Lines
+let C2 = 0.01; // Amount of Noise
+let C3 = 77; // Noise variation
 let C4 = 0; // 
 
 let D1 = 6 // proportion of Cone Units
@@ -167,7 +167,7 @@ function draw() {
     } else if(channel == 73) {
         C2 = map(value, 0, 127, 0, 0.05)
     } else if(channel == 72) {
-        C3 = map(value, 0, 127, 1, 50) 
+        C3 = map(value, 0, 127, 1, 200) 
     } else if(channel == 35) {
         D1 = map(value, 0, 127, 1, 15);
     } else if(channel == 34) {
