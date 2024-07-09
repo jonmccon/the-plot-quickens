@@ -54,12 +54,9 @@ let patterns;
 // ideally each var is going to need a min and max that's propotional to the grid size
 
 // UPDATE- these variable defintions
-let G1 = 4; // Number of grid units
-let G2 = 8; // Proportion of grid distribution
-let G3 = 3; // Equality of per square breakdown ---------------------
-
-let S1 = 0; // Seed A - random input for pattern gen
-let S2 = 0; // Seed B - 
+let W1 = 4; // Number of grid units
+let W2 = 8; // Proportion of grid distribution
+let G1 = 3; // Equality of per square breakdown ---------------------
 
 let A1 = 0; // Proportion of Wiggle Units
 let A2 = 0; // Wiggle Frequency
@@ -69,18 +66,12 @@ let B1 = 0; // Proportion of Pattern Units
 let B2 = 0; // Pattern Frequency / Density
 let B3 = 0; // Pattern Size
 
-let C1 = 20; // Number of Lines
-let C2 = 0.01; // Amount of Noise
-let C3 = 77; // Noise variation
-let C4 = 0; // 
+let L1 = 20; // Number of Lines
+let L2 = 0.01; // Amount of Noise
+let L3 = 77; // Noise variation
 
-let D1 = 6 // proportion of Cone Units
-let D2 = 0 // number of concentric circles
-let D3 = 0 // number of concentric circles
-
-let P1 = 1 // proportion of Wiggle Units
-let P2 = 1 // proportion of Pattern Units
-
+let S1 = 6 // proportion of Cone Units
+let S2 = 0 // number of concentric circles
 
 
 // Basics
@@ -108,8 +99,8 @@ function createGrid() {
     noFill();
     stroke("black"); // Set the color of the grid lines
 
-    // Calculate the size of each grid cell to fill the canvas based on G3
-    gridSize = Math.min((width - 2 * inset) / G3, (height - 2 * inset) / G3);
+    // Calculate the size of each grid cell to fill the canvas based on G1
+    gridSize = Math.min((width - 2 * inset) / G1, (height - 2 * inset) / G1);
 
     // Calculate the number of rows and columns based on the gridSize
     rows = Math.floor((height - 2 * inset) / gridSize);
@@ -157,27 +148,22 @@ function draw() {
 
 
     // MIDI Channel Mappings
-    if(channel == 74) {
-        G1 = Math.ceil(map(value, 0, 127, 1, 20)) * 2;    
-    } else if(channel == 75) {
-        G2 = Math.ceil(map(value, 0, 127, 1, 20)) * 2;  
-    } else if(channel == 76) {
-        G3 = Math.floor(map(value, 0, 127, 1, 5)); 
-    } else if(channel == 77) {
-        C1 = Math.ceil(map(value, 0, 127, 1, 30));
-    } else if(channel == 73) {
-        C2 = map(value, 0, 127, 0, 0.05)
-    } else if(channel == 72) {
-        C3 = map(value, 0, 127, 1, 200) 
-    } else if(channel == 35) {
-        D1 = map(value, 0, 127, 1, 15);
-    } else if(channel == 34) {
-        D2 = map(value, 0, 127, -100, 100)
-    } else if(channel == 78) {
-        D3 = map(value, 0, 127, -100, 100)
-    } else if(channel == 77) {
-        P1 = map(value, 0, 127, 1, 10) 
-    } else if(channel == 37) {
-        P2 = map(value, 0, 127, 1, 10) 
-    }
+    // we're using 102 - 117
+    if(channel == 102) {
+        W1 = Math.ceil(map(value, 0, 127, 1, 20)) * 2;    
+    } else if(channel == 103) {
+        W2 = Math.ceil(map(value, 0, 127, 1, 20)) * 2;  
+    } else if(channel == 104) {
+        G1 = Math.floor(map(value, 0, 127, 1, 5)); 
+    } else if(channel == 105) {
+        L1 = Math.ceil(map(value, 0, 127, 1, 30));
+    } else if(channel == 106) {
+        L2 = map(value, 0, 127, 0, 0.05)
+    } else if(channel == 107) {
+        L3 = map(value, 0, 127, 1, 200) 
+    } else if(channel == 108) {
+        S1 = map(value, 0, 127, 1, 15);
+    } else if(channel == 109) {
+        S2 = map(value, 0, 127, -100, 100)
+    } 
 }

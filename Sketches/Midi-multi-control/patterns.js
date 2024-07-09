@@ -8,15 +8,15 @@ function blankPattern(x, y, size) {
 // Lines with Noise
 //
 function linesNoise(x, y, size) {
-    let linesPerSquare = C1; // Number of parallel lines
+    let linesPerSquare = L1; // Number of parallel lines
     let lineSpacing = size / linesPerSquare; // Calculate spacing based on the square size and number of lines
-    let noiseScale = C2; // Adjust this value to change the "zoom" level of the noise
+    let noiseScale = L2; // Adjust this value to change the "zoom" level of the noise
     stroke("purple");
 
     push(); // Save the current drawing style settings and transformations
     translate(x, y); // Move the origin to x, y
 
-    let randomSeed = Math.floor(random() * C3); 
+    let randomSeed = Math.floor(random() * L3); 
     noiseSeed(randomSeed);  
 
     for (let i = 0; i < linesPerSquare; i++) {
@@ -67,10 +67,10 @@ function sine(x, y, size) {
     let resolution = 0.008;
     let radius = size / 2; // Use the size parameter to control the radius
     let numPoints = 30;
-    let numRings = D1;
-    // var startAngle = C1 / size; // random start angle
+    let numRings = S1;
+    // var startAngle = L1 / size; // random start angle
 
-    noiseSeed(D2); 
+    noiseSeed(S2); 
 
     // Calculate the center of the grid
     let centerX = size / 2;
@@ -82,7 +82,7 @@ function sine(x, y, size) {
 
     for (let r = 0; r < radius; r += radius / numRings) {
         beginShape();
-        for (let a = C1; a < TAU + C1; a += TAU / numPoints) {
+        for (let a = L1; a < TAU + L1; a += TAU / numPoints) {
             var offsetX = x + r * cos(a);
             var offsetY = y + r * sin(a);
 
@@ -101,7 +101,7 @@ function sine(x, y, size) {
 // Vert Wiggle
 //
 function wigVertA(x, y, size) {
-    let linesPerSquare = G2; 
+    let linesPerSquare = W2; 
     let lineSpacing = size / linesPerSquare;
     let arcHeight = size / (1.5 * linesPerSquare);
     stroke("red");
@@ -144,7 +144,7 @@ function wigVertA(x, y, size) {
 // Horz Wiggle
 //
 function wigHorzA(x, y, size) {
-    let linesPerSquare = G1;
+    let linesPerSquare = W1;
     let lineSpacing = size / linesPerSquare;
     let arcHeight = size / (1.5 * linesPerSquare);
     stroke("blue");
