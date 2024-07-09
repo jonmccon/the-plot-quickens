@@ -64,30 +64,30 @@ function redrawSketch() {
   patterns = initializePatterns(rows, cols); // Re-initialize patterns for new drawing
   clear(); // Clear the canvas
   redraw(); // Redraw the canvas
+  console.log("Redrawn sketch");
 }
 
 
 //
 // Download SVG spacebar
 //
-var spacebarWasPressed = false;
+// var spacebarWasPressed = false;
 
-function keyPressed() {
-  if (key === ' ' && !spacebarWasPressed) {
-    saveSvg();
-    spacebarWasPressed = true;
-  }
-}
+// function keyPressed() {
+//   if (key === ' ' && !spacebarWasPressed) {
+//     saveSvg();
+//     spacebarWasPressed = true;
+//   }
+// }
 
-function keyReleased() {
-  if (key === ' ') {
-    spacebarWasPressed = false;
-  }
-}
+// function keyReleased() {
+//   if (key === ' ') {
+//     spacebarWasPressed = false;
+//   }
+// }
 
-function saveSvg(){
-  if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
-    save("midiTest.svg"); // give file name
-    print("saved svg");
-  }
+function saveSvg() {
+  const currentTime = new Date().toISOString().replace(/[-:.]/g, '');
+  save(`seacreates_${currentTime}.svg`); // give file name with current time
+  console.log("Saved SVG at", currentTime);
 }

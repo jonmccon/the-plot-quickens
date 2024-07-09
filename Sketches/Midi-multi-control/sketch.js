@@ -22,6 +22,7 @@ const patternWeights = {
     wigVertA: 4,
     wigHorzA: 5
 };
+console.log(patternWeights);
 
 function selectPatternWithWeight(weights) {
     let totalWeight = Object.values(weights).reduce((acc, weight) => acc + weight, 0);
@@ -53,18 +54,10 @@ let patterns;
 
 // ideally each var is going to need a min and max that's propotional to the grid size
 
-// UPDATE- these variable defintions
-let W1 = 4; // Number of grid units
-let W2 = 8; // Proportion of grid distribution
-let G1 = 3; // Equality of per square breakdown ---------------------
+let G1 = 3; // Number of grid units visible
 
-let A1 = 0; // Proportion of Wiggle Units
-let A2 = 0; // Wiggle Frequency
-let A3 = 0; // Wiggle Angle
-
-let B1 = 0; // Proportion of Pattern Units
-let B2 = 0; // Pattern Frequency / Density
-let B3 = 0; // Pattern Size
+let W1 = 4; // Density of Horz Wiggle
+let W2 = 8; // Density of Vert Wiggle
 
 let L1 = 20; // Number of Lines
 let L2 = 0.01; // Amount of Noise
@@ -81,9 +74,27 @@ function setup() {
     offscreen = createGraphics(600, 600)
     patterns = initializePatterns(5, 5); // Max rows and columns
 
-    let button = createButton('Gimme New Ones!');
-    button.position(19, 19); // Adjust position as needed
-    button.mousePressed(redrawSketch);
+    let btnRefresh = createButton('Gimme New Ones!');
+    btnRefresh.position(25, 25); // Adjust position as needed
+    btnRefresh.style('font-size', '18px');
+    btnRefresh.style('font-family', 'Google Sans');
+    btnRefresh.style('font-weight', 'Bold');
+    btnRefresh.style('padding', '10px');
+    btnRefresh.style('border-radius', '10px');
+    btnRefresh.style('border', '2px solid black');
+    btnRefresh.style('background-color', 'white');
+    btnRefresh.mousePressed(redrawSketch);
+
+    let btnDownload = createButton('Print This!');
+    btnDownload.position(225, 25); // Adjust position as needed
+    btnDownload.style('font-size', '18px');
+    btnDownload.style('font-family', 'Google Sans');
+    btnDownload.style('font-weight', 'Bold');
+    btnDownload.style('padding', '10px');
+    btnDownload.style('border-radius', '10px');
+    btnDownload.style('border', '2px solid black');
+    btnDownload.style('background-color', 'white');
+    btnDownload.mousePressed(saveSvg);
 
 
     // open video capture
@@ -164,6 +175,8 @@ function draw() {
     } else if(channel == 108) {
         S1 = map(value, 0, 127, 1, 15);
     } else if(channel == 109) {
+        S2 = map(value, 0, 127, -100, 100)
+    } else if(channel == 110) {
         S2 = map(value, 0, 127, -100, 100)
     } 
 }
