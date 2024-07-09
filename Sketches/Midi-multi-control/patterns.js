@@ -100,7 +100,7 @@ function sine(x, y, size) {
 //    
 // Vert Wiggle
 //
-function wigVertA(x, y, size) {
+function wigVert(x, y, size) {
     let linesPerSquare = W2; 
     let lineSpacing = size / linesPerSquare;
     let arcHeight = size / (1.5 * linesPerSquare);
@@ -143,7 +143,7 @@ function wigVertA(x, y, size) {
 //
 // Horz Wiggle
 //
-function wigHorzA(x, y, size) {
+function wigHorz(x, y, size) {
     let linesPerSquare = W1;
     let lineSpacing = size / linesPerSquare;
     let arcHeight = size / (1.5 * linesPerSquare);

@@ -14,15 +14,44 @@ let seed;
 // Initialize an array to store mouse positions
 let mousePositions = [];
 
-// Define pattern weights
-const patternWeights = {
-    fillX: 1,
-    sine: 2,
-    linesNoise: 2,
-    wigVertA: 4,
-    wigHorzA: 5
+let fillXweight = 1;
+let sineWeight = 2;
+let linesNoiseWeight = 2;
+let wigVertWeight = 4;
+let wigHorzWeight = 5;
+
+
+
+let patternWeights = {
+  get fillX() {
+    return fillXweight;
+  },
+  get sine() {
+    return sineWeight;
+  },
+  get linesNoise() {
+    return linesNoiseWeight;
+  },
+  get wigVert() {
+    return wigVertWeight;
+  },
+  get wigHorz() {
+    return wigHorzWeight;
+  }
 };
-console.log(patternWeights);
+
+console.log(fillXweight, sineWeight, linesNoiseWeight, wigVertWeight, wigHorzWeight);
+
+// Function to get a weight for a specific pattern
+function getPatternWeight(patternName) {
+  if (patternWeights.hasOwnProperty(patternName)) {
+    return patternWeights[patternName];
+  } else {
+    throw new Error("Pattern not found");
+  }
+}
+
+
 
 function selectPatternWithWeight(weights) {
     let totalWeight = Object.values(weights).reduce((acc, weight) => acc + weight, 0);
@@ -169,14 +198,22 @@ function draw() {
     } else if(channel == 105) {
         L1 = Math.ceil(map(value, 0, 127, 1, 30));
     } else if(channel == 106) {
-        L2 = map(value, 0, 127, 0, 0.05)
+        L2 = map(value, 0, 127, 0, 0.05);
     } else if(channel == 107) {
-        L3 = map(value, 0, 127, 1, 200) 
+        L3 = map(value, 0, 127, 1, 200);
     } else if(channel == 108) {
         S1 = map(value, 0, 127, 1, 15);
     } else if(channel == 109) {
-        S2 = map(value, 0, 127, -100, 100)
-    } else if(channel == 110) {
-        S2 = map(value, 0, 127, -100, 100)
+        S2 = map(value, 0, 127, -100, 100);
+    } else if(channel == 111) {
+        fillXweight = Math.ceil(map(value, 0, 127, 1, 10));
+    } else if(channel == 112) {
+        sineWeight = map(value, 0, 127, 1, 10);
+    } else if(channel == 113) {
+        linesNoiseWeight = map(value, 0, 127, 1, 10);
+    } else if(channel == 114) {
+        wigVertWeight = map(value, 0, 127, 1, 10);
+    } else if(channel == 115) {
+        wigHorzWeight = map(value, 0, 127, 1, 10);
     } 
 }
