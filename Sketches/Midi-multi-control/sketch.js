@@ -188,39 +188,32 @@ function draw() {
 
     // MIDI Channel Mappings
     // we're using 102 - 117
-    if(channel == 102) {
-        W1 = Math.ceil(map(value, 0, 127, 1, 20)) * 2;    
-    } else if(channel == 103) {
-        W2 = Math.ceil(map(value, 0, 127, 1, 20)) * 2;  
-    } else if(channel == 104) {
+
+    // Row 4 - Grid count
+    if(channel == 114) {
         G1 = Math.floor(map(value, 0, 127, 1, 5)); 
+
+    // Row 1 - Wiggles
+    } else if(channel == 104) {
+        W1 = Math.ceil(map(value, 0, 127, 1, 20)) * 2;    
     } else if(channel == 105) {
+        W2 = Math.ceil(map(value, 0, 127, 1, 20)) * 2;  
+    
+    // Row 2 - Line noise
+    } else if(channel == 109) {
         L1 = Math.ceil(map(value, 0, 127, 1, 30));
-    } else if(channel == 106) {
+    } else if(channel == 108) {
         L2 = map(value, 0, 127, 0, 0.05);
     } else if(channel == 107) {
         L3 = map(value, 0, 127, 1, 200);
-    } else if(channel == 108) {
+    
+    // Row 3 - Sine Wave
+    } else if(channel == 113) {
         S1 = map(value, 0, 127, 1, 15);
-    } else if(channel == 109) {
+    } else if(channel == 112) {
         S2 = map(value, 0, 127, -100, 100);
     }
 }
 
 
 
-
-
-
-// weighted midi bits
-    // } else if(channel == 111) {
-    //     fillXweight = Math.ceil(map(value, 0, 127, 1, 10));
-    // } else if(channel == 112) {
-    //     sineWeight = map(value, 0, 127, 1, 10);
-    // } else if(channel == 113) {
-    //     linesNoiseWeight = map(value, 0, 127, 1, 10);
-    // } else if(channel == 114) {
-    //     wigVertWeight = map(value, 0, 127, 1, 10);
-    // } else if(channel == 115) {
-    //     wigHorzWeight = map(value, 0, 127, 1, 10);
-    // } 
