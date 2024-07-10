@@ -137,7 +137,6 @@ function setup() {
   
 function createGrid() {
     noFill();
-    stroke("black"); // Set the color of the grid lines
 
     // Calculate the size of each grid cell to fill the canvas based on G1
     gridSize = Math.min((width - 2 * inset) / G1, (height - 2 * inset) / G1);
@@ -147,14 +146,14 @@ function createGrid() {
     cols = Math.floor((width - 2 * inset) / gridSize);
 
     // Draw vertical lines
-    stroke("green"); // Set the color of the grid lines
+    stroke("none"); // Set the color of the grid lines
     for (let j = 0; j <= cols; j++) {
         let x = j * gridSize + inset;
         line(x, inset, x, height - inset); // Draw vertical line
     }
 
     // Draw horizontal lines
-    stroke("purple"); // Set the color of the grid lines
+    stroke("none"); // Set the color of the grid lines
     for (let i = 0; i <= rows; i++) {
         let y = i * gridSize + inset;
         line(inset, y, width - inset, y); // Draw horizontal line
@@ -205,15 +204,23 @@ function draw() {
         S1 = map(value, 0, 127, 1, 15);
     } else if(channel == 109) {
         S2 = map(value, 0, 127, -100, 100);
-    } else if(channel == 111) {
-        fillXweight = Math.ceil(map(value, 0, 127, 1, 10));
-    } else if(channel == 112) {
-        sineWeight = map(value, 0, 127, 1, 10);
-    } else if(channel == 113) {
-        linesNoiseWeight = map(value, 0, 127, 1, 10);
-    } else if(channel == 114) {
-        wigVertWeight = map(value, 0, 127, 1, 10);
-    } else if(channel == 115) {
-        wigHorzWeight = map(value, 0, 127, 1, 10);
-    } 
+    }
 }
+
+
+
+
+
+
+// weighted midi bits
+    // } else if(channel == 111) {
+    //     fillXweight = Math.ceil(map(value, 0, 127, 1, 10));
+    // } else if(channel == 112) {
+    //     sineWeight = map(value, 0, 127, 1, 10);
+    // } else if(channel == 113) {
+    //     linesNoiseWeight = map(value, 0, 127, 1, 10);
+    // } else if(channel == 114) {
+    //     wigVertWeight = map(value, 0, 127, 1, 10);
+    // } else if(channel == 115) {
+    //     wigHorzWeight = map(value, 0, 127, 1, 10);
+    // } 
