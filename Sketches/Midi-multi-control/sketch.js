@@ -175,11 +175,30 @@ function drawPatterns() {
     }
 }
 
+function drawValues() {
+// Construct the display string 
+
+let S1Display = Math.ceil(S1);
+let S2Display = Math.ceil(S2);
+let L2Display = Math.ceil(map(L2, 0, 0.05, 0, 100));
+let L3Display = Math.ceil(map(L3, 0, 200, 0, 100));
+
+
+let displayText = 
+    `SEACREATES SUMMER 24 -- @THEPLOTQUICKENS \n` +
+    `EDITION: ${G1}` + `${W1}` + `${W2}` + `${L1}` + `${L2Display}` + `${L3Display}` + `${S1Display}` + `${S2Display}`;
+    
+
+ textFont('SLF Engineer Hairline');
+ text(displayText, 150, 500); // Adjust x, y positions as needed
+}
+
 
 // Puts it all together so it doesn't run every time
 function draw() {
     createGrid();
     drawPatterns();
+    drawValues();
     drawMousePositions();
     mousePressed();
     mouseReleased();

@@ -46,7 +46,7 @@ function mouseDragged() {
 function mouseReleased() {
   beginShape();
   stroke("black");
-  strokeWeight(3);
+  strokeWeight(2);
   for (let i = 0; i < mousePositions.length; i++) {
     vertex(mousePositions[i].x, mousePositions[i].y);
   }
