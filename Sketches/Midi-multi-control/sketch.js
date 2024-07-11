@@ -146,18 +146,18 @@ function createGrid() {
     cols = Math.floor((width - 2 * inset) / gridSize);
 
     // Draw vertical lines
-    stroke("none"); // Set the color of the grid lines
-    for (let j = 0; j <= cols; j++) {
-        let x = j * gridSize + inset;
-        line(x, inset, x, height - inset); // Draw vertical line
-    }
+    // stroke("black"); // Set the color of the grid lines
+    // for (let j = 0; j <= cols; j++) {
+    //     let x = j * gridSize + inset;
+    //     line(x, inset, x, height - inset); // Draw vertical line
+    // }
 
-    // Draw horizontal lines
-    stroke("none"); // Set the color of the grid lines
-    for (let i = 0; i <= rows; i++) {
-        let y = i * gridSize + inset;
-        line(inset, y, width - inset, y); // Draw horizontal line
-    }
+    // // Draw horizontal lines
+    // stroke("black"); // Set the color of the grid lines
+    // for (let i = 0; i <= rows; i++) {
+    //     let y = i * gridSize + inset;
+    //     line(inset, y, width - inset, y); // Draw horizontal line
+    // }
 }
 
 

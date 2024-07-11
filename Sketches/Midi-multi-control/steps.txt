@@ -1,0 +1,19 @@
+
+
+
+> powershell
+usbipd list
+usbipd bind --busid 3-4
+usbipd attach --wsl --busid 3-4
+
+
+> wsl
+lsusb
+ls -l /dev/ttyACM0
+sudo chmod a+rw /dev/ttyACM0
+ls -l /dev/ttyACM0
+
+serve up sketch
+
+> dedicated hyper term
+cncjs -w /mnt/c/Users/Jonny/Documents/SeaCreates/GCODE
