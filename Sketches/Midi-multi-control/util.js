@@ -27,7 +27,7 @@ function drawMousePositions() {
 }
 
 
-function mousePressed() {
+function touchStarted() {
     // console.log('Before mousePressed:', getAudioContext().state);
     if (getAudioContext().state === 'suspended') {
       getAudioContext().resume();
@@ -36,14 +36,14 @@ function mousePressed() {
     // console.log('After mousePressed:', getAudioContext().state);
 }
 
-function mouseDragged() {
+function touchMoved() {
   mousePositions.push(createVector(mouseX, mouseY));
   // Optionally, draw the line in real-time as well
 }
 
 
 
-function mouseReleased() {
+function touchEnded() {
   beginShape();
   stroke("black");
   strokeWeight(2);
