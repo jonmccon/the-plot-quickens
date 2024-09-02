@@ -36,7 +36,7 @@ function getMIDIMessage(midiMessage) {
     // Get the midi data and redraw the sketch
     clear();
     redraw();
-    drawMousePositions();
+    drawtouchPositions();
     // Log all midi data
     // console.log(`MIDI Message received. Value: ${value}, Channel: ${channel}, On: ${on}`);
 }

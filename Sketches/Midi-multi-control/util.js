@@ -17,11 +17,11 @@ function touchStarted() {
 //
 // Mouse watcher
 //
-function drawMousePositions() {
+function drawtouchPositions() {
   // Check if there are enough points to draw
-  if (mousePositions.length > 1) {
-    for (let i = 1; i < mousePositions.length; i++) {
-      line(mousePositions[i-1].x, mousePositions[i-1].y, mousePositions[i].x, mousePositions[i].y);
+  if (touchPositions.length > 1) {
+    for (let i = 1; i < touchPositions.length; i++) {
+      line(touchPositions[i-1].x, touchPositions[i-1].y, touchPositions[i].x, touchPositions[i].y);
     }
   }
 }
@@ -32,12 +32,12 @@ function touchStarted() {
     if (getAudioContext().state === 'suspended') {
       getAudioContext().resume();
     }
-    mousePositions = [];
+    touchPositions = [];
     // console.log('After mousePressed:', getAudioContext().state);
 }
 
 function touchMoved() {
-  mousePositions.push(createVector(mouseX, mouseY));
+  touchPositions.push(createVector(mouseX, mouseY));
   // Optionally, draw the line in real-time as well
 }
 
@@ -47,8 +47,8 @@ function touchEnded() {
   beginShape();
   stroke("black");
   strokeWeight(2);
-  for (let i = 0; i < mousePositions.length; i++) {
-    vertex(mousePositions[i].x, mousePositions[i].y);
+  for (let i = 0; i < touchPositions.length; i++) {
+    vertex(touchPositions[i].x, touchPositions[i].y);
   }
   endShape(); 
   strokeWeight(1);

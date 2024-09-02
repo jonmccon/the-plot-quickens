@@ -12,7 +12,7 @@ let rows, cols; // Declare rows and cols variables
 let seed;
 
 // Initialize an array to store mouse positions
-let mousePositions = [];
+let touchPositions = [];
 
 let fillXweight = 1;
 let sineWeight = 2;
@@ -199,7 +199,7 @@ function draw() {
     createGrid();
     drawPatterns();
     drawValues();
-    drawMousePositions();
+    drawtouchPositions();
     mousePressed();
     mouseReleased();
 
