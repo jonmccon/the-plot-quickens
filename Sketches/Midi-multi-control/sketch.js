@@ -99,6 +99,9 @@ let S2 = 0 // number of concentric circles
 // Basics
 function setup() {
     // Decide on a paper size and make a TPQ mark appropriately
+    // 400 x 400 canvas is 5.5 inches square
+    // 450 x 450 canvas is 6.2 inches square
+    // 500 x 500 canvas is 6.9 inches square
     // 600 x 600 canvas is 8.3 inches square
     // 650 x 650 canvas is 9 inches square
     // 700 x 700 canvas is 9.7 inches square
