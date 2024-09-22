@@ -98,6 +98,11 @@ let S2 = 0 // number of concentric circles
 
 // Basics
 function setup() {
+    // Decide on a paper size and make a TPQ mark appropriately
+    // 600 x 600 canvas is 8.3 inches square
+    // 650 x 650 canvas is 9 inches square
+    // 700 x 700 canvas is 9.7 inches square
+    // 800 x 800 canvas is 11.1 inches square
     createCanvas(600, 600, SVG);
     noLoop();
     patterns = initializePatterns(5, 5); // Max rows and columns
