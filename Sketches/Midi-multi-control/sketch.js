@@ -1,7 +1,6 @@
 // Environment
 let osc;
 let env;
-let offscreen;
 let capture;
 
 
@@ -13,6 +12,7 @@ let seed;
 
 // Initialize an array to store mouse positions
 let touchPositions = [];
+let tempTouchPositions = [];
 
 let fillXweight = 1;
 let sineWeight = 2;
@@ -100,7 +100,6 @@ let S2 = 0 // number of concentric circles
 function setup() {
     createCanvas(600, 600, SVG);
     noLoop();
-    offscreen = createGraphics(600, 600)
     patterns = initializePatterns(5, 5); // Max rows and columns
 
     let btnRefresh = createButton('Gimme New Ones!');
@@ -198,10 +197,10 @@ let displayText =
 function draw() {
     createGrid();
     drawPatterns();
-    drawValues();
-    drawtouchPositions();
-    mousePressed();
-    mouseReleased();
+    // drawValues();
+    // drawtouchPositions();
+    // mousePressed();
+    // mouseReleased();
 
 
 

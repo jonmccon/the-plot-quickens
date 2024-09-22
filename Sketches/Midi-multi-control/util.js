@@ -42,7 +42,6 @@ function touchMoved() {
 }
 
 
-
 function touchEnded() {
   beginShape();
   stroke("black");
