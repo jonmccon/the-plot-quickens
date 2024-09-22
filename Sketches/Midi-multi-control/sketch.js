@@ -194,7 +194,7 @@ let displayText =
 
 function drawLines(x1, y1, x2, displayValues) {
     for (let i = 0; i < displayValues.length; i++) {
-        line(x1 + i * 5, y1, x2 + i * 5, displayValues[i]);
+        line(x1 + i * 5, y1, x2 + i * 5, y1 - displayValues[i]);
     }
 }
 
