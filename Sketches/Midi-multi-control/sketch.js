@@ -192,11 +192,38 @@ let displayText =
  text(displayText, 150, 500); // Adjust x, y positions as needed
 }
 
+function drawLines(x1, y1, x2, displayValues) {
+    for (let i = 0; i < displayValues.length; i++) {
+        line(x1 + i * 5, y1, x2 + i * 5, displayValues[i]);
+    }
+}
+
+function drawValuesGraph() {
+    let W1Display = map(W1, 0, 20, 0, 100);
+    let W2Display = map(W2, 0, 20, 0, 100);
+    let L1Display = map(L1, 0, 30, 0, 100);
+    let L2Display = map(L2, 0, 0.05, 0, 100);
+    let L3Display = map(L3, 0, 200, 0, 100);
+    let S1Display = map(S1, 0, 15, 0, 100);
+    let S2Display = map(S2, -100, 100, 0, 100);
+    let G1Display = map(G1, 1, 5, 0, 100);
+
+    let displayValues = [W1Display, W2Display, L1Display, L2Display, L3Display, S1Display, S2Display, G1Display];
+
+    let x1 = 500;
+    let y1 = 500;
+    let x2 = 500;
+
+    stroke("black");
+
+    drawLines(x1, y1, x2, displayValues);
+}
 
 // Puts it all together so it doesn't run every time
 function draw() {
     createGrid();
     drawPatterns();
+    drawValuesGraph();
     // drawValues();
     // drawtouchPositions();
     // mousePressed();
