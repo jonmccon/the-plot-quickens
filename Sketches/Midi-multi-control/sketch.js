@@ -6,7 +6,7 @@ let capture;
 
 // Grid Starts
 let gridSize = 100; // Define the size of the grid squares
-let inset = 150; // Define the inset from the canvas
+let inset = 100; // Define the inset from the canvas
 let rows, cols; // Declare rows and cols variables
 let seed;
 
@@ -106,7 +106,7 @@ function setup() {
     // 650 x 650 canvas is 9 inches square
     // 700 x 700 canvas is 9.7 inches square
     // 800 x 800 canvas is 11.1 inches square
-    createCanvas(600, 600, SVG);
+    createCanvas(425, 425, SVG);
     noLoop();
     patterns = initializePatterns(5, 5); // Max rows and columns
 
@@ -202,25 +202,25 @@ let displayText =
 
 function drawLines(x1, y1, x2, displayValues) {
     for (let i = 0; i < displayValues.length; i++) {
-        line(x1 + i * 5, y1, x2 + i * 5, y1 - displayValues[i]);
+        line(x1 + i * 2.2, y1, x2 + i * 2.2, y1 + displayValues[i]);
     }
 }
 
 function drawValuesGraph() {
-    let W1Display = map(W1, 0, 20, 0, 100);
-    let W2Display = map(W2, 0, 20, 0, 100);
-    let L1Display = map(L1, 0, 30, 0, 100);
-    let L2Display = map(L2, 0, 0.05, 0, 100);
-    let L3Display = map(L3, 0, 200, 0, 100);
-    let S1Display = map(S1, 0, 15, 0, 100);
-    let S2Display = map(S2, -100, 100, 0, 100);
-    let G1Display = map(G1, 1, 5, 0, 100);
+    let W1Display = map(W1, 0, 20, 0, 30);
+    let W2Display = map(W2, 0, 20, 0, 30);
+    let L1Display = map(L1, 0, 30, 0, 30);
+    let L2Display = map(L2, 0, 0.05, 0, 30);
+    let L3Display = map(L3, 0, 200, 0, 30);
+    let S1Display = map(S1, 0, 15, 0, 30);
+    let S2Display = map(S2, -100, 100, 0, 30);
+    let G1Display = map(G1, 1, 5, 0, 30);
 
     let displayValues = [W1Display, W2Display, L1Display, L2Display, L3Display, S1Display, S2Display, G1Display];
 
-    let x1 = 500;
-    let y1 = 500;
-    let x2 = 500;
+    let x1 = width * .84;
+    let y1 = height * .84;
+    let x2 = width * .84;
 
     stroke("black");
 
