@@ -106,7 +106,7 @@ function setup() {
     // 650 x 650 canvas is 9 inches square
     // 700 x 700 canvas is 9.7 inches square
     // 800 x 800 canvas is 11.1 inches square
-    createCanvas(425, 425, SVG);
+    createCanvas(500, 500, SVG);
     noLoop();
     patterns = initializePatterns(5, 5); // Max rows and columns
 
@@ -218,9 +218,9 @@ function drawValuesGraph() {
 
     let displayValues = [W1Display, W2Display, L1Display, L2Display, L3Display, S1Display, S2Display, G1Display];
 
-    let x1 = width * .84;
-    let y1 = height * .84;
-    let x2 = width * .84;
+    let x1 = width * .88 + 23;
+    let y1 = height * .88;
+    let x2 = width * .88 + 23;
 
     stroke("black");
 
