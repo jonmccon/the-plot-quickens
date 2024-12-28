@@ -181,13 +181,38 @@ function wigHorz(x, y, size) {
     endShape();
 }
 
+const svgFolderPath = '/Sketches/Midi-multi-control-large-grid/booksvg';
+const svgFiles = ['BookNotes-withBoards-01.svg', 'BookNotes-withBoards-02.svg', 'BookNotes-withBoards-03.svg']; // List your SVG files here
 
+let svgContents = [];
+
+const loadSVGFiles = async () => {
+    const svgPromises = svgFiles.map(file => fetch(`${svgFolderPath}/${file}`).then(response => response.text()));
+    svgContents = await Promise.all(svgPromises);
+    console.log(svgContents); // You can access the SVG contents here
+};
+
+loadSVGFiles();
+
+function SVGFiles(x, y, width, height, svgContent) {
+    // Create a container for the SVG
+    const container = document.createElement('div');
+    container.style.position = 'absolute';
+    container.style.left = `${x}px`;
+    container.style.top = `${y}px`;
+    container.style.width = `${width}px`;
+    container.style.height = `${height}px`;
+    container.innerHTML = svgContent;
+
+    // Append the container to the body or a specific element
+    document.body.appendChild(container);
+}
 
 //
 // X's by grid, random
 //
 function fillX(x, y, size) {
-    let numShapes = 6;
+    let numShapes = 2;
     let shapeSize = size / numShapes;
 
     // Set stroke properties
@@ -210,16 +235,19 @@ function fillX(x, y, size) {
                     line(topLeftX, topLeftY + shapeSize, topLeftX + shapeSize, topLeftY);
                     break;
                 case 1: // Draw a triangle
-                    triangle(topLeftX + shapeSize / 2, topLeftY + 2, topLeftX, topLeftY + shapeSize, topLeftX + shapeSize, topLeftY + shapeSize);
+                    // triangle(topLeftX + shapeSize / 2, topLeftY + 2, topLeftX, topLeftY + shapeSize, topLeftX + shapeSize, topLeftY + shapeSize);
                     break;
                 case 2: // Draw a square
-                    rect(topLeftX, topLeftY, shapeSize / 2, shapeSize / 2);
+                    // rect(topLeftX, topLeftY, shapeSize / 2, shapeSize / 2);
                     break;
                 case 3: // Draw a circle
-                    ellipse(topLeftX + shapeSize / 2, topLeftY + shapeSize / 2, shapeSize / 2, shapeSize / 2);
+                    // ellipse(topLeftX + shapeSize / 2, topLeftY + shapeSize / 2, shapeSize / 2, shapeSize / 2);
                     break;
                 case 4: // Leave a blank space
-                    // Do nothing
+                    // select and load a random svg file from the array
+                    let randomIndex = Math.floor(Math.random() * svgContents.length);
+                    let randomSVGContent = svgContents[randomIndex];
+                    SVGFiles(topLeftX, topLeftY, shapeSize, shapeSize, randomSVGContent);
                     break;
                 case 5: // Leave a blank space
                     // Do nothing
