@@ -6,7 +6,7 @@ let capture;
 
 // Grid Starts
 let gridSize = 100; // Define the size of the grid squares
-let inset = 100; // Define the inset from the canvas
+let inset = 0; // Define the inset from the canvas
 let rows, cols; // Declare rows and cols variables
 let seed;
 
@@ -83,7 +83,7 @@ let patterns;
 
 // ideally each var is going to need a min and max that's propotional to the grid size
 
-let G1 = 3; // Number of grid units visible
+let G1 = 13; // Number of grid units visible
 
 let W1 = 4; // Density of Horz Wiggle
 let W2 = 8; // Density of Vert Wiggle
@@ -106,7 +106,9 @@ function setup() {
     // 650 x 650 canvas is 9 inches square
     // 700 x 700 canvas is 9.7 inches square
     // 800 x 800 canvas is 11.1 inches square
-    createCanvas(500, 500, SVG);
+    // 720 x 1008 is 10 14, working area of plotter
+    // 792 x 1224 is tabloid apparently at 72 dpi
+    createCanvas(720, 1008, SVG);
     noLoop();
     patterns = initializePatterns(5, 5); // Max rows and columns
 
@@ -182,56 +184,56 @@ function drawPatterns() {
     }
 }
 
-function drawValues() {
-// Construct the display string 
+// function drawValues() {
+// // Construct the display string 
 
-let S1Display = Math.ceil(S1);
-let S2Display = Math.ceil(S2);
-let L2Display = Math.ceil(map(L2, 0, 0.05, 0, 100));
-let L3Display = Math.ceil(map(L3, 0, 200, 0, 100));
+// let S1Display = Math.ceil(S1);
+// let S2Display = Math.ceil(S2);
+// let L2Display = Math.ceil(map(L2, 0, 0.05, 0, 100));
+// let L3Display = Math.ceil(map(L3, 0, 200, 0, 100));
 
 
-let displayText = 
-    `SEACREATES SUMMER 24 -- @THEPLOTQUICKENS \n` +
-    `EDITION: ${G1}` + `${W1}` + `${W2}` + `${L1}` + `${L2Display}` + `${L3Display}` + `${S1Display}` + `${S2Display}`;
+// let displayText = 
+//     `SEACREATES SUMMER 24 -- @THEPLOTQUICKENS \n` +
+//     `EDITION: ${G1}` + `${W1}` + `${W2}` + `${L1}` + `${L2Display}` + `${L3Display}` + `${S1Display}` + `${S2Display}`;
     
 
- textFont('SLF Engineer Hairline');
- text(displayText, 150, 500); // Adjust x, y positions as needed
-}
+//  textFont('SLF Engineer Hairline');
+//  text(displayText, 150, 500); // Adjust x, y positions as needed
+// }
 
-function drawLines(x1, y1, x2, displayValues) {
-    for (let i = 0; i < displayValues.length; i++) {
-        line(x1 + i * 2.2, y1, x2 + i * 2.2, y1 + displayValues[i]);
-    }
-}
+// function drawLines(x1, y1, x2, displayValues) {
+//     for (let i = 0; i < displayValues.length; i++) {
+//         line(x1 + i * 2.2, y1, x2 + i * 2.2, y1 + displayValues[i]);
+//     }
+// }
 
-function drawValuesGraph() {
-    let W1Display = map(W1, 0, 20, 0, 30);
-    let W2Display = map(W2, 0, 20, 0, 30);
-    let L1Display = map(L1, 0, 30, 0, 30);
-    let L2Display = map(L2, 0, 0.05, 0, 30);
-    let L3Display = map(L3, 0, 200, 0, 30);
-    let S1Display = map(S1, 0, 15, 0, 30);
-    let S2Display = map(S2, -100, 100, 0, 30);
-    let G1Display = map(G1, 1, 5, 0, 30);
+// function drawValuesGraph() {
+//     let W1Display = map(W1, 0, 20, 0, 30);
+//     let W2Display = map(W2, 0, 20, 0, 30);
+//     let L1Display = map(L1, 0, 30, 0, 30);
+//     let L2Display = map(L2, 0, 0.05, 0, 30);
+//     let L3Display = map(L3, 0, 200, 0, 30);
+//     let S1Display = map(S1, 0, 15, 0, 30);
+//     let S2Display = map(S2, -100, 100, 0, 30);
+//     let G1Display = map(G1, 1, 5, 0, 30);
 
-    let displayValues = [W1Display, W2Display, L1Display, L2Display, L3Display, S1Display, S2Display, G1Display];
+//     let displayValues = [W1Display, W2Display, L1Display, L2Display, L3Display, S1Display, S2Display, G1Display];
 
-    let x1 = width * .88 + 23;
-    let y1 = height * .88;
-    let x2 = width * .88 + 23;
+//     let x1 = width * .88 + 23;
+//     let y1 = height * .88;
+//     let x2 = width * .88 + 23;
 
-    stroke("black");
+//     stroke("black");
 
-    drawLines(x1, y1, x2, displayValues);
-}
+//     drawLines(x1, y1, x2, displayValues);
+// }
 
 // Puts it all together so it doesn't run every time
 function draw() {
     createGrid();
     drawPatterns();
-    drawValuesGraph();
+    // drawValuesGraph();
     // drawValues();
     // drawtouchPositions();
     // mousePressed();
