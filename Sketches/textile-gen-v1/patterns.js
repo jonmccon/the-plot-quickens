@@ -108,8 +108,8 @@ function wigVert(x, y, size) {
     strokeWeight(1);
 
     beginShape();
-    // Draw the first line as part of the shape
-    vertex(x, y + arcHeight);
+    // Extend the first line to the height of the arcHeight
+    vertex(x, y + size - arcHeight);
     
     for (let k = 0; k <= linesPerSquare; k++) {
         let lineX = x + k * lineSpacing;
@@ -152,7 +152,7 @@ function wigHorz(x, y, size) {
 
     beginShape();
     // Draw the first line as part of the shape, rotated by swapping x and y
-    vertex(x + arcHeight, y);
+    vertex(x + size - arcHeight, y);
     
     for (let k = 0; k <= linesPerSquare; k++) {
         let lineY = y + k * lineSpacing;

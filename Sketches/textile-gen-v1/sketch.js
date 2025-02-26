@@ -15,9 +15,9 @@ let touchPositions = [];
 let tempTouchPositions = [];
 
 let fillXweight = 0;
-let sineWeight = 1;
-let linesNoiseWeight = 1;
-let wigVertWeight = 1;
+let sineWeight = 0;
+let linesNoiseWeight = 0;
+let wigVertWeight = 0;
 let wigHorzWeight = 1;
 
 
@@ -96,8 +96,8 @@ let patterns;
 
 let G1 = 3; // Number of grid units visible
 
-let W1 = 4; // Density of Horz Wiggle
-let W2 = 8; // Density of Vert Wiggle
+let W1 = 8; // Density of Horz Wiggle
+let W2 = 2; // Density of Vert Wiggle
 
 let L1 = 20; // Number of Lines
 let L2 = 0.01; // Amount of Noise

@@ -90,7 +90,7 @@ function redrawSketch() {
 // Save and add Timestamp to filename
 function saveSvg() {
   const currentTime = new Date().toISOString().replace(/[-:.]/g, '');
-  save(`seacreates_${currentTime}.svg`); // give file name with current time
+  save(`bayviewTextile_${currentTime}.svg`); // give file name with current time
   console.log("Saved SVG at", currentTime);
 }
 
