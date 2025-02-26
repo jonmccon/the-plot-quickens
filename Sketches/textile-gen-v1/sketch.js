@@ -14,13 +14,23 @@ let seed;
 let touchPositions = [];
 let tempTouchPositions = [];
 
-let fillXweight = 1;
-let sineWeight = 2;
-let linesNoiseWeight = 2;
-let wigVertWeight = 4;
-let wigHorzWeight = 5;
+let fillXweight = 0;
+let sineWeight = 1;
+let linesNoiseWeight = 1;
+let wigVertWeight = 1;
+let wigHorzWeight = 1;
 
 
+let borderWeights = {
+    topLeft: 1,
+    topRight: 1,
+    bottomLeft: 1,
+    bottomRight: 1,
+    leftTop: 1,
+    leftBottom: 1,
+    rightTop: 1,
+    rightBottom: 1
+};
 
 let patternWeights = {
   get fillX() {
@@ -41,6 +51,7 @@ let patternWeights = {
 };
 
 console.log(fillXweight, sineWeight, linesNoiseWeight, wigVertWeight, wigHorzWeight);
+console.log(borderWeights);
 
 // Function to get a weight for a specific pattern
 function getPatternWeight(patternName) {
@@ -112,7 +123,11 @@ function setup() {
     // 800 x 800 canvas is 11.1 inches square
     createCanvas(500, 500, SVG);
     noLoop();
-    patterns = initializePatterns(5, 5); // Max rows and columns
+    // patterns = initializePatterns(5, 5); // Max rows and columns
+
+    frontPattern = selectPatternWithWeight(patternWeights);
+    backPattern = selectPatternWithWeight(patternWeights);
+    borderPattern = selectBorderWithWeight(borderWeights);
 
     let btnRefresh = createButton('Gimme New Ones!');
     btnRefresh.position(25, 25); // Adjust position as needed
@@ -233,9 +248,27 @@ function drawValuesGraph() {
 
 // Puts it all together so it doesn't run every time
 function draw() {
-    createGrid();
-    drawPatterns();
-    drawValuesGraph();
+
+        // Draw border pattern
+        let borderSize = Math.min(width, height) * 0.75;
+        let borderX = (width - borderSize) / 2;
+        let borderY = (height - borderSize) / 2;
+        borderPattern(borderX, borderY, borderSize);
+    
+        // Draw back pattern
+        let patternSize = Math.min(width, height) / 2;
+        let patternX = (width - patternSize) / 2;
+        let patternY = (height - patternSize) / 2;
+        backPattern(patternX, patternY, patternSize);
+    
+        // Draw front pattern
+        frontPattern(patternX, patternY, patternSize);
+
+
+
+    // createGrid();
+    // drawPatterns();
+    // drawValuesGraph();
     // drawValues();
     // drawtouchPositions();
     // mousePressed();

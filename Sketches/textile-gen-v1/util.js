@@ -59,11 +59,13 @@ function touchEnded() {
 // Button refresh
 //
 function redrawSketch() {
-  // Update any variables or states as needed before redrawing
-  patterns = initializePatterns(rows, cols); // Re-initialize patterns for new drawing
+  // Re-initialize patterns for new drawing
+  frontPattern = selectPatternWithWeight(patternWeights);
+  backPattern = selectPatternWithWeight(patternWeights);
+  borderPattern = selectBorderWithWeight();
   clear(); // Clear the canvas
   redraw(); // Redraw the canvas
-  console.log("Redrawn sketch");
+  console.log("Redrawn sketch with new patterns");
 }
 
 
