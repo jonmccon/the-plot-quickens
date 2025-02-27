@@ -148,6 +148,7 @@ let S1 = 6 // proportion of Cone Units
 let S2 = 0 // number of concentric circles
 
 
+
 // Basics
 function setup() {
     // Decide on a paper size and make a TPQ mark appropriately
@@ -165,6 +166,8 @@ function setup() {
     createCanvas(500, 500, SVG);
     background("lightblue");
     noLoop();
+
+
 
     // Front randomix
     // Wiggle count
@@ -190,13 +193,20 @@ function setup() {
     // Back randomix
     // Vertical lines
 
+    // Define weights for interrupters
+    let interrupterWeights = {
+      top: { null: 2, circle: 0, asterisk: 0, perpendicular: 0 },
+      bottom: { null: 2, circle: 1, asterisk: 1, perpendicular: 1 },
+      left: { null: 2, circle: 1, asterisk: 1, perpendicular: 1 },
+      right: { null: 2, circle: 1, asterisk: 1, perpendicular: 1 }
+    };
 
     
 
 
     frontPattern = selectPatternWithWeight(frontPatternWeights);
     backPattern = selectPatternWithWeight(backPatternWeights);
-    borderPattern = selectBorderWithWeight(borderWeights);
+    borderPattern = selectBorderWithWeight(borderWeights, interrupterWeights);
 
     let btnRefresh = createButton('Gimme New Ones!');
     btnRefresh.position(25, 25); // Adjust position as needed
