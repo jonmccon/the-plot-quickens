@@ -129,7 +129,7 @@ function wigHorz(x, y, size) {
 // Primitives by grid, random
 //
 function fillX(x, y, size) {
-    let numShapes = 6;
+    let numShapes = X1;
     let shapeSize = size / numShapes;
 
     // Set stroke properties
@@ -160,11 +160,16 @@ function fillX(x, y, size) {
                 case 3: // Draw a circle
                     ellipse(topLeftX + shapeSize / 2, topLeftY + shapeSize / 2, shapeSize / 2, shapeSize / 2);
                     break;
-                case 4: // Leave a blank space
-                    // Do nothing
+                case 4: // Draw a smaller circle
+                    ellipse(topLeftX + shapeSize / 3, topLeftY + shapeSize / 3, shapeSize / 3, shapeSize / 3);
                     break;
                 case 5: // Leave a blank space
-                    // Do nothing
+                    rect(topLeftX, topLeftY, shapeSize / 2, shapeSize / 2);
+                    push();
+                    translate(topLeftX + shapeSize / 2, topLeftY + shapeSize / 2);
+                    rotate(PI / 4);
+                    rect(0, 0, shapeSize / 2, shapeSize / 2);
+                    pop();
                     break;
                 case 6: // Leave a blank space
                     // Do nothing
@@ -183,5 +188,75 @@ function fillX(x, y, size) {
     }
 }
 
+function squigglyLines(x, y, size) {
+    let numLines = 1; // Number of squiggly lines
+    let maxSegments = 10; // Maximum number of segments per line
+    let maxSegmentLength = size / 3; // Maximum length of each segment
+    let controlPointRange = maxSegmentLength / 2; // Range for control points to ensure smoother curves
+    let directionRange = PI / 4; // Directional range in radians (45 degrees)
+
+    stroke("green");
+    strokeWeight(1);
+
+    for (let i = 0; i < numLines; i++) {
+        let startX = x + random(size);
+        let startY = y + random(size);
+        let currentX = startX;
+        let currentY = startY;
+        let currentAngle = random(TWO_PI); // Random initial direction
+
+        beginShape();
+        vertex(currentX, currentY);
+
+        for (let j = 0; j < maxSegments; j++) {
+            let angle1 = currentAngle + random(-directionRange, directionRange);
+            let segmentLength1 = random(maxSegmentLength / 2, maxSegmentLength);
+
+            let controlX1 = currentX + cos(currentAngle) * segmentLength1 / 2;
+            let controlY1 = currentY + sin(currentAngle) * segmentLength1 / 2;
+            let controlX2 = controlX1 + cos(angle1) * segmentLength1 / 2;
+            let controlY2 = controlY1 + sin(angle1) * segmentLength1 / 2;
+            let endX = controlX2 + cos(angle1) * segmentLength1;
+            let endY = controlY2 + sin(angle1) * segmentLength1;
+
+            let resampled = resampleBezier(0.5, currentX, currentY, controlX1, controlY1, controlX2, controlY2, endX, endY);
+
+            bezierVertex(resampled.x1, resampled.y1, resampled.x2, resampled.y2, resampled.x, resampled.y);
+
+            currentX = resampled.x;
+            currentY = resampled.y;
+            currentAngle = atan2(endY - currentY, endX - currentX); // Update direction
+        }
+
+        endShape();
+    }
+}
+
+const resampleBezier = function(t, x0, y0, x1, y1, x2, y2, x3, y3) {
+    const dt = 1 - t,
+        x01 = x0 * dt + x1 * t,
+        y01 = y0 * dt + y1 * t,
+        x12 = x1 * dt + x2 * t,
+        y12 = y1 * dt + y2 * t,
+        x23 = x2 * dt + x3 * t,
+        y23 = y2 * dt + y3 * t,
+
+        h1x = x01 * dt + x12 * t,
+        h1y = y01 * dt + y12 * t,
+        h2x = x12 * dt + x23 * t,
+        h2y = y12 * dt + y23 * t,
+        x = h1x * dt + h2x * t,
+        y = h1y * dt + h2y * t;
+    return {
+        x0: x0,
+        y0: y0,
+        x1: h1x,
+        y1: h1y,
+        x2: h2x,
+        y2: h2y,
+        x: x,
+        y: y
+    };
+};
 
 

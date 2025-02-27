@@ -68,7 +68,7 @@ function verticalLines(x, y, size) {
     let lineSpacing = size / (numLinesPerRow - 1); // Calculate the spacing between lines in each row
     let lineHeight = rowSpacing * 0.8; // Height of each vertical line, with some space between rows
 
-    console.log("numRows:" + numRows, "numLinesPerRow:" + numLinesPerRow, "rowSpacing:" + rowSpacing, "lineSpacing:" + lineSpacing, "lineHeight:" + lineHeight);  
+    // console.log("numRows:" + numRows, "numLinesPerRow:" + numLinesPerRow, "rowSpacing:" + rowSpacing, "lineSpacing:" + lineSpacing, "lineHeight:" + lineHeight);  
 
     stroke("black");
     strokeWeight(1);

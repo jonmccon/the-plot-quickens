@@ -19,6 +19,7 @@ let fillXweight = 1;
 let sineWeight = 1;
 let wigVertWeight = 1;
 let wigHorzWeight = 1;
+let squigglyLinesWeight = 0;
 
 let linesNoiseWeight = 1;
 let verticalLinesWeight = 1;
@@ -49,6 +50,9 @@ let frontPatternWeights = {
   get wigHorz() {
     return wigHorzWeight;
   },
+  get squigglyLines() {
+    return squigglyLinesWeight;
+  }
 };
 
 let backPatternWeights = {
@@ -159,8 +163,36 @@ function setup() {
     // 700 x 700 canvas is 9.7 inches square
     // 800 x 800 canvas is 11.1 inches square
     createCanvas(500, 500, SVG);
+    background("lightblue");
     noLoop();
-    // patterns = initializePatterns(5, 5); // Max rows and columns
+
+    // Front randomix
+    // Wiggle count
+        W1 = Math.ceil(random(1, 10)) * 2;    
+        W2 = Math.ceil(random(1, 10)) * 2;  
+    
+    // Line noise
+        L1 = Math.ceil(random(10, 30));
+        L2 = random(0, 0.05);
+        L3 = random(1, 100);
+    
+    // Sine Wave
+        S1 = random(5, 15);
+        S2 = random(-100, 100);
+
+    // Fill X Primitives
+        X1 = random(1, 10);
+
+    // Squiggly Lines
+
+
+    
+    // Back randomix
+    // Vertical lines
+
+
+    
+
 
     frontPattern = selectPatternWithWeight(frontPatternWeights);
     backPattern = selectPatternWithWeight(backPatternWeights);
@@ -187,7 +219,6 @@ function setup() {
     btnDownload.style('border', '2px solid black');
     btnDownload.style('background-color', 'white');
     btnDownload.mousePressed(saveSvg);
-
 
     // open video capture
     // createCapture(VIDEO);
@@ -318,30 +349,7 @@ function draw() {
     // MIDI Channel Mappings
     // we're using 102 - 117
 
-    // Row 4 - Grid count
-    if(channel == 114) {
-        G1 = Math.floor(map(value, 0, 127, 1, 5)); 
-
-    // Row 1 - Wiggles
-    } else if(channel == 104) {
-        W1 = Math.ceil(map(value, 0, 127, 1, 20)) * 2;    
-    } else if(channel == 105) {
-        W2 = Math.ceil(map(value, 0, 127, 1, 20)) * 2;  
     
-    // Row 2 - Line noise
-    } else if(channel == 109) {
-        L1 = Math.ceil(map(value, 0, 127, 1, 30));
-    } else if(channel == 108) {
-        L2 = map(value, 0, 127, 0, 0.05);
-    } else if(channel == 107) {
-        L3 = map(value, 0, 127, 1, 200);
-    
-    // Row 3 - Sine Wave
-    } else if(channel == 113) {
-        S1 = map(value, 0, 127, 1, 15);
-    } else if(channel == 112) {
-        S2 = map(value, 0, 127, -100, 100);
-    }
 }
 
 

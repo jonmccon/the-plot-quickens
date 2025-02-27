@@ -60,10 +60,11 @@ function touchEnded() {
 //
 function redrawSketch() {
   // Re-initialize patterns for new drawing
-  frontPattern = selectPatternWithWeight(patternWeights);
-  backPattern = selectPatternWithWeight(patternWeights);
-  borderPattern = selectBorderWithWeight();
   clear(); // Clear the canvas
+  background("lightblue");
+  frontPattern = selectPatternWithWeight(frontPatternWeights);
+  backPattern = selectPatternWithWeight(backPatternWeights);
+  borderPattern = selectBorderWithWeight(borderWeights);
   redraw(); // Redraw the canvas
   console.log("Redrawn sketch with new patterns");
 }
