@@ -14,11 +14,14 @@ let seed;
 let touchPositions = [];
 let tempTouchPositions = [];
 
-let fillXweight = 0;
-let sineWeight = 0;
-let linesNoiseWeight = 0;
-let wigVertWeight = 0;
+// Pattern weight values
+let fillXweight = 1;
+let sineWeight = 1;
+let wigVertWeight = 1;
 let wigHorzWeight = 1;
+
+let linesNoiseWeight = 1;
+let verticalLinesWeight = 1;
 
 
 let borderWeights = {
@@ -32,21 +35,55 @@ let borderWeights = {
     rightBottom: 1
 };
 
-let patternWeights = {
+// Pattern weight functions
+let frontPatternWeights = {
   get fillX() {
     return fillXweight;
   },
   get sine() {
     return sineWeight;
   },
-  get linesNoise() {
-    return linesNoiseWeight;
-  },
   get wigVert() {
     return wigVertWeight;
   },
   get wigHorz() {
     return wigHorzWeight;
+  },
+};
+
+let backPatternWeights = {
+  get linesNoise() {
+    return linesNoiseWeight;
+  },
+  get verticalLines() {
+    return verticalLinesWeight;
+  },
+};
+
+let borderPatternWeights = {
+  get topLeft() {
+    return borderWeights.topLeft;
+  },
+  get topRight() {
+    return borderWeights.topRight;
+  },
+  get bottomLeft() {
+    return borderWeights.bottomLeft;
+  },
+  get bottomRight() {
+    return borderWeights.bottomRight;
+  },
+  get leftTop() {
+    return borderWeights.leftTop;
+  },
+  get leftBottom() {
+    return borderWeights.leftBottom;
+  },
+  get rightTop() {
+    return borderWeights.rightTop;
+  },
+  get rightBottom() {
+    return borderWeights.rightBottom;
   }
 };
 
@@ -97,7 +134,7 @@ let patterns;
 let G1 = 3; // Number of grid units visible
 
 let W1 = 8; // Density of Horz Wiggle
-let W2 = 2; // Density of Vert Wiggle
+let W2 = 12; // Density of Vert Wiggle
 
 let L1 = 20; // Number of Lines
 let L2 = 0.01; // Amount of Noise
@@ -125,8 +162,8 @@ function setup() {
     noLoop();
     // patterns = initializePatterns(5, 5); // Max rows and columns
 
-    frontPattern = selectPatternWithWeight(patternWeights);
-    backPattern = selectPatternWithWeight(patternWeights);
+    frontPattern = selectPatternWithWeight(frontPatternWeights);
+    backPattern = selectPatternWithWeight(backPatternWeights);
     borderPattern = selectBorderWithWeight(borderWeights);
 
     let btnRefresh = createButton('Gimme New Ones!');
@@ -255,11 +292,13 @@ function draw() {
         let borderY = (height - borderSize) / 2;
         borderPattern(borderX, borderY, borderSize);
     
-        // Draw back pattern
+        
         let patternSize = Math.min(width, height) / 2;
         let patternX = (width - patternSize) / 2;
         let patternY = (height - patternSize) / 2;
-        backPattern(patternX, patternY, patternSize);
+        
+        // Draw back pattern
+        backPattern(patternX * 0.8, patternY * 0.8, patternSize * 1.2);
     
         // Draw front pattern
         frontPattern(patternX, patternY, patternSize);

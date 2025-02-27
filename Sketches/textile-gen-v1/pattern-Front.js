@@ -1,66 +1,8 @@
-  
-function blankPattern(x, y, size) {
-    // Do nothing
-}
+// Front Patterns
 
 
 //
-// Lines with Noise
-//
-function linesNoise(x, y, size) {
-    let linesPerSquare = L1; // Number of parallel lines
-    let lineSpacing = size / linesPerSquare; // Calculate spacing based on the square size and number of lines
-    let noiseScale = L2; // Adjust this value to change the "zoom" level of the noise
-    stroke("purple");
-
-    push(); // Save the current drawing style settings and transformations
-    translate(x, y); // Move the origin to x, y
-
-    let randomSeed = Math.floor(random() * L3); 
-    noiseSeed(randomSeed);  
-
-    for (let i = 0; i < linesPerSquare; i++) {
-        // Determine the starting edge: 0 = top, 1 = bottom, 2 = left, 3 = right
-        let edge = i % 4;
-        let startX, startY;
-        if (edge === 0) { // Top
-            startX = i * lineSpacing;
-            startY = 0;
-        } else if (edge === 1) { // Bottom
-            startX = i * lineSpacing % size;
-            startY = size;
-        } else if (edge === 2) { // Left
-            startX = 0;
-            startY = i * lineSpacing % size;
-        } else { // Right
-            startX = size;
-            startY = i * lineSpacing % size;
-        }
-
-        beginShape();
-        vertex(startX, startY);
-        let xOff = startX;
-        let yOff = startY;
-        for (let step = 0; step <= size; step += 5) {
-            let noiseVal = noise(xOff * noiseScale, yOff * noiseScale);
-            let angle = noiseVal * TWO_PI;
-            xOff += cos(angle) * 5;
-            yOff += sin(angle) * 5;
-            // Keep within bounds
-            xOff = constrain(xOff, 0, size);
-            yOff = constrain(yOff, 0, size);
-            vertex(xOff, yOff);
-        }
-        endShape();
-    }
-
-    pop(); // Restore the previous drawing style settings and transformations
-}
-
-
-
-//
-// sine
+// sine concentric rings
 //
 function sine(x, y, size) {
     let scale = 50;
@@ -184,7 +126,7 @@ function wigHorz(x, y, size) {
 
 
 //
-// X's by grid, random
+// Primitives by grid, random
 //
 function fillX(x, y, size) {
     let numShapes = 6;
@@ -243,29 +185,3 @@ function fillX(x, y, size) {
 
 
 
-//
-// Circles by grid, random
-//
-function fillCircles(x, y, size) {
-let numShapes = 10;
-let shapeSize = size / numShapes;
-
-// Set stroke properties
-stroke("red");
-strokeWeight(1);
-
-// Loop over the grid
-for (let i = 0; i < numShapes; i++) {
-    for (let j = 0; j < numShapes; j++) {
-    // Calculate the top left corner of the current grid square
-    let topLeftX = x + i * shapeSize;
-    let topLeftY = y + j * shapeSize;
-
-    // Randomly decide whether to draw a circle in the current grid square
-    if (random() < 0.5) {
-        // Draw a circle
-        ellipse(topLeftX + shapeSize / 2, topLeftY + shapeSize / 2, shapeSize, shapeSize);
-    }
-    }
-}
-}
