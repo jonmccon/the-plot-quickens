@@ -25,16 +25,22 @@ let linesNoiseWeight = 1;
 let verticalLinesWeight = 1;
 
 
-let borderWeights = {
-    topLeft: 1,
-    topRight: 1,
-    bottomLeft: 1,
-    bottomRight: 1,
-    leftTop: 1,
-    leftBottom: 1,
-    rightTop: 1,
-    rightBottom: 1
-};
+function getRandomBorderWeights() {
+  return {
+      topLeft: Math.round(Math.random()),
+      topRight: Math.round(Math.random()),
+      bottomLeft: Math.round(Math.random()),
+      bottomRight: Math.round(Math.random()),
+      leftTop: Math.round(Math.random()),
+      leftBottom: Math.round(Math.random()),
+      rightTop: Math.round(Math.random()),
+      rightBottom: Math.round(Math.random())
+  };
+}
+
+let borderWeights = getRandomBorderWeights();
+
+console.log(borderWeights);
 
 // Pattern weight functions
 let frontPatternWeights = {
@@ -202,7 +208,8 @@ function setup() {
     };
 
     
-
+    // Initialize borderWeights with random values
+    borderWeights = getRandomBorderWeights();
 
     frontPattern = selectPatternWithWeight(frontPatternWeights);
     backPattern = selectPatternWithWeight(backPatternWeights);
@@ -331,7 +338,7 @@ function draw() {
         let borderSize = Math.min(width, height) * 0.75;
         let borderX = (width - borderSize) / 2;
         let borderY = (height - borderSize) / 2;
-        borderPattern(borderX, borderY, borderSize);
+        borderPattern(borderX, borderY, borderSize, borderWeights);
     
         
         let patternSize = Math.min(width, height) / 2;
