@@ -202,15 +202,11 @@ function setup() {
     btnDownload.style('background-color', 'white');
     btnDownload.mousePressed(saveSvg);
 
-    // open video capture
-    // createCapture(VIDEO);
 }
 
-
-
-
-// Puts it all together so it doesn't run every time
 function draw() {
+// figure how to componentizwe this a bit more to allow for setting up multiple patterns on page
+// confirm color use for mockups
 
         // Draw border pattern
         let borderSize = Math.min(width, height) * 0.75;
