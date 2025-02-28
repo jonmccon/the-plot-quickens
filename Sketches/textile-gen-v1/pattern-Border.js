@@ -23,6 +23,7 @@ function simpleLinePattern(x, y, size, borderWeights, topInterrupter = null, bot
         if (interrupter) {
             let midX = (startX + endX) / 2;
             let midY = (startY + endY) / 2;
+
             if (isHorizontal) {
                 endX -= interrupterSize / 2;
             } else {
@@ -31,11 +32,13 @@ function simpleLinePattern(x, y, size, borderWeights, topInterrupter = null, bot
             vertex(startX, startY);
             vertex(endX, endY);
             drawInterrupter(midX, midY, interrupter);
+            
             if (isHorizontal) {
-                vertex(endX + interrupterSize / 2, endY);
+                vertex(endX, endY);
             } else {
-                vertex(endX, endY + interrupterSize / 2);
+                vertex(endX, endY);
             }
+
         } else {
             vertex(startX, startY);
             vertex(endX, endY);
