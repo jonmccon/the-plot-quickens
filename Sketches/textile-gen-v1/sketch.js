@@ -1,18 +1,11 @@
 // Environment
-let osc;
-let env;
-let capture;
+
 
 
 // Grid Starts
-let gridSize = 100; // Define the size of the grid squares
-let inset = 100; // Define the inset from the canvas
-let rows, cols; // Declare rows and cols variables
-let seed;
+// let seed;
 
-// Initialize an array to store mouse positions
-let touchPositions = [];
-let tempTouchPositions = [];
+
 
 // Pattern weight values
 let fillXweight = 1;
@@ -97,9 +90,6 @@ let borderPatternWeights = {
   }
 };
 
-console.log(fillXweight, sineWeight, linesNoiseWeight, wigVertWeight, wigHorzWeight);
-console.log(borderWeights);
-
 // Function to get a weight for a specific pattern
 function getPatternWeight(patternName) {
   if (patternWeights.hasOwnProperty(patternName)) {
@@ -108,7 +98,6 @@ function getPatternWeight(patternName) {
     throw new Error("Pattern not found");
   }
 }
-
 
 
 function selectPatternWithWeight(weights) {
@@ -124,19 +113,7 @@ function selectPatternWithWeight(weights) {
     }
 }
 
-function initializePatterns(rows, cols) {
-    let patterns = [];
-    for (let i = 0; i < rows; i++) {
-        let row = [];
-        for (let j = 0; j < cols; j++) {
-            row.push(selectPatternWithWeight(patternWeights));
-        }
-        patterns.push(row);
-    }
-    return patterns;
-}
 
-let patterns;
 
 
 // ideally each var is going to need a min and max that's propotional to the grid size
@@ -169,7 +146,7 @@ function setup() {
     // 650 x 650 canvas is 9 inches square
     // 700 x 700 canvas is 9.7 inches square
     // 800 x 800 canvas is 11.1 inches square
-    createCanvas(1000, 1000, SVG);
+    createCanvas(200, 200, SVG);
     background("lightblue");
     noLoop();
 
@@ -215,19 +192,8 @@ function setup() {
     backPattern = selectPatternWithWeight(backPatternWeights);
     borderPattern = selectBorderWithWeight(borderWeights, interrupterWeights);
 
-    let btnRefresh = createButton('Gimme New Ones!');
-    btnRefresh.position(25, 25); // Adjust position as needed
-    btnRefresh.style('font-size', '10px');
-    btnRefresh.style('font-family', 'Google Sans');
-    btnRefresh.style('font-weight', 'Bold');
-    // btnRefresh.style('padding', '10px');
-    btnRefresh.style('border-radius', '10px');
-    btnRefresh.style('border', '2px solid black');
-    btnRefresh.style('background-color', 'white');
-    btnRefresh.mousePressed(redrawSketch);
-
-    let btnDownload = createButton('Print This!');
-    btnDownload.position(125, 25); // Adjust position as needed
+    let btnDownload = createButton('save');
+    btnDownload.position(25, 25); // Adjust position as needed
     btnDownload.style('font-size', '10px');
     btnDownload.style('font-family', 'Google Sans');
     btnDownload.style('font-weight', 'Bold');
@@ -241,95 +207,8 @@ function setup() {
     // createCapture(VIDEO);
 }
 
-// for a custom usb camera, use the location device1 etc
-//  deviceId: {myPreferredCameraDeviceId}, 
-
-  
-  
-function createGrid() {
-    noFill();
-
-    // Calculate the size of each grid cell to fill the canvas based on G1
-    gridSize = Math.min((width - 2 * inset) / G1, (height - 2 * inset) / G1);
-
-    // Calculate the number of rows and columns based on the gridSize
-    rows = Math.floor((height - 2 * inset) / gridSize);
-    cols = Math.floor((width - 2 * inset) / gridSize);
-
-    // Draw vertical lines
-    // stroke("black"); // Set the color of the grid lines
-    // for (let j = 0; j <= cols; j++) {
-    //     let x = j * gridSize + inset;
-    //     line(x, inset, x, height - inset); // Draw vertical line
-    // }
-
-    // // Draw horizontal lines
-    // stroke("black"); // Set the color of the grid lines
-    // for (let i = 0; i <= rows; i++) {
-    //     let y = i * gridSize + inset;
-    //     line(inset, y, width - inset, y); // Draw horizontal line
-    // }
-}
 
 
-function drawPatterns() {
-// Iterate over each grid square
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < cols; j++) {
-        let x = j * gridSize + inset;
-        let y = i * gridSize + inset;
-
-        // Call the appropriate pattern function
-        let patternFunction = patterns[i % patterns.length][j % patterns[i % patterns.length].length];
-        patternFunction(x, y, gridSize);
-        }
-    }
-}
-
-function drawValues() {
-// Construct the display string 
-
-let S1Display = Math.ceil(S1);
-let S2Display = Math.ceil(S2);
-let L2Display = Math.ceil(map(L2, 0, 0.05, 0, 100));
-let L3Display = Math.ceil(map(L3, 0, 200, 0, 100));
-
-
-let displayText = 
-    `SEACREATES SUMMER 24 -- @THEPLOTQUICKENS \n` +
-    `EDITION: ${G1}` + `${W1}` + `${W2}` + `${L1}` + `${L2Display}` + `${L3Display}` + `${S1Display}` + `${S2Display}`;
-    
-
- textFont('SLF Engineer Hairline');
- text(displayText, 150, 500); // Adjust x, y positions as needed
-}
-
-function drawLines(x1, y1, x2, displayValues) {
-    for (let i = 0; i < displayValues.length; i++) {
-        line(x1 + i * 2.2, y1, x2 + i * 2.2, y1 + displayValues[i]);
-    }
-}
-
-function drawValuesGraph() {
-    let W1Display = map(W1, 0, 20, 0, 30);
-    let W2Display = map(W2, 0, 20, 0, 30);
-    let L1Display = map(L1, 0, 30, 0, 30);
-    let L2Display = map(L2, 0, 0.05, 0, 30);
-    let L3Display = map(L3, 0, 200, 0, 30);
-    let S1Display = map(S1, 0, 15, 0, 30);
-    let S2Display = map(S2, -100, 100, 0, 30);
-    let G1Display = map(G1, 1, 5, 0, 30);
-
-    let displayValues = [W1Display, W2Display, L1Display, L2Display, L3Display, S1Display, S2Display, G1Display];
-
-    let x1 = width * .88 + 23;
-    let y1 = height * .88;
-    let x2 = width * .88 + 23;
-
-    stroke("black");
-
-    drawLines(x1, y1, x2, displayValues);
-}
 
 // Puts it all together so it doesn't run every time
 function draw() {
@@ -352,21 +231,6 @@ function draw() {
         frontPattern(patternX, patternY, patternSize);
 
 
-
-    // createGrid();
-    // drawPatterns();
-    // drawValuesGraph();
-    // drawValues();
-    // drawtouchPositions();
-    // mousePressed();
-    // mouseReleased();
-
-
-
-    // MIDI Channel Mappings
-    // we're using 102 - 117
-
-    
 }
 
 
