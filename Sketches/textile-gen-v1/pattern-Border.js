@@ -94,8 +94,8 @@ function simpleLinePattern(x, y, size, topInterrupter = null, bottomInterrupter 
         if (bottomInterrupter) {
             endX -= interrupterSize / 2;
             vertex(startX, y + size);
-            vertex(endX, y + size);
-            drawInterrupter(endX + interrupterSize / 2, y + size - interrupterSize, bottomInterrupter);
+            vertex(endX + interrupterSize, y + size);
+            drawInterrupter(endX + interrupterSize / 2, y + size, bottomInterrupter);
         } else {
             vertex(startX, y + size);
             vertex(endX, y + size);
@@ -108,7 +108,7 @@ function simpleLinePattern(x, y, size, topInterrupter = null, bottomInterrupter 
         if (leftInterrupter) {
             endY -= interrupterSize / 2;
             vertex(x, y + size);
-            vertex(x, endY);
+            vertex(x, endY + interrupterSize);
             drawInterrupter(x, endY + interrupterSize / 2, leftInterrupter);
         } else {
             vertex(x, y + size);
