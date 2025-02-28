@@ -137,6 +137,7 @@ function setup() {
     // Decide on a paper size and make a TPQ mark appropriately
     // 100 x 100 canvas is 1.4 inches square
     // 200 x 200 canvas is 2.8 inches square
+    // 215 x 215 canvas is 3 inches square
     // 225 x 225 canvas is 3.1 inches square
     // 300 x 300 canvas is 4.2 inches square
     // 400 x 400 canvas is 5.5 inches square
@@ -146,11 +147,11 @@ function setup() {
     // 650 x 650 canvas is 9 inches square
     // 700 x 700 canvas is 9.7 inches square
     // 800 x 800 canvas is 11.1 inches square
-    createCanvas(200, 200, SVG);
+    createCanvas(215, 215, SVG);
     background("lightblue");
     noLoop();
 
-
+    // check your randomness and range here for patterns
 
     // Front randomix
     // Wiggle count
@@ -168,8 +169,6 @@ function setup() {
 
     // Fill X Primitives
         X1 = random(1, 10);
-
-    // Squiggly Lines
 
 
     
