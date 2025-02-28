@@ -22,7 +22,7 @@ function sine(x, y, size) {
     x += centerX;
     y += centerY;
 
-    for (let r = 0; r < radius; r += radius / numRings) {
+    for (let r = radius / numRings; r < radius; r += radius / numRings) {
         beginShape();
         for (let a = L1; a < TAU + L1; a += TAU / numPoints) {
             var offsetX = x + r * cos(a);

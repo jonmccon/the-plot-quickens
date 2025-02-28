@@ -19,15 +19,19 @@ function simpleLinePattern(x, y, size, topInterrupter = null, bottomInterrupter 
         }
     }
 
+    beginShape();
+
     // Top segments
     if (borderWeights.topLeft > 0) {
         let endX = x + segmentSize * borderWeights.topLeft;
         if (topInterrupter) {
             endX -= interrupterSize / 2;
-            line(x, y, endX, y);
+            vertex(x, y);
+            vertex(endX, y);
             drawInterrupter(endX + interrupterSize / 2, y, topInterrupter);
         } else {
-            line(x, y, endX, y);
+            vertex(x, y);
+            vertex(endX, y);
         }
     }
     if (borderWeights.topRight > 0) {
@@ -35,56 +39,12 @@ function simpleLinePattern(x, y, size, topInterrupter = null, bottomInterrupter 
         let endX = startX + segmentSize * borderWeights.topRight;
         if (topInterrupter) {
             endX -= interrupterSize / 2;
-            line(startX, y, endX, y);
+            vertex(startX, y);
+            vertex(endX, y);
             drawInterrupter(endX + interrupterSize / 2, y, topInterrupter);
         } else {
-            line(startX, y, endX, y);
-        }
-    }
-
-    // Bottom segments
-    if (borderWeights.bottomLeft > 0) {
-        let endX = x + segmentSize * borderWeights.bottomLeft;
-        if (bottomInterrupter) {
-            endX -= interrupterSize / 2;
-            line(x, y + size, endX, y + size);
-            drawInterrupter(endX + interrupterSize / 2, y + size, bottomInterrupter);
-        } else {
-            line(x, y + size, endX, y + size);
-        }
-    }
-    if (borderWeights.bottomRight > 0) {
-        let startX = x + segmentSize * Math.max(borderWeights.bottomLeft, 1);
-        let endX = startX + segmentSize * borderWeights.bottomRight;
-        if (bottomInterrupter) {
-            endX -= interrupterSize / 2;
-            line(startX, y + size, endX, y + size);
-            drawInterrupter(endX + interrupterSize / 2, y + size, bottomInterrupter);
-        } else {
-            line(startX, y + size, endX, y + size);
-        }
-    }
-
-    // Left segments
-    if (borderWeights.leftTop > 0) {
-        let endY = y + segmentSize * borderWeights.leftTop;
-        if (leftInterrupter) {
-            endY -= interrupterSize / 2;
-            line(x, y, x, endY);
-            drawInterrupter(x, endY + interrupterSize / 2, leftInterrupter);
-        } else {
-            line(x, y, x, endY);
-        }
-    }
-    if (borderWeights.leftBottom > 0) {
-        let startY = y + segmentSize * Math.max(borderWeights.leftTop, 1);
-        let endY = startY + segmentSize * borderWeights.leftBottom;
-        if (leftInterrupter) {
-            endY -= interrupterSize / 2;
-            line(x, startY, x, endY);
-            drawInterrupter(x, endY + interrupterSize / 2, leftInterrupter);
-        } else {
-            line(x, startY, x, endY);
+            vertex(startX, y);
+            vertex(endX, y);
         }
     }
 
@@ -93,10 +53,12 @@ function simpleLinePattern(x, y, size, topInterrupter = null, bottomInterrupter 
         let endY = y + segmentSize * borderWeights.rightTop;
         if (rightInterrupter) {
             endY -= interrupterSize / 2;
-            line(x + size, y, x + size, endY);
+            vertex(x + size, y);
+            vertex(x + size, endY);
             drawInterrupter(x + size, endY + interrupterSize / 2, rightInterrupter);
         } else {
-            line(x + size, y, x + size, endY);
+            vertex(x + size, y);
+            vertex(x + size, endY);
         }
     }
     if (borderWeights.rightBottom > 0) {
@@ -104,12 +66,70 @@ function simpleLinePattern(x, y, size, topInterrupter = null, bottomInterrupter 
         let endY = startY + segmentSize * borderWeights.rightBottom;
         if (rightInterrupter) {
             endY -= interrupterSize / 2;
-            line(x + size, startY, x + size, endY);
+            vertex(x + size, startY);
+            vertex(x + size, endY);
             drawInterrupter(x + size, endY + interrupterSize / 2, rightInterrupter);
         } else {
-            line(x + size, startY, x + size, endY);
+            vertex(x + size, startY);
+            vertex(x + size, endY);
         }
     }
+
+    // Bottom segments
+    if (borderWeights.bottomRight > 0) {
+        let endX = x + segmentSize * borderWeights.bottomRight;
+        if (bottomInterrupter) {
+            endX -= interrupterSize / 2;
+            vertex(x + size, y + size);
+            vertex(endX, y + size);
+            drawInterrupter(endX + interrupterSize / 2, y + size, bottomInterrupter);
+        } else {
+            vertex(x + size, y + size);
+            vertex(endX, y + size);
+        }
+    }
+    if (borderWeights.bottomLeft > 0) {
+        let startX = x + segmentSize * Math.max(borderWeights.bottomRight, 1);
+        let endX = startX - segmentSize * borderWeights.bottomLeft;
+        if (bottomInterrupter) {
+            endX -= interrupterSize / 2;
+            vertex(startX, y + size);
+            vertex(endX, y + size);
+            drawInterrupter(endX + interrupterSize / 2, y + size - interrupterSize, bottomInterrupter);
+        } else {
+            vertex(startX, y + size);
+            vertex(endX, y + size);
+        }
+    }
+
+    // Left segments
+    if (borderWeights.leftBottom > 0) {
+        let endY = y + segmentSize * borderWeights.leftBottom;
+        if (leftInterrupter) {
+            endY -= interrupterSize / 2;
+            vertex(x, y + size);
+            vertex(x, endY);
+            drawInterrupter(x, endY + interrupterSize / 2, leftInterrupter);
+        } else {
+            vertex(x, y + size);
+            vertex(x, endY);
+        }
+    }
+    if (borderWeights.leftTop > 0) {
+        let startY = y + segmentSize * Math.max(borderWeights.leftBottom, 1);
+        let endY = startY - segmentSize * borderWeights.leftTop;
+        if (leftInterrupter) {
+            endY -= interrupterSize / 2;
+            vertex(x, startY);
+            vertex(x, endY + interrupterSize);
+            drawInterrupter(x, endY + interrupterSize / 2, leftInterrupter);
+        } else {
+            vertex(x, startY);
+            vertex(x, endY);
+        }
+    }
+
+    endShape(CLOSE);
 }
 
 function selectBorderWithWeight(borderWeights, interrupterWeights) {

@@ -195,7 +195,7 @@ function setup() {
 
     // Define weights for interrupters
     let interrupterWeights = {
-      top: { null: 2, circle: 0, asterisk: 0, perpendicular: 0 },
+      top: { null: 4, circle: 1, asterisk: 1, perpendicular: 1 },
       bottom: { null: 2, circle: 1, asterisk: 1, perpendicular: 1 },
       left: { null: 2, circle: 1, asterisk: 1, perpendicular: 1 },
       right: { null: 2, circle: 1, asterisk: 1, perpendicular: 1 }
