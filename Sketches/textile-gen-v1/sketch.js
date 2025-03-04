@@ -137,27 +137,7 @@ function setup() {
     // 700 x 700 canvas is 9.7 inches square
     // 800 x 800 canvas is 11.1 inches square
     createCanvas(215, 215, SVG);
-    background("lightblue");
     // noLoop();
-    
-
-    // Define weights for interrupters
-
-
-    
-    // Initialize borderWeights with random values
-
-
-    // let btnDownload = createButton('save');
-    // btnDownload.position(25, 25); // Adjust position as needed
-    // btnDownload.style('font-size', '10px');
-    // btnDownload.style('font-family', 'Google Sans');
-    // btnDownload.style('font-weight', 'Bold');
-    // // btnDownload.style('padding', '10px');
-    // btnDownload.style('border-radius', '10px');
-    // btnDownload.style('border', '2px solid black');
-    // btnDownload.style('background-color', 'white');
-    // btnDownload.mousePressed(saveSvg);
 
 }
 
@@ -239,7 +219,7 @@ if (iterationCount >= maxIterations) {
         stroke("red");
         frontPattern(patternX * 0.8, patternY * 0.8, patternSize * 1.2);
 
-        saveSvg();
+        // saveSvg();
         clear();
         iterationCount++;
 
