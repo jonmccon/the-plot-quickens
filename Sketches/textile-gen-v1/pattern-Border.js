@@ -1,9 +1,8 @@
 function simpleLinePattern(x, y, size, borderWeights, topInterrupter = null, bottomInterrupter = null, leftInterrupter = null, rightInterrupter = null) {
-    stroke(255, 0, 0);
     noFill();
 
     let segmentSize = size / 2;
-    let interrupterSize = size / 10; // Size of the interrupter
+    let interrupterSize = size / 20; // Size of the interrupter
 
     function drawInterrupter(x, y, interrupter) {
         if (interrupter === 'circle') {

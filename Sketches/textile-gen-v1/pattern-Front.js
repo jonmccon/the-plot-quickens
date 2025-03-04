@@ -1,6 +1,8 @@
 // Front Patterns
 
 
+
+
 //
 // sine concentric rings
 //
@@ -31,7 +33,6 @@ function sine(x, y, size) {
             var n = map(noise(offsetX * resolution, offsetY * resolution), 0, 1, -scale, scale);
 
             curveVertex(offsetX + n, offsetY + n);
-            stroke('#EB220E');
         }
         endShape(CLOSE);
     }
@@ -46,8 +47,7 @@ function wigVert(x, y, size) {
     let linesPerSquare = W2; 
     let lineSpacing = size / linesPerSquare;
     let arcHeight = size / (1.5 * linesPerSquare);
-    stroke("red");
-    strokeWeight(1);
+
 
     beginShape();
     // Extend the first line to the height of the arcHeight
@@ -89,8 +89,6 @@ function wigHorz(x, y, size) {
     let linesPerSquare = W1;
     let lineSpacing = size / linesPerSquare;
     let arcHeight = size / (1.5 * linesPerSquare);
-    stroke("blue");
-    strokeWeight(1);
 
     beginShape();
     // Draw the first line as part of the shape, rotated by swapping x and y
@@ -132,9 +130,6 @@ function fillX(x, y, size) {
     let numShapes = X1;
     let shapeSize = size / numShapes;
 
-    // Set stroke properties
-    stroke("red");
-    strokeWeight(1);
 
     // Loop over the grid
     for (let i = 0; i < numShapes; i++) {
@@ -194,9 +189,6 @@ function squigglyLines(x, y, size) {
     let maxSegmentLength = size / 3; // Maximum length of each segment
     let controlPointRange = maxSegmentLength / 2; // Range for control points to ensure smoother curves
     let directionRange = PI / 4; // Directional range in radians (45 degrees)
-
-    stroke("green");
-    strokeWeight(1);
 
     for (let i = 0; i < numLines; i++) {
         let startX = x + random(size);

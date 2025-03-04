@@ -11,7 +11,6 @@ function linesNoise(x, y, size) {
     let linesPerSquare = L1; // Number of parallel lines
     let lineSpacing = size / linesPerSquare; // Calculate spacing based on the square size and number of lines
     let noiseScale = L2; // Adjust this value to change the "zoom" level of the noise
-    stroke("purple");
 
     push(); // Save the current drawing style settings and transformations
     translate(x, y); // Move the origin to x, y
@@ -69,9 +68,6 @@ function verticalLines(x, y, size) {
     let lineHeight = rowSpacing * 0.8; // Height of each vertical line, with some space between rows
 
     // console.log("numRows:" + numRows, "numLinesPerRow:" + numLinesPerRow, "rowSpacing:" + rowSpacing, "lineSpacing:" + lineSpacing, "lineHeight:" + lineHeight);  
-
-    stroke("black");
-    strokeWeight(1);
 
     push(); // Save the current drawing style settings and transformations
     translate(x + size / 2, (y + size / 2) ); // Move the origin to the center of the pattern

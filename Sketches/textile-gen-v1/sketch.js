@@ -18,22 +18,9 @@ let linesNoiseWeight = 1;
 let verticalLinesWeight = 1;
 
 
-function getRandomBorderWeights() {
-  return {
-      topLeft: Math.round(Math.random()),
-      topRight: Math.round(Math.random()),
-      bottomLeft: Math.round(Math.random()),
-      bottomRight: Math.round(Math.random()),
-      leftTop: Math.round(Math.random()),
-      leftBottom: Math.round(Math.random()),
-      rightTop: Math.round(Math.random()),
-      rightBottom: Math.round(Math.random())
-  };
-}
 
-let borderWeights = getRandomBorderWeights();
+let borderWeights = {};
 
-console.log(borderWeights);
 
 // Pattern weight functions
 let frontPatternWeights = {
@@ -131,6 +118,8 @@ let S1 = 6 // proportion of Cone Units
 let S2 = 0 // number of concentric circles
 
 
+let iterationCount = 0;
+const maxIterations = 10; // Set the desired number of iterations
 
 // Basics
 function setup() {
@@ -149,67 +138,90 @@ function setup() {
     // 800 x 800 canvas is 11.1 inches square
     createCanvas(215, 215, SVG);
     background("lightblue");
-    noLoop();
-
-    // check your randomness and range here for patterns
-
-    // Front randomix
-    // Wiggle count
-        W1 = Math.ceil(random(1, 10)) * 2;    
-        W2 = Math.ceil(random(1, 10)) * 2;  
+    // noLoop();
     
-    // Line noise
-        L1 = Math.ceil(random(10, 30));
-        L2 = random(0, 0.05);
-        L3 = random(1, 100);
-    
-    // Sine Wave
-        S1 = random(5, 15);
-        S2 = random(-100, 100);
-
-    // Fill X Primitives
-        X1 = random(1, 10);
-
-
-    
-    // Back randomix
-    // Vertical lines
 
     // Define weights for interrupters
-    let interrupterWeights = {
-      top: { null: 4, circle: 1, asterisk: 1, perpendicular: 1 },
-      bottom: { null: 2, circle: 1, asterisk: 1, perpendicular: 1 },
-      left: { null: 2, circle: 1, asterisk: 1, perpendicular: 1 },
-      right: { null: 2, circle: 1, asterisk: 1, perpendicular: 1 }
-    };
+
 
     
     // Initialize borderWeights with random values
-    borderWeights = getRandomBorderWeights();
 
-    frontPattern = selectPatternWithWeight(frontPatternWeights);
-    backPattern = selectPatternWithWeight(backPatternWeights);
-    borderPattern = selectBorderWithWeight(borderWeights, interrupterWeights);
 
-    let btnDownload = createButton('save');
-    btnDownload.position(25, 25); // Adjust position as needed
-    btnDownload.style('font-size', '10px');
-    btnDownload.style('font-family', 'Google Sans');
-    btnDownload.style('font-weight', 'Bold');
-    // btnDownload.style('padding', '10px');
-    btnDownload.style('border-radius', '10px');
-    btnDownload.style('border', '2px solid black');
-    btnDownload.style('background-color', 'white');
-    btnDownload.mousePressed(saveSvg);
+    // let btnDownload = createButton('save');
+    // btnDownload.position(25, 25); // Adjust position as needed
+    // btnDownload.style('font-size', '10px');
+    // btnDownload.style('font-family', 'Google Sans');
+    // btnDownload.style('font-weight', 'Bold');
+    // // btnDownload.style('padding', '10px');
+    // btnDownload.style('border-radius', '10px');
+    // btnDownload.style('border', '2px solid black');
+    // btnDownload.style('background-color', 'white');
+    // btnDownload.mousePressed(saveSvg);
 
 }
 
 function draw() {
 // figure how to componentizwe this a bit more to allow for setting up multiple patterns on page
 // confirm color use for mockups
+background("lightblue");
+
+let interrupterWeights = {
+  top: { null: 4, circle: 1, asterisk: 1, perpendicular: 1 },
+  bottom: { null: 2, circle: 1, asterisk: 1, perpendicular: 1 },
+  left: { null: 2, circle: 1, asterisk: 1, perpendicular: 1 },
+  right: { null: 2, circle: 1, asterisk: 1, perpendicular: 1 }
+};
+
+    // Front randomix
+    // Wiggle count
+    W1 = Math.ceil(random(1, 10)) * 2;    
+    W2 = Math.ceil(random(1, 10)) * 2;  
+
+// Line noise
+    L1 = Math.ceil(random(10, 30));
+    L2 = random(0, 0.05);
+    L3 = random(1, 100);
+
+// Sine Wave
+    S1 = random(5, 15);
+    S2 = random(-100, 100);
+
+    X1 = random(1, 10);
+
+
+
+// Back randomix
+// Vertical lines
+
+// random border weights
+function getRandomBorderWeights() {
+  return {
+      topLeft: Math.round(Math.random()),
+      topRight: Math.round(Math.random()),
+      bottomLeft: Math.round(Math.random()),
+      bottomRight: Math.round(Math.random()),
+      leftTop: Math.round(Math.random()),
+      leftBottom: Math.round(Math.random()),
+      rightTop: Math.round(Math.random()),
+      rightBottom: Math.round(Math.random())
+  };
+}
+borderWeights = getRandomBorderWeights();
+
+frontPattern = selectPatternWithWeight(frontPatternWeights);
+backPattern = selectPatternWithWeight(backPatternWeights);
+borderPattern = selectBorderWithWeight(borderWeights, interrupterWeights);
+
+
+if (iterationCount >= maxIterations) {
+  noLoop(); // Stop the loop after the desired number of iterations
+  return;
+}
 
         // Draw border pattern
-        let borderSize = Math.min(width, height) * 0.75;
+        stroke("green");
+        let borderSize = Math.min(width, height) * 0.9;
         let borderX = (width - borderSize) / 2;
         let borderY = (height - borderSize) / 2;
         borderPattern(borderX, borderY, borderSize, borderWeights);
@@ -220,11 +232,16 @@ function draw() {
         let patternY = (height - patternSize) / 2;
         
         // Draw back pattern
-        backPattern(patternX * 0.8, patternY * 0.8, patternSize * 1.2);
+        stroke("blue");
+        backPattern(patternX * 0.5, patternY * 0.5, patternSize * 1.5);
     
         // Draw front pattern
-        frontPattern(patternX, patternY, patternSize);
+        stroke("red");
+        frontPattern(patternX * 0.8, patternY * 0.8, patternSize * 1.2);
 
+        saveSvg();
+        clear();
+        iterationCount++;
 
 }
 
