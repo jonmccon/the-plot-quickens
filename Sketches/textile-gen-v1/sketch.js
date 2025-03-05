@@ -8,14 +8,14 @@
 
 
 // Pattern weight values
-let fillXweight = 1;
-let sineWeight = 1;
-let wigVertWeight = 1;
-let wigHorzWeight = 1;
+let fillXweight = 5;
+let sineWeight = 10;
+let wigVertWeight = 10;
+let wigHorzWeight = 10;
 let squigglyLinesWeight = 0;
 
-let linesNoiseWeight = 1;
-let verticalLinesWeight = 1;
+let linesNoiseWeight = 10;
+let verticalLinesWeight = 2;
 
 
 
@@ -125,6 +125,7 @@ const maxIterations = 10; // Set the desired number of iterations
 function setup() {
     // Decide on a paper size and make a TPQ mark appropriately
     // 100 x 100 canvas is 1.4 inches square
+    // 190 x 190 canvas is 2.6 inches square
     // 200 x 200 canvas is 2.8 inches square
     // 215 x 215 canvas is 3 inches square
     // 225 x 225 canvas is 3.1 inches square
@@ -136,7 +137,7 @@ function setup() {
     // 650 x 650 canvas is 9 inches square
     // 700 x 700 canvas is 9.7 inches square
     // 800 x 800 canvas is 11.1 inches square
-    createCanvas(215, 215, SVG);
+    createCanvas(190, 190, SVG);
     // noLoop();
 
 }
@@ -154,7 +155,7 @@ let interrupterWeights = {
 };
 
     // Front randomix
-    // Wiggle count
+    // Wiggle count 
     W1 = Math.ceil(random(1, 10)) * 2;    
     W2 = Math.ceil(random(1, 10)) * 2;  
 
@@ -167,7 +168,12 @@ let interrupterWeights = {
     S1 = random(5, 15);
     S2 = random(-100, 100);
 
-    X1 = random(1, 10);
+// Fill X
+    X1 = random(1, 5);
+
+// Veritcal lines 
+    V1 = floor(random(2, 4));
+    V2 = floor(random(5, 10));
 
 
 
@@ -219,7 +225,7 @@ if (iterationCount >= maxIterations) {
         stroke("red");
         frontPattern(patternX * 0.8, patternY * 0.8, patternSize * 1.2);
 
-        // saveSvg();
+        saveSvg();
         clear();
         iterationCount++;
 

@@ -61,8 +61,8 @@ function linesNoise(x, y, size) {
 // Vertical Lines Pattern
 //
 function verticalLines(x, y, size) {
-    let numRows = floor(random(3, 6)); // Number of rows
-    let numLinesPerRow = floor(random(10, 30)); // Number of vertical lines in each row
+    let numRows = V1; // Number of rows
+    let numLinesPerRow = V2; // Number of vertical lines in each row
     let rowSpacing = size / numRows; // Calculate the spacing between rows
     let lineSpacing = size / (numLinesPerRow - 1); // Calculate the spacing between lines in each row
     let lineHeight = rowSpacing * 0.8; // Height of each vertical line, with some space between rows
